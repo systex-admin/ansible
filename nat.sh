@@ -28,7 +28,7 @@ while [[ ${count} -lt ${private_limit} ]]; do
         echo ${num}". nat_private_24bit="$nat_private_24bit
         nat_private_ip_header=`cat ${nat_log} | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $1}'`
         echo ${num}". nat_private_ip_header="$nat_private_ip_header
-        exit 1
+        exit 0
         ###
         #       PUBLIC IP
         ###
