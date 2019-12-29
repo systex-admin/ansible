@@ -23,8 +23,8 @@ while [[ ${count} -lt ${private_limit} ]]; do
         ###
         nat_private_tenant=`cat ${stack_log} | head -n ${num} | tail -n 1 | cut -d"." -f 1-3`
         echo "["${num}"] "$nat_private_tenant
-        nat_private_ip=`cat ${nat_log} | grep "${nat_private_tenant}" | awk -F "-" '{print $1}'`
-        echo "["${num}"] "$nat_private_ip
+        #nat_private_ip=`cat ${stack_log} | grep "${nat_private_tenant}" | awk -F "-" '{print $1}'`
+        #echo "["${num}"] "$nat_private_ip
         
         ###
         #       CHECK PUBLIC IP
