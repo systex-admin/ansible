@@ -15,7 +15,6 @@ if [[ ! -f ${stack_log} ]]; then
 fi
 
 private_limit=`cat ${stack_log} | wc -l`
-nat_range=16
 count=0
 num=1
 while [[ ${count} -lt ${private_limit} ]]; do
@@ -23,26 +22,35 @@ while [[ ${count} -lt ${private_limit} ]]; do
         #       PRIVATE IP
         ###
         nat_private_ip=`cat ${stack_log} | head -n ${num} | tail -n 1`
-        echo ${num}". nat_private_ip="$nat_private_ip
+        echo "["${num}"] "$nat_private_ip
         nat_private_24bit=`cat ${stack_log} | head -n ${num} | tail -n 1 | cut -d"." -f 1-3`
-        echo ${num}". nat_private_24bit="$nat_private_24bit
-        nat_private_ip_header=`cat ${nat_log} | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $1}'`
-        echo ${num}". nat_private_ip_header="$nat_private_ip_header
+        echo "["${num}"] "$nat_private_24bit
+        nat_private_ip_header=`cat ${nat_log} | grep "${nat_private_24bit}" | awk -F "-" '{print $1}'`
+        echo "["${num}"] "$nat_private_ip_header
+        
+        ###
+        #       CHECK PUBLIC IP
+        ###
+        is_nat=`cat nat.log | grep "${nat_private_24bit}" | awk -F "-" '{print $2}'`
+        echo "["${num}"] "${is_nat}
         exit 0
+        
         ###
         #       PUBLIC IP
         ###
-        nat_public_24bit=`cat nat_map_list.log | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $2}' | cut -d'.' -f 1-3`
-        #echo ${num}". nat_public_24bit="${nat_public_24bit}
-        nat_public_ip_header=`cat nat_map_list.log | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $2}'`
-        #echo ${num}". nat_public_ip_header="$nat_public_ip_header
+        nat_public_24bit=`cat nat.log | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $2}' | cut -d'.' -f 1-3`
+        echo "["${num}"] "${nat_public_24bit}
+        nat_public_ip_header=`cat nat.log | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $2}'`
+        echo "["${num}"] "$nat_public_ip_header
         if [[ -z ${nat_public_24bit} ]]; then
                 echo "${nat_private_24bit} not found mapping list."
                 exit 1
         fi
-
+        
+        
+        
         ip_count=0
-        while [[ ${ip_count} -lt ${nat_range} ]]; do
+        while [[ ${ip_count} -lt 16 ]]; do
                 private_count=`echo "$nat_private_ip_header" | cut -d"." -f 4`
                 value=$((10#${private_count}+${ip_count}))
                 scan_private_ip=$nat_private_24bit"."$value
