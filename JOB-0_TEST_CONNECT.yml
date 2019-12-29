@@ -1,0 +1,9 @@
+- name: "STEP 1 - TEST CONNECT"
+  hosts: all
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
