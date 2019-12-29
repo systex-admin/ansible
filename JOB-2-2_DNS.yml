@@ -1,0 +1,13 @@
+- hosts: webdns.tyc.edu.tw
+  connection: local
+  tasks:
+    - name: fetch all networkview objects
+      set_fact:
+        #networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider)                                 }}"
+        networkviews: "{{ lookup('nios', 'networkview', provider={'host': 'webdns.tyc.edu.tw', 'username': 'ansible', 'password': 'systexansible'}) }}"
+    - name: check the networkviews
+      debug:
+        var: networkviews
+    - name: debug specific variable (ipv4 address)
+      debug:
+        var: networkviews.ipv4addrs[0].ipv4addr
