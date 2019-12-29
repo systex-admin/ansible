@@ -31,7 +31,7 @@
         dest: /config/ansible/
         mode: '0755'
         follow: yes
-- name: "STEP 3 - UPDATE F5"
+- name: "STEP 3 - UPDATE TO F5"
   hosts: 10.241.62.104
   become: yes
   become_user: root
