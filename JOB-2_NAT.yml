@@ -1,0 +1,49 @@
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+- name: "STEP 2 - DEPLOY TO F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE1"
+      copy:
+        src: /var/lib/awx/projects/_29__ansible_demo2_project/stack.log
+        dest: /config/ansible/
+        mode: '0644'
+        follow: yes
+    - name: "DEPLOY RESOURCE2"
+      copy:
+        src: /var/lib/awx/projects/_29__ansible_demo2_project/nat.log
+        dest: /config/ansible/
+        mode: '0644'
+        follow: yes
+    - name: "DEPLOY RESOURCE3"
+      copy:
+        src: /var/lib/awx/projects/_29__ansible_demo2_project/nat.sh
+        dest: /config/ansible/
+        mode: '0755'
+        follow: yes
+- name: "STEP 3 - UPDATE F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "RUN SCRIPT"
+      shell: /config/ansible/nat.sh
+      args:
+        chdir: /config/ansible/
+      register: nat
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat.stdout_lines }}"
+        
+        
