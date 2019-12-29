@@ -1,0 +1,21 @@
+- name: "STEP 1 - CONNECT TO OPENSTACK"
+  hosts: undercloud
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
