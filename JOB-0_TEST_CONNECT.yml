@@ -1,4 +1,4 @@
-- name: "STEP 1 - TEST CONNECT"
+- name: "STEP 1 - CONNECT TO NODE BY TEST"
   hosts: all
   tasks:
     - name: "PING"
