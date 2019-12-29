@@ -27,14 +27,18 @@ while [[ ${count} -lt ${private_limit} ]]; do
         ### CHECK STACK PRIVATE IP HAVE PUBLIC IP EXIST
         chk_nat=`cat ${nat_log} | grep "${nat_private_tenant}" | awk -F "-" '{print $2}'`
         if [[ "${chk_nat}" != "None" ]]; then
-                nat_private_diff=$((10#${nat_private_header}-10#${nat_private_header_start}))
-
                 ### STACK PUBLIC IP
                 nat_public_start_ip=`echo "${chk_nat}"`
                 nat_public_tenant=`echo "${nat_public_start_ip}" | cut -d'.' -f 1-3`
                 nat_public_header_start=`echo "${nat_public_start_ip}" | cut -d'.' -f 4`
                 if [[ -z ${nat_public_tenant} ]]; then
                         echo "[ERROR][F5] ${nat_private_tenant} NOT FOUND."
+                        exit 1
+                fi
+                
+                nat_private_diff=$((10#${nat_private_header}-10#${nat_private_header_start}))
+                if [[ ${nat_private_diff} -lt 0 ]] && [[ ${nat_private_diff} -ge 16 ]]; then
+                        echo "[ERROR][F5] ${nat_private_diff} NUMBER IS PROBLEM BETWEEN THE TWO NUMBERS."
                         exit 1
                 fi
 
