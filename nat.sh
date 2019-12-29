@@ -21,40 +21,38 @@ while [[ ${count} -lt ${private_limit} ]]; do
         ###
         #       PRIVATE IP
         ###
-        nat_private_ip=`cat ${stack_log} | head -n ${num} | tail -n 1`
+        nat_private_tenant=`cat ${stack_log} | head -n ${num} | tail -n 1 | cut -d"." -f 1-3`
+        echo "["${num}"] "$nat_private_tenant
+        nat_private_ip=`cat ${nat_log} | grep "${nat_private_tenant}" | awk -F "-" '{print $1}'`
         echo "["${num}"] "$nat_private_ip
-        nat_private_24bit=`cat ${stack_log} | head -n ${num} | tail -n 1 | cut -d"." -f 1-3`
-        echo "["${num}"] "$nat_private_24bit
-        nat_private_ip_header=`cat ${nat_log} | grep "${nat_private_24bit}" | awk -F "-" '{print $1}'`
-        echo "["${num}"] "$nat_private_ip_header
         
         ###
         #       CHECK PUBLIC IP
         ###
-        is_nat=`cat nat.log | grep "${nat_private_24bit}" | awk -F "-" '{print $2}'`
+        is_nat=`cat nat.log | grep "${nat_private_tenant}" | awk -F "-" '{print $2}'`
         echo "["${num}"] "${is_nat}
         if [[ "${is_nat}" != "None" ]]; then
                 ###
                 #       PUBLIC IP
                 ###
-                nat_public_24bit=`cat nat.log | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $2}' | cut -d'.' -f 1-3`
+                nat_public_24bit=`cat nat.log | egrep -v "^$|^#" | grep "${nat_private_tenant}" | tail -n 1 | awk -F "-" '{print $2}' | cut -d'.' -f 1-3`
                 echo "["${num}"] "${nat_public_24bit}
-                nat_public_ip_header=`cat nat.log | egrep -v "^$|^#" | grep "${nat_private_24bit}" | tail -n 1 | awk -F "-" '{print $2}'`
+                nat_public_ip_header=`cat nat.log | egrep -v "^$|^#" | grep "${nat_private_tenant}" | tail -n 1 | awk -F "-" '{print $2}'`
                 echo "["${num}"] "$nat_public_ip_header
                 if [[ -z ${nat_public_24bit} ]]; then
-                        echo "[ERROR][F5] ${nat_private_24bit} NOT FOUND."
+                        echo "[ERROR][F5] ${nat_private_tenant} NOT FOUND."
                         exit 1
                 fi
         fi
         exit 0
 
-
-
+        private_ip_start=101
         ip_count=0
         while [[ ${ip_count} -lt 16 ]]; do
-                private_count=`echo "$nat_private_ip_header" | cut -d"." -f 4`
-                value=$((10#${private_count}+${ip_count}))
-                scan_private_ip=$nat_private_24bit"."$value
+                #private_ip_start=`echo "$nat_private_ip" | cut -d"." -f 4`
+                #value=$((10#${private_ip_start}+${ip_count}))
+                value=$((${private_ip_start}+${ip_count}))
+                scan_private_ip=$nat_private_tenant"."$value
                 #echo "pricate IP: "$nat_private_24bit"."$value
                 public_count=`echo "$nat_public_ip_header" | cut -d"." -f 4`
                 value2=$((10#${public_count}+${ip_count}))
