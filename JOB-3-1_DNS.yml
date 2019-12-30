@@ -20,3 +20,5 @@
     - name: debug specific variable (ipv4 address)
       debug:
         var: networkviews.ipv4addrs[0].ipv4addr
+
+
