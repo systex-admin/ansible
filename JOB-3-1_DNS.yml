@@ -26,4 +26,4 @@
           - ipv4addr:
               "{{ lookup('nios_next_ip', '10.240.0.0/24', provider=nios_provider)[0] }}"
         state: present
-provider: "{{nios_provider}}"
+        provider: "{{nios_provider}}"
