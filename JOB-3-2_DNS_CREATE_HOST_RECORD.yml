@@ -10,7 +10,6 @@
             value: ansible.com
         state: present
         provider: "{{nios_provider}}"
----
 - hosts: webdns.tyc.edu.tw
   connection: local
   tasks:
