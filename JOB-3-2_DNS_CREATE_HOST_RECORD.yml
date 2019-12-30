@@ -1,9 +1,4 @@
 - hosts: webdns.tyc.edu.tw
-  vars:
-    nios_provider:
-      host: webdns.tyc.edu.tw
-      username: ansible
-      password: systexansible
   connection: local
   tasks:
     - name: create network external view
