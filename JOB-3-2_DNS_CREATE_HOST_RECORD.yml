@@ -1,10 +1,10 @@
 - hosts: webdns.tyc.edu.tw
   connection: local
   tasks:
-    - name: Create a network on the default network public view
+    - name: create network external view
       nios_network:
         network: 163.30.0.0/16
-        comment: this is a test comment
+        comment: this is a test comment by Darren
         options:
           - name: domain-name
             value: ansible.com
@@ -18,7 +18,7 @@
         name: ns1.ansible.com
         ipv4addrs:
           - ipv4addr:
-              "{{ lookup('nios_next_ip', '10.240.0.0/24', provider=nios_provider)[0] }}"
+              "{{ lookup('nios_next_ip', '163.30.0.0/16', provider=nios_provider)[0] }}"
         state: present
         provider: "{{nios_provider}}"
 
