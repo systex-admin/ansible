@@ -1,5 +1,4 @@
-- name: "STEP 1 - CONNECT TO OPENSTACK"
-  hosts: undercloud
+- hosts: undercloud
   tasks:
     - name: "PING"
       ping:
@@ -7,7 +6,6 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-
 - hosts: webdns.tyc.edu.tw
   connection: local
   tasks:
