@@ -1,11 +1,3 @@
-- hosts: undercloud
-  tasks:
-    - name: "PING"
-      ping:
-      register: message
-    - name: "RESULT"
-      debug:
-        msg: "{{ message }}"
 - hosts: webdns.tyc.edu.tw
   connection: local
   tasks:
@@ -19,3 +11,4 @@
     - name: debug specific variable (ipv4 address)
       debug:
         var: networkviews.ipv4addrs[0].ipv4addr
+
