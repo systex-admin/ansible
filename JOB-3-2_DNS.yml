@@ -4,8 +4,6 @@
     - name: create network view
       nios_network_view:
         name: ansibleNetView
-        extattrs:
-          Site: Test Site
         comment: Created with Ansible
         state: present
         provider: "{{nios_provider}}"
