@@ -1,11 +1,3 @@
-- hosts: undercloud
-  tasks:
-    - name: "PING"
-      ping:
-      register: message
-    - name: "RESULT"
-      debug:
-        msg: "{{ message }}"
 - hosts: 10.255.4.109
   vars:
     nios_provider:
