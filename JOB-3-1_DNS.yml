@@ -6,9 +6,9 @@
       password: ansiblelab
   connection: local
   tasks:
-    - name: get A record
+    - name: get member list
       set_fact:
-        arecord: "{{ lookup('nios', 'record:a', filter={'ipv4addr': '163.30.2.7'}, provider=nios_provider) }}"
-    - name: display A record
+        arecords: "{{ lookup('nios', 'record:a', provider=nios_provider) }}"
+    - name: display all A records
       debug:
-        msg: "{{ arecord }}"
+        msg: "{{ arecords}}"
