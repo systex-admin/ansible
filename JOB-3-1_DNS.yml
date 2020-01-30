@@ -6,9 +6,6 @@
       password: ansiblelab
   connection: local
   tasks:
-    - name: get member list
+    - name: fetch all default dns view
       set_fact:
-        arecords: "{{ lookup('nios', 'record:a', provider=nios_provider) }}"
-    - name: display all A records
-      debug:
-        msg: "{{ arecords }}"
+        dns_views: "{{ lookup('10.255.4.109', filter={'name': 'From_Internet'}, provider=nios_provider) }}"
