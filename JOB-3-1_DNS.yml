@@ -6,7 +6,7 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-- hosts: webdns.tyc.edu.tw
+- hosts: 10.255.4.109
   connection: local
   tasks:
     - name: fetch all networkview objects
