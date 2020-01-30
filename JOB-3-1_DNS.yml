@@ -1,12 +1,11 @@
-- hosts: localhost
-  vars:
-    nios_provider:
-      host: 10.255.4.109
-      username: labapi
-      password: ansiblelab
-      
+---
+- hosts: 10.255.4.109
   connection: local
   tasks:
     - name: fetch all networkview objects
       set_fact:
         networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+
+    - name: check the networkviews
+      debug:
+        var: networkviews
