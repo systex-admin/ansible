@@ -42,7 +42,7 @@
     - name: "FETCH RESOURCE"
       fetch:
         src: /home/stack/ansible/stack.log
-        dest: /var/lib/awx/projects/_34__auto_network_project/
+        dest: "{{ Project_Path }}"
         flat: yes
       register: result2
     - name: "RESULT"
