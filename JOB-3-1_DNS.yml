@@ -1,4 +1,4 @@
-- hosts: 10.255.4.109
+- hosts: webdns.tyc.edu.tw
   connection: local
   tasks:
 - name: fetch all networkview objects
