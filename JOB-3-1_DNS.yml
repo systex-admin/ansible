@@ -3,4 +3,4 @@
   tasks:
     - name: fetch all networkview objects
       set_fact:
-        networkviews: "{{ lookup('webdns.tyc.edu.tw', 'networkview', provider=nios_provider) }}"
+        networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
