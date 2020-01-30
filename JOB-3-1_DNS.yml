@@ -1,5 +1,5 @@
 ---
-- hosts: nios
+- hosts: 10.255.4.109
   connection: local
   tasks:
     - name: fetch all networkview objects
