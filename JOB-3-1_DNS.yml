@@ -3,4 +3,4 @@
   tasks:
     - name: fetch all networkview objects
       set_fact:
-        networkviews: "{{ lookup('default', 'networkview', provider={'host': '10.255.4.109', 'username': 'labapi', 'password': 'ansiblelab'}) }}"
+        networkviews: "{{ lookup('nios', 'networkview', provider={'host': '10.255.4.109', 'username': 'labapi', 'password': 'ansiblelab'}) }}"
