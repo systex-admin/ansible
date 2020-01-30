@@ -8,4 +8,4 @@
   tasks:
     - name: fetch all default dns view
       set_fact:
-        dns_views: "{{ lookup('10.255.4.109', filter={'name': 'From_Internet'}, provider=nios_provider) }}"
+        dns_views: "{{ lookup('nios', filter={'name': 'From_Internet'}, provider=nios_provider) }}"
