@@ -1,9 +1,9 @@
 - hosts: 10.255.4.109
   vars:
     nios_provider:
-      host: 10.60.27.4
-      username: admin
-      password: infoblox
+      host: 10.255.4.109
+      username: labapi
+      password: ansiblelab
 
   connection: local
   tasks:
