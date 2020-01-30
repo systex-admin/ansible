@@ -7,3 +7,6 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
+    - name: "Var"
+      debug:
+        msg: "{{ Project_Path }}"
