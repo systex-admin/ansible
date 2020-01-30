@@ -1,9 +1,4 @@
 - hosts: localhost
-  vars:
-    nios_provider:
-      host: 10.255.4.109
-      username: labapi
-      password: ansiblelab
   connection: local
   tasks:
    - name: create DNS view
