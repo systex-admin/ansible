@@ -7,11 +7,20 @@
       debug:
         msg: "{{ message }}"
 - hosts: 10.255.4.109
+  vars:
+    nios_provider:
+      host: 10.60.27.4
+      username: admin
+      password: infoblox
+
   connection: local
   tasks:
-    - name: fetch all networkview objects
-      set_fact:
-        networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
-    - name: check the networkviews
-      debug:
-        var: networkviews
+   - name: create DNS view
+     nios_dns_view:
+       name: ansibleDnsView
+       network_view: ansibleNetView
+       extattrs:
+         Site: Test Site
+       comment: Created with Ansible
+       state: present
+       provider: "{{ nios_provider }}"
