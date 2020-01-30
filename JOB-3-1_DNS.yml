@@ -6,9 +6,6 @@
       password: ansiblelab
   connection: local
   tasks:
-    - name: fetch all networkview objects
-      set_fact:
-        networkviews: "{{ lookup('nios', 'networkview', provider={'host': '10.255.4.109', 'username': 'labapi', 'password': 'ansiblelab'}) }}"
     - name: get A record
       set_fact:
         arecord: "{{ lookup('nios', 'record:a', filter={'ipv4addr': '163.30.2.7'}, provider=nios_provider) }}"
