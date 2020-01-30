@@ -1,4 +1,4 @@
-- hosts: webdns.tyc.edu.tw
+- hosts: infoblox
   connection: local
   tasks:
     - name: fetch all networkview objects
