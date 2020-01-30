@@ -1,4 +1,4 @@
-- hosts: 10.255.4.109
+- hosts: localhost
   vars:
     nios_provider:
       host: 10.255.4.109
