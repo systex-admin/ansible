@@ -11,4 +11,4 @@
         arecords: "{{ lookup('nios', 'record:a', provider=nios_provider) }}"
     - name: display all A records
       debug:
-        msg: "{{ arecords}}"
+        msg: "{{ arecords }}"
