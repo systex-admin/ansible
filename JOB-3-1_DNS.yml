@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: webdns.tyc.edu.tw
   vars:
     nios_provider:
       host: webdns.tyc.edu.tw
