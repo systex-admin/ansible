@@ -1,9 +1,9 @@
 - hosts: localhost
   vars:
     nios_provider:
-      host: 10.255.4.109
-      username: labapi
-      password: ansiblelab
+      host: 163.30.4.201
+      username: ansible
+      password: systexansible
   connection: local
   tasks:
     - name: fetch all default dns view
