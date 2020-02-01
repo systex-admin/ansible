@@ -1,10 +1,10 @@
-- hosts: webdns.tyc.edu.tw
+- hosts: localhost
+  connection: local
   vars:
     nios_provider:
       host: webdns.tyc.edu.tw
       username: ansible
       password: systexansible
-  connection: local
   tasks:
     - name: fetch all default dns view
       set_fact:
