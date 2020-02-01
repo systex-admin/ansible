@@ -6,6 +6,10 @@
       username: ansible
       password: systexansible
   tasks:
-    - name: fetch all default dns view
+    - name: fetch all networkview objects
       set_fact:
-        dns_views: "{{ lookup('nios', filter={'name': 'From_Internet'}, provider=nios_provider) }}"
+        networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+
+    - name: check the networkviews
+      debug:
+        var: networkviews
