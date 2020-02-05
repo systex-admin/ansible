@@ -1,5 +1,5 @@
 - name: "STEP 1 - CONNECT TO NODE BY TEST"
-  hosts: overcloud-controller-0
+  hosts: all
   tasks:
     - name: "PING"
       ping:
