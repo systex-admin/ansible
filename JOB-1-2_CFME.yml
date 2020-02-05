@@ -1,6 +1,6 @@
-- name: "STEP 1 - CONNECT TO CLOUDFORMS"
-  hosts: cloudforms
-  gather_facts: false
+- name: "STEP 1 - CONNECT"
+  hosts: all
+  #gather_facts: false
   tasks:
     - name: "PING"
       ping:
@@ -8,4 +8,14 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-
+- name: "STEP 2 "
+  hosts: all
+  tasks:
+    - name: "STEP 2 - DIRECTORY"
+      shell: pwd
+      register: current_working_directory
+    - name: "RESULT"
+      debug:
+        msg: "{{ current_working_directory }}"
+    
+    
