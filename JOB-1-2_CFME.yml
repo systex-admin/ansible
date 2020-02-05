@@ -21,9 +21,9 @@
   hosts: all
   tasks:
     - name: "STEP 2 - LIST "
-      shell: ls
+      shell: ls -la
       register: current_working_list
     - name: "RESULT"
       debug:
-        msg: "{{ current_working_list.stdout }}"
+        msg: "{{ current_working_list }}"
     
