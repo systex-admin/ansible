@@ -1,5 +1,6 @@
 - name: "STEP 1 - CONNECT TO CLOUDFORMS"
   hosts: cloudforms
+  gather_facts: false
   tasks:
     - name: "PING"
       ping:
