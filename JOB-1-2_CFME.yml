@@ -1,4 +1,4 @@
-- name: "STEP 1 - CONNECT TO OPENSTACK"
+- name: "STEP 1 - CONNECT TO CLOUDFORMS"
   hosts: cloudforms
   tasks:
     - name: "PING"
