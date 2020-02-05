@@ -16,7 +16,7 @@
       register: current_working_directory
     - name: "RESULT"
       debug:
-        msg: "{{ current_working_directory.stdout }}"
+        msg: "{{ current_working_directory.stdout_lines }}"
 - name: "STEP 3 "
   hosts: all
   tasks:
@@ -25,5 +25,5 @@
       register: current_working_list
     - name: "RESULT"
       debug:
-        msg: "{{ current_working_list }}"
+        msg: "{{ current_working_list.stdout_lines }}"
     
