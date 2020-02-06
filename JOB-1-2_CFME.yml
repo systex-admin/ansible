@@ -31,4 +31,4 @@
   tasks:
     - name: "STEP 4-2 TEST CLOUDFORMS VAR "
       debug:
-        msg: "{{ test_event }}"
+        msg: "{{ infoblox_dns_hostname }}"
