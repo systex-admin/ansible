@@ -10,16 +10,16 @@
   tasks:
   - name: fetch all networkview objects
     set_fact:
-      networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+      networkviews: "{{ lookup('nios', 'From_Internet', provider=nios_provider) }}"
   - name: check the networkviews
     debug:
       var: networkviews
-  - name: fetch specific host
-    set_fact:
-      host: "{{ lookup('nios', 'record:host', filter={'name': 'w3.ysles.tyc.edu.tw'}, provider=nios_provider) }}"
-  - name: check host return variable
-    debug:
-      var: host
+  #- name: fetch specific host
+  #  set_fact:
+  #    host: "{{ lookup('nios', 'record:host', filter={'name': 'w3.ysles.tyc.edu.tw'}, provider=nios_provider) }}"
+  #- name: check host return variable
+  #  debug:
+  #    var: host
   #- name: fetch all hosts
   #  set_fact:
   #    host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
