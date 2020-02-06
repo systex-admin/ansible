@@ -23,6 +23,3 @@
   - name: fetch all hosts
     set_fact:
       host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
-  - name: check host return variable
-    debug:
-      var: host
