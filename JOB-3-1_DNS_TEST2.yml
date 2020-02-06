@@ -8,9 +8,9 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-  - name: fetch all networkview objects
-    set_fact:
-      networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+  #- name: fetch all networkview objects
+  #  set_fact:
+  #    networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
   #- name: check the networkviews
   #  debug:
   #    var: networkviews
@@ -20,6 +20,9 @@
   #- name: check host return variable
   #  debug:
   #    var: host
-  #- name: fetch all hosts
-  #  set_fact:
-  #    host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
+  - name: fetch all hosts
+    set_fact:
+      host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
+  - name: check host return variable
+    debug:
+      var: host
