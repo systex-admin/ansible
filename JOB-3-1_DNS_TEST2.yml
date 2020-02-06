@@ -2,10 +2,10 @@
   hosts: localhost
   vars:
     nios_provider:
-      host: webdns.tyc.edu.tw
-      username: ansible
-      password: systexansible
-      wapi_version: 2.6.1
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
   #- name: fetch specific host
