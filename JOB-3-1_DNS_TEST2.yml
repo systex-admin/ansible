@@ -1,5 +1,11 @@
 - name: Infoblox host search play
   hosts: localhost
+  vars:
+    nios_provider:
+      host: webdns.tyc.edu.tw
+      username: ansible
+      password: systexansible
+      wapi_version: 2.6.1
   connection: local
   tasks:
   #- name: fetch specific host
