@@ -29,6 +29,12 @@
 - name: "STEP 4 "
   hosts: all
   tasks:
-    - name: "STEP 4-3 TEST CLOUDFORMS VAR "
+    - name: "STEP 4-2 TEST CLOUDFORMS VAR "
       debug:
         msg: "{{ param_test_event }}"
+- name: "STEP 5 "
+  hosts: all
+  tasks:
+    - name: "STEP 5-2 TEST CLOUDFORMS VAR "
+      debug:
+        msg: "{{ test_event }}"
