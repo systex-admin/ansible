@@ -1,0 +1,21 @@
+- name: Infoblox host search play
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: 10.10.10.10
+      username: admin
+      password: password
+      wapi_version: 2.6.1
+
+  connection: local
+
+  tasks:
+  - name: fetch specific host
+    set_fact:
+      host: "{{ lookup('nios', 'record:host', filter={'name': 'host1.network.local'}, provider=nios_provider) }}"
+
+ 
+
+  - name: fetch all hosts
+    set_fact:
+      host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
