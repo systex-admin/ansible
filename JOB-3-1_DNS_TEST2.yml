@@ -10,7 +10,7 @@
   tasks:
   - name: fetch specific host
     set_fact:
-      host: "{{ lookup('nios', 'record:host', filter={'name': 'ns1.tyc.edu.tw'}, provider=nios_provider) }}"
+      host: "{{ lookup('nios', 'record:host', filter={'name': 'aaaaa'}, provider=nios_provider) }}"
   #- name: fetch all hosts
   #  set_fact:
   #    host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
