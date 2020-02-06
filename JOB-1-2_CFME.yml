@@ -31,4 +31,4 @@
   tasks:
     - name: "STEP 4-3 TEST CLOUDFORMS VAR "
       debug:
-        msg: "{{ test_event1 }}"
+        msg: "{{ param_test_event }}"
