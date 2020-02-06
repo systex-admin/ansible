@@ -11,9 +11,9 @@
   - name: fetch all networkview objects
     set_fact:
       networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
-  - name: check the networkviews
-    debug:
-      var: networkviews
+  #- name: check the networkviews
+  #  debug:
+  #    var: networkviews
   #- name: fetch specific host
   #  set_fact:
   #    host: "{{ lookup('nios', 'record:host', filter={'name': 'w3.ysles.tyc.edu.tw'}, provider=nios_provider) }}"
