@@ -8,9 +8,9 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-  #- name: fetch specific host
-  #  set_fact:
-  #    host: "{{ lookup('nios', 'record:host', filter={'name': 'host1.network.local'}, provider=nios_provider) }}"
-  - name: fetch all hosts
+  - name: fetch specific host
     set_fact:
-      host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
+      host: "{{ lookup('nios', 'record:host', filter={'name': 'ns1.tyc.edu.tw'}, provider=nios_provider) }}"
+  #- name: fetch all hosts
+  #  set_fact:
+  #    host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
