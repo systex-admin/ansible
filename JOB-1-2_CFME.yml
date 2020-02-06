@@ -11,24 +11,6 @@
 - name: "STEP 2 "
   hosts: all
   tasks:
-    - name: "STEP 2-2 DIRECTORY"
-      shell: pwd
-      register: current_working_directory
-    - name: "STEP 2-3 RESULT"
-      debug:
-        msg: "{{ current_working_directory.stdout_lines }}"
-- name: "STEP 3 "
-  hosts: all
-  tasks:
-    - name: "STEP 3-2 LIST "
-      shell: ls -la
-      register: current_working_list
-    - name: "STEP 3-3 RESULT"
-      debug:
-        msg: "{{ current_working_list.stdout_lines }}"
-- name: "STEP 4 "
-  hosts: all
-  tasks:
-    - name: "STEP 4-2 TEST CLOUDFORMS VAR "
+    - name: "STEP 2-2 TEST CLOUDFORMS VAR "
       debug:
         msg: "{{ infoblox_dns_hostname }}"
