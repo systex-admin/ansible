@@ -1,0 +1,18 @@
+- name: Infoblox host search play
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+    - name: add a comment to an existing A record
+      nios_a_record:
+        name: {new_name: test.weses.tyc.edu.tw, old_name: dns.weses.tyc.edu.tw}
+        view: ansibleDnsView
+        ipv4: 163.30.39.129
+        comment: this is a test comment
+        state: present
+        provider: "{{nios_provider}}"
