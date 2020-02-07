@@ -1,9 +1,0 @@
-- hosts: webdns.tyc.edu.tw
-  connection: local
-  tasks:
-    - name: create network view
-      nios_network_view:
-        name: ansibleNetView
-        comment: Created with Ansible
-        state: present
-        provider: "{{nios_provider}}"
