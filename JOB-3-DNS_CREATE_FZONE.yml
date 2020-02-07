@@ -12,10 +12,10 @@
       nios_zone:
         name: ansible-test.com
         view: ansibleDnsView
-        grid_primary:
-          - name: apitest.blairlab
-        grid_secondaries:
-          - name: apitest-cp.blairlab
+        #grid_primary:
+        #  - name: apitest.blairlab
+        #grid_secondaries:
+        #  - name: apitest-cp.blairlab
         comment: local DNS zone
         state: present
         provider: "{{ nios_provider }}"
