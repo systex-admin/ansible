@@ -14,15 +14,15 @@
   #- name: check the networkviews
   #  debug:
   #    var: networkviews
-  #- name: fetch specific host
-  #  set_fact:
-  #    host: "{{ lookup('nios', 'record:host', filter={'name': 'dns.weses.tyc.edu.tw'}, provider=nios_provider) }}"
-  #- name: check host return variable
-  #  debug:
-  #    var: host
+  - name: fetch specific host
+    set_fact:
+      host: "{{ lookup('nios', 'record:host', filter={'name': 'dns.weses.tyc.edu.tw', 'view': 'ansibleDnsView'}, provider=nios_provider) }}"
+  - name: check host return variable
+    debug:
+      var: host
   #- name: fetch all hosts
   #  set_fact:
   #    host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
-  - name: get the authoritative zone from a non default dns view
-    set_fact:
-      host: "{{ lookup('nios', 'zone_auth', filter={'fqdn': 'dns.weses.tyc.edu.tw', 'view': 'ansibleDnsView'}, provider=nios_provider) }}"
+  #- name: get the authoritative zone from a non default dns view
+  #  set_fact:
+  #    host: "{{ lookup('nios', 'zone_auth', filter={'fqdn': 'dns.weses.tyc.edu.tw', 'view': 'ansibleDnsView'}, provider=nios_provider) }}"
