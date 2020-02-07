@@ -11,6 +11,7 @@
     - name: Create a reverse DNS zone
       nios_zone:
         name: 10.0.0.0/8
+        view: ansibleDnsView
         zone_format: IPV4
         state: present
         provider: "{{ nios_provider }}"
