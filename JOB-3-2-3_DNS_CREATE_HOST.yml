@@ -12,7 +12,7 @@
       nios_host_record:
         name: star.tyc.edu.tw
         view: ansibleDnsView
-        ipv4addrs:
-          - ipv4addr: "{{ lookup('nios_next_ip', '10.255.4.10', provider=nios_provider)[0] }}"
+        ipv4:
+          - address: 10.255.4.10
         state: present
         provider: "{{nios_provider}}"
