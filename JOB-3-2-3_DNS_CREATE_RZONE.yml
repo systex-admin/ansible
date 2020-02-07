@@ -1,0 +1,16 @@
+- name: Infoblox host search play
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+    - name: Create a reverse DNS zone
+      nios_zone:
+        name: 10.0.0.0/8
+        zone_format: IPV4
+        state: present
+        provider: "{{ nios_provider }}"
