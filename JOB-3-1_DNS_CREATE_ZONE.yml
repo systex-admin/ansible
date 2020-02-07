@@ -14,7 +14,7 @@
   - name: create DNS view
     nios_dns_view:
       name: ansibleDnsView
-      network_view: ansibleNetView
+      network_view: "default"
       comment: Created with Ansible
       state: present
       provider: "{{ nios_provider }}"
