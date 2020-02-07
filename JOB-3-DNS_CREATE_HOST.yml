@@ -13,7 +13,7 @@
       name: host.ansiblezone.com
       view: ansibleDnsView
       ipv4addrs:
-        - ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/24', provider=nios_provider)[0] }}"
+        - ipv4addr: "{{ lookup('nios_next_ip', '10.0.0.0/24', num=3, provider=nios_provider)[0] }}"
       ipv6addrs:
         - ipv6addr: "fd00::2"
       ttl: 3600
