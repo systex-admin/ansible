@@ -10,7 +10,9 @@
   tasks:
     - name: update an A record name
       nios_a_record:
-        name: {new_name: test.weses.tyc.edu.tw, old_name: dns.weses.tyc.edu.tw}
+        name: 
+          new_name: "test.weses.tyc.edu.tw"
+          old_name: "dns.weses.tyc.edu.tw"
         view: ansibleDnsView
         ipv4: 163.30.39.129
         comment: this is a test comment
