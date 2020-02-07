@@ -16,7 +16,7 @@
   #    var: networkviews
   - name: fetch specific host
     set_fact:
-      host: "{{ lookup('nios', 'record:host', filter={'name': 'dns.weses.tyc.edu.tw', 'view': 'ansibleDnsView'}, provider=nios_provider) }}"
+      host: "{{ lookup('nios', 'record:host', filter={'name': 'dns.weses.tyc.edu.tw'}, provider=nios_provider) }}"
   - name: check host return variable
     debug:
       var: host
