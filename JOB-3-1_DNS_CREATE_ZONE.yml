@@ -8,12 +8,9 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-  - name: Create a network on the default network view
-    nios_network:
-      network: 10.255.3.0/24
-      comment: sets the IPv4 network
-      options:
-        - name: domain-name
-          value: ansible.com
+  - name: Create a forward DNS zone called ansible-test.com
+    nios_zone:
+      name: ansible-test.com
+      comment: local DNS zone
       state: present
-      provider: "{{nios_provider}}"
+      provider: "{{ nios_provider }}"
