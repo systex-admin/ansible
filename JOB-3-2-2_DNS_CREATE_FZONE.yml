@@ -12,6 +12,7 @@
       nios_zone:
         name: tyc.edu.tw
         view: ansibleDnsView
-        comment: local DNS zone
+        grid_primary:
+         - name: infoblox.localdomain
         state: present
         provider: "{{ nios_provider }}"
