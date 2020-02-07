@@ -10,12 +10,8 @@
   tasks:
     - name: Create a forward DNS zone called ansible-test.com
       nios_zone:
-        name: ansible-test.com
+        name: tyc.edu.tw
         view: ansibleDnsView
-        #grid_primary:
-        #  - name: apitest.blairlab
-        #grid_secondaries:
-        #  - name: apitest-cp.blairlab
         comment: local DNS zone
         state: present
         provider: "{{ nios_provider }}"
