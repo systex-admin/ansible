@@ -8,9 +8,13 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-  - name: Create a forward DNS zone called ansible-test.com
-    nios_zone:
-      name: ansible-test.com
-      comment: local DNS zone
+  - name: fetch all networkview objects
+    set_fact:
+      networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+  - name: create DNS view
+    nios_dns_view:
+      name: ansibleDnsView
+      network_view: ansibleNetView
+      comment: Created with Ansible
       state: present
       provider: "{{ nios_provider }}"
