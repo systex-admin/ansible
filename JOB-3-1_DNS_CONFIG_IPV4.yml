@@ -1,0 +1,19 @@
+- name: Infoblox host search play
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+  - name: Create a network on the default network view
+    nios_network:
+      network: 10.255.3.0/24
+      comment: sets the IPv4 network
+      options:
+        - name: domain-name
+          value: ansible.com
+      state: present
+      provider: "{{nios_provider}}"
