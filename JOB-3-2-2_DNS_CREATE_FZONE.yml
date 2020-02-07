@@ -8,11 +8,9 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-    - name: Create a forward DNS zone called ansible-test.com
+    - name: Create a forward DNS zone called tyc.edu.tw
       nios_zone:
         name: tyc.edu.tw
         view: ansibleDnsView
-        grid_primary:
-         - name: infoblox.localdomain
         state: present
         provider: "{{ nios_provider }}"
