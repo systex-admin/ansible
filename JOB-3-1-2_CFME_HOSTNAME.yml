@@ -13,4 +13,4 @@
   tasks:
     - name: "STEP 2-2 TEST CLOUDFORMS VAR "
       debug:
-        msg: "{{ infoblox_dns_hostname }}"
+        msg: "{{ hostname }}"
