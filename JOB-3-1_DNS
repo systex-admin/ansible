@@ -1,0 +1,19 @@
+- include_vars: INFOBLOX_VAR.yml
+- name: ANSIBLE RUNNING INFOBLOX
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+    - name: 
+      set_fact:
+        host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_DOMAIN }}"}, provider=nios_provider) }}"
+    - name: check host return variable
+      debug:
+        var: host
+  
+  
