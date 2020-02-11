@@ -6,7 +6,7 @@
       username: "{{ INFOBLOX_USERNAME }}"
       password: "{{ INFOBLOX_PASSWORD }}"
       wapi_version: "{{ WAPI_VERSION }}"
-      INFOBLOX_FQDN: "{{ INFOBLOX_HOSTNAME }}"."{{ INFOBLOX_SHORTNAME }}"."{{ INFOBLOX_DOMAIN }}"
+      INFOBLOX_FQDN: "{{ INFOBLOX_HOSTNAME }}.{{ INFOBLOX_SHORTNAME }}.{{ INFOBLOX_DOMAIN }}"
   connection: local
   tasks:
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
