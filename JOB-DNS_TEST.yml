@@ -10,9 +10,9 @@
   tasks:
     - name: INCLUDE VARIABLE BY OTHER YML FILE
       include_vars: INFOBLOX_VAR.yml
-    #- name: INFOBLOX_HOSTNAME
-    #  debug:
-    #    msg: "{{ INFOBLOX_HOSTNAME }}"
+    - name: INFOBLOX_FQDN
+      debug:
+        msg: "{{ INFOBLOX_FQDN }}"
     #- name: SHOW INFOBLOX RECORD
     #  set_fact:
     #    host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_FQDN }}"}, provider=nios_provider) }}"
