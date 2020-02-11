@@ -9,9 +9,7 @@
   connection: local
   tasks:
     - name: INCLUDE VARIABLE BY OTHER YML FILE
-      include_vars:
-        file: INFOBLOX_VAR.yml
-        name: INFOBLOX_VAR
+      include_vars: INFOBLOX_VAR.yml
     - name: TEST
       debug:
         msg: "{{ INFOBLOX_FQDN }}"
