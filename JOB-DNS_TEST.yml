@@ -8,7 +8,7 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+    - name: INCLUDE VARIABLE BY OTHER YML FILE
       include_vars:
         file: INFOBLOX_VAR.yml
         name: INFOBLOX_VAR
