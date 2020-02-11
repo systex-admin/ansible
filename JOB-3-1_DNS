@@ -9,9 +9,12 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-    - name: 
+    - name: TEST
+      debug:
+        msg: "{{ INFOBLOX_FQDN }}"
+    - name: SHOW INFOBLOX RECORD
       set_fact:
-        host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_DOMAIN }}"}, provider=nios_provider) }}"
+        host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_FQDN }}"}, provider=nios_provider) }}"
     - name: check host return variable
       debug:
         var: host
