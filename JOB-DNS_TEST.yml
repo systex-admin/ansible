@@ -6,14 +6,14 @@
       username: "{{ INFOBLOX_USERNAME }}"
       password: "{{ INFOBLOX_PASSWORD }}"
       wapi_version: "{{ WAPI_VERSION }}"
-    INFOBLOX_FQDN: "{{ INFOBLOX_HOSTNAME }}.{{ INFOBLOX_SHORTNAME }}.{{ INFOBLOX_DOMAIN }}"
+    #INFOBLOX_FQDN: "{{ INFOBLOX_HOSTNAME }}.{{ INFOBLOX_SHORTNAME }}.{{ INFOBLOX_DOMAIN }}"
   connection: local
   tasks:
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
     - name: TEST
       debug:
-        msg: "{{ INFOBLOX_FQDN }}"
+        msg: "{{ INFOBLOX_HOSTNAME }}"
     #- name: SHOW INFOBLOX RECORD
     #  set_fact:
     #    host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_FQDN }}"}, provider=nios_provider) }}"
