@@ -26,3 +26,5 @@
   #- name: get the authoritative zone from a non default dns view
   #  set_fact:
   #    host: "{{ lookup('nios', 'zone_auth', filter={'fqdn': 'dns.weses.tyc.edu.tw', 'view': 'ansibleDnsView'}, provider=nios_provider) }}"
+
+
