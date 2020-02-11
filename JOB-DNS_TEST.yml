@@ -1,4 +1,3 @@
-- include_vars: INFOBLOX_VAR.yml
 - name: ANSIBLE RUNNING INFOBLOX
   hosts: localhost
   vars:
@@ -9,6 +8,10 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
+    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+      include_vars:
+        file: INFOBLOX_VAR.yml
+        name: INFOBLOX_VAR
     - name: TEST
       debug:
         msg: "{{ INFOBLOX_FQDN }}"
