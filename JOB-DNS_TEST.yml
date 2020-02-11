@@ -11,7 +11,7 @@
   tasks:
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
-    - name: TEST
+    - name: INFOBLOX_HOSTNAME
       debug:
         msg: "{{ INFOBLOX_HOSTNAME }}"
     #- name: SHOW INFOBLOX RECORD
