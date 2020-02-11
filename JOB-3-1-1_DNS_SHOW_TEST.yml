@@ -1,4 +1,5 @@
-- name: Infoblox host search play
+- include_vars: INFOBLOX_VAR.yml
+- name: ANSIBLE RUNNING INFOBLOX
   hosts: localhost
   vars:
     nios_provider:
@@ -8,23 +9,13 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-  #- name: fetch all networkview objects
-  #  set_fact:
-  #    networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
-  #- name: check the networkviews
-  #  debug:
-  #    var: networkviews
-  - name: fetch specific host
-    set_fact:
-      host: "{{ lookup('nios', 'record:host', filter={'name': 'dns.weses.tyc.edu.tw'}, provider=nios_provider) }}"
-  - name: check host return variable
-    debug:
-      var: host
-  #- name: fetch all hosts
-  #  set_fact:
-  #    host: "{{ lookup('nios', 'record:host', provider=nios_provider) }}"
-  #- name: get the authoritative zone from a non default dns view
-  #  set_fact:
-  #    host: "{{ lookup('nios', 'zone_auth', filter={'fqdn': 'dns.weses.tyc.edu.tw', 'view': 'ansibleDnsView'}, provider=nios_provider) }}"
-
+    - name: TEST
+      debug:
+        msg: "{{ INFOBLOX_FQDN }}"
+    - name: SHOW INFOBLOX RECORD
+      set_fact:
+        host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_FQDN }}"}, provider=nios_provider) }}"
+    - name: check host return variable
+      debug:
+        var: host
 
