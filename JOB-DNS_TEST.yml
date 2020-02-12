@@ -10,16 +10,12 @@
   tasks:
     - name: INCLUDE VARIABLE BY OTHER YML FILE
       include_vars: INFOBLOX_VAR.yml
-    - name: INFOBLOX_FQDN
-      debug:
-        msg: "{{ INFOBLOX_FQDN }}"
-    - name: INFOBLOX_SHORTNAME
-      debug:
-        msg: "{{ INFOBLOX_SHORTNAME }}"
-    #- name: SHOW INFOBLOX RECORD
-    #  set_fact:
-    #    host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_FQDN }}"}, provider=nios_provider) }}"
-    #- name: check host return variable
-    #  debug:
-    #    var: host
+    - name: add a comment to an existing A record
+      nios_a_record:
+        name: "{{ INFOBLOX_FQDN }}"
+        view: "{{ INFOBLOX_VIEW }}"
+        ipv4: "{{ INFOBLOX_IPV4 }}"
+        comment: this is a test comment
+        state: present
+        provider: "{{nios_provider}}"
 
