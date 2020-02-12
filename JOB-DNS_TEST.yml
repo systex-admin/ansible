@@ -13,6 +13,9 @@
     - name: INFOBLOX_FQDN
       debug:
         msg: "{{ INFOBLOX_FQDN }}"
+    - name: INFOBLOX_SHORTNAME
+      debug:
+        msg: "{{ INFOBLOX_SHORTNAME }}"
     #- name: SHOW INFOBLOX RECORD
     #  set_fact:
     #    host: "{{ lookup('nios', 'record:host', filter={'name': "{{ INFOBLOX_FQDN }}"}, provider=nios_provider) }}"
