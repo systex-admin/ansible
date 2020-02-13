@@ -26,12 +26,7 @@
         msg: "the directory is already existed"
       when: my_folder.stat.exists
     - name: "Ansible Create directory if not exists"
-      file:
-        path: "{{ F5_DIR }}"
-        state: directory
-        mode: 0755
-        group: root
-        owner: root
+      shell: "mkdir -p {{ F5_DIR }}"
       when: my_folder.stat.exists == false
 #- name: ANSIBLE SEARCH NAT MAPPING LIST
 #  hosts: localhost 
