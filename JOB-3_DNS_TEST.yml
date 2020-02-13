@@ -1,6 +1,5 @@
 - name: ANSIBLE RUNNING INFOBLOX
   hosts: localhost
-  
   vars:
     F5_DIR: "/root/A/B/C"
     nios_provider:
@@ -9,6 +8,9 @@
       password: "{{ INFOBLOX_PASSWORD }}"
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
+  become: yes
+  become_user: root
+  become_method: sudo
   tasks:
     - name: "TEST"
       debug: msg="{{ ANSIBLE_PATH }}/stack.log"
