@@ -1,5 +1,6 @@
 - name: ANSIBLE RUNNING INFOBLOX
   hosts: localhost
+  
   vars:
     nios_provider:
       host: "{{ INFOBLOX_HOST }}"
@@ -10,14 +11,14 @@
   tasks:
     - name: "TEST"
       debug: msg="{{ ANSIBLE_PATH }}/stack.log"
-- name: ANSIBLE SEARCH NAT MAPPING LIST
-  hosts: localhost
-  become: yes
-  become_user: root
-  become_method: sudo
-  tasks:
     - name: "SEARCH FILE STRING"
       register: presence
       shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
+#- name: ANSIBLE SEARCH NAT MAPPING LIST
+#  hosts: localhost 
+#  tasks:
+#    - name: "SEARCH FILE STRING"
+#      register: presence
+#      shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
 
 
