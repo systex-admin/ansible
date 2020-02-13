@@ -19,13 +19,16 @@
       #shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
     - name: Ansible check directory.
       stat:
-        path: /project/devops/jboss
+        path: "{{ F5_DIR }}"
       register: my_folder
     - name: "echo if directory already existed"
       debug:
         msg: "the directory is already existed"
       when: my_folder.stat.exists
     - name: "Ansible Create directory if not exists"
+      become: yes
+      become_user: root
+      become_method: sudo
       shell: "mkdir -p {{ F5_DIR }}"
       when: my_folder.stat.exists == false
 #- name: ANSIBLE SEARCH NAT MAPPING LIST
