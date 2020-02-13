@@ -19,6 +19,6 @@
       register: presence
       shell: "grep -i '10.' {{ ANSIBLE_PATH }}/nat.log"
     - name: "RESULT"
-      debug: msg="presence is changed"
-      when: presence is changed
-        
+      debug: 
+        msg: "{{ presence }}"
+
