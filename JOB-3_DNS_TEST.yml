@@ -8,13 +8,10 @@
       password: "{{ INFOBLOX_PASSWORD }}"
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
-  #become: yes
-  #become_user: root
-  #become_method: sudo
+  become: yes
+  become_user: root
+  become_method: sudo
   tasks:
-      become: yes
-      become_user: root
-      become_method: sudo
     #- name: "TEST"
       #debug: msg="{{ ANSIBLE_PATH }}/stack.log"
     #- name: "SEARCH FILE STRING"
