@@ -21,6 +21,9 @@
         path: "{{ ANSIBLE_PATH }}/nat.log"
         line: "10."
         state: present
-        
-        
+      check_mode: yes
+      register: presence
+      failed_when: presence is changed
+    - name: "RESULT"
+      when: presence is not changed
         
