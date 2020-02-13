@@ -9,6 +9,8 @@
         msg: "{{ message }}"
 - name: "STEP 2 - DEPLOY TO F5"
   hosts: 10.241.62.104
+  var:
+    F5_DIR: "/config/ansible"
   become: yes
   become_user: root
   become_method: sudo
@@ -37,8 +39,16 @@
   become_user: root
   become_method: sudo
   tasks:
+    - name: Creates directory
+      file:
+        path: "{{ F5_DIR }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0775
+        recurse: yes
     - name: "RUN SCRIPT"
-      shell: /config/ansible/nat.sh
+      shell: "{{ F5_DIR }}/nat.sh"
       args:
         chdir: /config/ansible/
       register: nat
