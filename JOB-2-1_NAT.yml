@@ -40,13 +40,7 @@
   become_method: sudo
   tasks:
     - name: Creates directory
-      file:
-        path: "{{ F5_DIR }}"
-        state: directory
-        owner: root
-        group: root
-        mode: 0775
-        recurse: yes
+      shell: "mkdir -p {{ F5_DIR }}"
     - name: "RUN SCRIPT"
       shell: "{{ F5_DIR }}/nat.sh"
       args:
