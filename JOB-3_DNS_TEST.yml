@@ -12,6 +12,9 @@
   #become_user: root
   #become_method: sudo
   tasks:
+      become: yes
+      become_user: root
+      become_method: sudo
     #- name: "TEST"
       #debug: msg="{{ ANSIBLE_PATH }}/stack.log"
     #- name: "SEARCH FILE STRING"
@@ -26,9 +29,6 @@
         msg: "the directory is already existed"
       when: my_folder.stat.exists
     - name: "Ansible Create directory if not exists"
-      become: yes
-      become_user: root
-      become_method: sudo
       shell: "mkdir -p {{ F5_DIR }}"
       when: my_folder.stat.exists == false
 #- name: ANSIBLE SEARCH NAT MAPPING LIST
