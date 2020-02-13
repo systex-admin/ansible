@@ -1,0 +1,12 @@
+- name: ANSIBLE RUNNING INFOBLOX
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+    - name: "TEST"
+      debug: msg="{{ ANSIBLE_PATH }}/stack.log"
