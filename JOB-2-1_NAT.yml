@@ -15,19 +15,19 @@
   tasks:
     - name: "DEPLOY RESOURCE1"
       copy:
-        src: /var/lib/awx/projects/_34__auto_network_project/stack.log
+        src: "{{ ANSIBLE_PATH }}/stack.log"
         dest: /config/ansible/
         mode: '0644'
         follow: yes
     - name: "DEPLOY RESOURCE2"
       copy:
-        src: /var/lib/awx/projects/_34__auto_network_project/nat.log
+        src: "{{ ANSIBLE_PATH }}/nat.log"
         dest: /config/ansible/
         mode: '0644'
         follow: yes
     - name: "DEPLOY RESOURCE3"
       copy:
-        src: /var/lib/awx/projects/_34__auto_network_project/nat.sh
+        src: "{{ ANSIBLE_PATH }}/nat.sh"
         dest: /config/ansible/
         mode: '0755'
         follow: yes
