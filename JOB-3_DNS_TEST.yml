@@ -18,8 +18,6 @@
   tasks:
     - name: "SEARCH FILE STRING"
       register: presence
-      shell: "grep -i '10.' {{ ANSIBLE_PATH }}/nat.log"
-    - name: "RESULT"
-      debug: 
-        msg: "{{ presence }}"
+      shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
+
 
