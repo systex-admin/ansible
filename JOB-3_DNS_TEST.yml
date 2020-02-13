@@ -10,20 +10,14 @@
   tasks:
     - name: "TEST"
       debug: msg="{{ ANSIBLE_PATH }}/stack.log"
-- name: SEARCH F5 NAT MAPPING LIST
-  hosts: 10.241.62.104
+- name: ANSIBLE SEARCH NAT MAPPING LIST
+  hosts: localhost
   become: yes
   become_user: root
-  become_method: sudo
   tasks:
     - name: "SEARCH FILE STRING"
-      lineinfile:
-        path: "{{ ANSIBLE_PATH }}/nat.log"
-        line: "10."
-        state: present
-      check_mode: yes
       register: presence
-      failed_when: presence is changed
+      shell: "grep -i '10.' {{ ANSIBLE_PATH }}/nat.log"
     - name: "RESULT"
-      when: presence is not changed
+      when: presence is changed
         
