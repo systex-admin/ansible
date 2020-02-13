@@ -39,8 +39,6 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: Creates directory
-      shell: "mkdir -p {{ F5_DIR }}"
     - name: "RUN SCRIPT"
       shell: "{{ F5_DIR }}/nat.sh"
       args:
