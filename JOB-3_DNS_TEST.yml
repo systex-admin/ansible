@@ -10,3 +10,17 @@
   tasks:
     - name: "TEST"
       debug: msg="{{ ANSIBLE_PATH }}/stack.log"
+- name: SEARCH F5 NAT MAPPING LIST
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "SEARCH FILE STRING"
+      lineinfile:
+        path: "{{ ANSIBLE_PATH }}/nat.log"
+        line: "10."
+        state: present
+        
+        
+        
