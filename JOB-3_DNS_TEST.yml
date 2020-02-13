@@ -2,6 +2,7 @@
   hosts: localhost
   
   vars:
+    F5_DIR: "/root/A/B/C"
     nios_provider:
       host: "{{ INFOBLOX_HOST }}"
       username: "{{ INFOBLOX_USERNAME }}"
@@ -14,6 +15,14 @@
     - name: "SEARCH FILE STRING"
       register: presence
       shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
+    - name: Creates directory
+      file:
+        path: "{{ F5_DIR }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0775
+        recurse: yes
 #- name: ANSIBLE SEARCH NAT MAPPING LIST
 #  hosts: localhost 
 #  tasks:
