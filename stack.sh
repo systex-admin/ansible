@@ -36,8 +36,6 @@ done
 if [[ -f ${local_path}/stack_${pid}.log ]]; then
         cp ${local_path}/stack_${pid}.log ${local_path}/stack.log
         sudo rm ${local_path}/stack_${pid}.log
+	sudo rm ${local_path}/tmp_${pid}.log
 fi
 
-if [[ -f ${local_path}/tmp_${pid}.log ]]; then
-        sudo rm ${local_path}/tmp_${pid}.log
-fi
