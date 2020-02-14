@@ -17,11 +17,11 @@
   become_method: sudo
   tasks:
     - read_csv:
-        path: internat_20200206.csv
+        path: "{{ ANSIBLE_PATH }}/internat_20200206.csv"
       register: test
     - name: Check File Systems for Any changes
       file:
-        path: "{{ ANSIBLE_PATH }}"
+        path: "{{ ANSIBLE_PATH }}/internat_20200206.csv"
         owner: awx
         group: awx
         mode: "755"
