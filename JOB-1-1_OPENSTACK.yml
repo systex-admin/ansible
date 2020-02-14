@@ -9,6 +9,8 @@
         msg: "{{ message }}"
 - name: "STEP 2 - DEPLOY TO OPENSTACK"
   hosts: undercloud
+  vars:
+    ANSIBLE_SRC_PATH: "/home/stack/ansible"
   become: yes
   become_user: root
   become_method: sudo
@@ -16,7 +18,7 @@
     - name: "DEPLOY RESOURCE"
       copy:
         src: stack.sh
-        dest: /home/stack/ansible/stack.sh
+        dest: "{{ ANSIBLE_SRC_PATH }}/stack.sh"
         mode: '0755'
         follow: yes
 - name: "STEP 3 - UPDATE TO OPENSTACK"
@@ -26,9 +28,9 @@
   become_method: sudo
   tasks:
     - name: "RUN SCRIPT"
-      shell: /home/stack/ansible/stack.sh
+      shell: "{{ ANSIBLE_SRC_PATH }}/stack.sh"
       args:
-        chdir: /home/stack/ansible/
+        chdir: "{{ ANSIBLE_SRC_PATH }}"
       register: result
     - name: "RESULT"
       debug:
@@ -41,7 +43,7 @@
   tasks:
     - name: "FETCH RESOURCE"
       fetch:
-        src: /home/stack/ansible/stack.log
+        src: "{{ ANSIBLE_SRC_PATH }}/stack.log"
         dest: "{{ Project_Path }}"
         flat: yes
       register: result2
