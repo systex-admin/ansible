@@ -16,6 +16,15 @@
     #  register: users
     #- debug:
     #    msg: "{{ users.list.name }}"
-- name: Define Values From CSV Fil
-  debug: 
-    msg: "The atomic mass of Lithium is {{ lookup('csvfile', 'Li file=internat_20200206.csv delimiter=, col=2') }}"
+    - read_csv:
+        path: internat_20200206.csv
+      register: test
+    - name: Check File Systems for Any changes
+      file:
+        path: "{{ ANSIBLE_PATH }}"
+        owner: awx
+        group: awx
+        mode: "{{ item.mode }}"
+        state: directory 
+        recurse: no 
+      loop: "{{ test.list }}"
