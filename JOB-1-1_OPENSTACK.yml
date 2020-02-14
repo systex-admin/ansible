@@ -44,7 +44,7 @@
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ OPS_PATH }}/stack.log"
-        dest: "{{ Project_Path }}"
+        dest: "{{ ANSIBLE_SCM_PATH }}"
         flat: yes
       register: result2
     - name: "RESULT"
