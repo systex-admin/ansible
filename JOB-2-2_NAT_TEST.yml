@@ -10,12 +10,12 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-    #- name: Read users from CSV file and return a dictionary
-    #  read_csv:
-    #    path: "internat_20200206.csv"
-    #  register: users
-    #- debug:
-    #    msg: "{{ users.list.name }}"
+- name: "Ansible Test"
+  hosts: localhost
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
     - read_csv:
         path: internat_20200206.csv
       register: test
