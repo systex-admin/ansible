@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/stack/overcloudrc
+source /home/heat-admin/overcloudrc
 
 local_path=`pwd`
 pid=`echo $$`
