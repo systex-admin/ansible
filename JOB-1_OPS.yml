@@ -10,7 +10,7 @@
 - name: "STEP 2 - DEPLOY TO OPENSTACK"
   hosts: undercloud
   vars:
-    OPS_PATH: "/home/stack/ansible"
+    OPS_PATH: "/home/heat-admin/ansible"
   become: yes
   become_user: root
   become_method: sudo
@@ -38,3 +38,9 @@
     - name: "RESULT"
       debug:
         msg: "{{ result2 }}"
+    - name: "REMOVE RESOURCE"
+      file:
+        path: "{{ OPS_PATH }}/stack.sh"
+        state: absent
+
+
