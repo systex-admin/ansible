@@ -1,11 +1,41 @@
-- name: Create a VIP, pool and pool members
-  hosts: localhost
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"  
+- name: "STEP 2 - DEPLOY TO F5"
+  hosts: 10.241.62.104
   vars:
-    provider:
-      server: 10.241.62.104
-      user: admin
-      password: 1qaz#EDC
-      validate_certs: no
-      server_port: 443
-  connection: local
-  
+    F5_DIR: "/config/ansible"
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE"
+      copy:
+        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        dest: "{{ F5_DIR }}"
+        mode: '0755'
+        follow: yes
+      with_items:
+        - stack.log
+        - nat.log
+        - nat.sh
+- name: "STEP 3 - UPDATE TO F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "RUN SCRIPT"
+      shell: "{{ F5_DIR }}/nat.sh"
+      args:
+        chdir: /config/ansible/
+      register: nat
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat.stdout_lines }}"
