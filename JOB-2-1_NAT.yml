@@ -21,7 +21,7 @@
         dest: "{{ DEST_DIR }}"
         mode: '0755'
         follow: yes
-      with_together:
+      with_items:
         - stack.log
         - nat.log
         - nat.sh
