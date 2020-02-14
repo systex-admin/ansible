@@ -10,7 +10,7 @@
 - name: "STEP 2 - DEPLOY TO F5"
   hosts: 10.241.62.104
   var:
-    F5_DIR: "/config/ansible"
+    DEST_DIR: "/config/ansible"
   become: yes
   become_user: root
   become_method: sudo
@@ -18,7 +18,7 @@
     - name: "DEPLOY RESOURCE1"
       copy:
         src: "{{ ANSIBLE_PATH }}/{{ item }}"
-        dest: "{{ F5_DIR }}"
+        dest: "{{ DEST_DIR }}"
         mode: '0755'
         follow: yes
       with_items:
