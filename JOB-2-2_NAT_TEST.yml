@@ -14,5 +14,5 @@
       read_csv:
     - name:  Match 'Li' on the first column, return the second column (0 based index)
       debug: 
-        msg: "{{ lookup('csvfile', 'Li file=/root/internat_20200206.csv delimiter=,') }}"
+        msg: "{{ lookup('csvfile', 'Li path=/root/ file=internat_20200206.csv delimiter=,') }}"
         #path: "/root/internat_20200206.csv"
