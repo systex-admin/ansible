@@ -24,7 +24,7 @@
         path: "{{ ANSIBLE_PATH }}"
         owner: awx
         group: awx
-        mode: "{{ item.mode }}"
+        mode: "755"
         state: directory 
         recurse: no 
       loop: "{{ test.list }}"
