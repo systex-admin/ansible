@@ -11,4 +11,5 @@
 - name: Read users from CSV file and return a dictionary
   read_csv:
     path: "/var/lib/awx/projects/_34__auto_network_project/internat_20200206.csv"
+    register: root
   delegate_to: localhost
