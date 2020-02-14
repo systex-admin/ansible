@@ -9,11 +9,11 @@
       register: message
     - name: "RESULT"
       debug:
-        msg: "{{ message }}"  
+        msg: "{{ message }}"
     - name: Read users from CSV file and return a dictionary
       read_csv:
         path: "internat_20200206.csv"
-      register: users
-    - name:
-      debug:
-        msg: "{{ users.list }}"
+      #register: users
+    #- name:
+    #  debug:
+    #    msg: "{{ users.list }}"
