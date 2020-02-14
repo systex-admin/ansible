@@ -15,7 +15,7 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "DEPLOY RESOURCE1"
+    - name: "DEPLOY RESOURCE"
       copy:
         src: "{{ ANSIBLE_PATH }}/{{ item }}"
         dest: "{{ DEST_DIR }}"
@@ -25,31 +25,19 @@
         - stack.log
         - nat.log
         - nat.sh
-    #- name: "DEPLOY RESOURCE2"
-    #  copy:
-    #    src: "{{ ANSIBLE_PATH }}/nat.log"
-    #    dest: /config/ansible/
-    #    mode: '0644'
-    #    follow: yes
-    #- name: "DEPLOY RESOURCE3"
-    #  copy:
-    #    src: "{{ ANSIBLE_PATH }}/nat.sh"
-    #    dest: /config/ansible/
-    #    mode: '0755'
-    #    follow: yes
-#- name: "STEP 3 - UPDATE TO F5"
-#  hosts: 10.241.62.104
-#  become: yes
-#  become_user: root
-#  become_method: sudo
-#  tasks:
-#    - name: "RUN SCRIPT"
-#      shell: "{{ F5_DIR }}/nat.sh"
-#      args:
-#        chdir: /config/ansible/
-#      register: nat
-#    - name: "RESULT"
-#      debug:
-#        msg: "{{ nat.stdout_lines }}"
+- name: "STEP 3 - UPDATE TO F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "RUN SCRIPT"
+      shell: "{{ F5_DIR }}/nat.sh"
+      args:
+        chdir: /config/ansible/
+      register: nat
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat.stdout_lines }}"
         
         
