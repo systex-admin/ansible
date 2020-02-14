@@ -1,5 +1,12 @@
 - name: Create a VIP, pool and pool members
-  hosts: all
+  hosts: localhost
+  vars:
+    provider:
+      server: 10.241.62.104
+      user: admin
+      password: 1qaz#EDC
+      validate_certs: no
+      server_port: 443
   connection: local
   
   
