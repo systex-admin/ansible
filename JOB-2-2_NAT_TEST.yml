@@ -17,4 +17,5 @@
     #- debug:
     #    msg: "{{ users.list.name }}"
 - name: Define Values From CSV Fil
-  debug: msg="The atomic mass of Lithium is {{ lookup('csvfile', 'Li file=internat_20200206.csv delimiter=, col=2') }}"
+  debug: 
+    msg: "The atomic mass of Lithium is {{ lookup('csvfile', 'Li file=internat_20200206.csv delimiter=, col=2') }}"
