@@ -1,16 +1,19 @@
-#- name: "STEP 1 - CONNECT TO F5"
-#  hosts: 10.241.62.104
-#  tasks:
-#    - name: "PING"
-#      ping:
-#      register: message
-#    - name: "RESULT"
-#      debug:
-#        msg: "{{ message }}"  
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"  
 - name: "STEP 2 - DEPLOY TO F5"
   hosts: 10.241.62.104
   var:
     DEST_DIR: "/config/ansible"
+    DEPLOY_FILE1: "stack.log"
+    DEPLOY_FILE2: "nat.log"
+    DEPLOY_FILE3: "nat.sh"
   become: yes
   become_user: root
   become_method: sudo
@@ -21,10 +24,10 @@
         dest: "{{ DEST_DIR }}"
         mode: '0755'
         follow: yes
-      with_items:
-        - stack.log
-        - nat.log
-        - nat.sh
+      with_together:
+        - "{{ DEPLOY_FILE1 }}"
+        - "{{ DEPLOY_FILE2 }}"
+        - "{{ DEPLOY_FILE3 }}"
     #- name: "DEPLOY RESOURCE2"
     #  copy:
     #    src: "{{ ANSIBLE_PATH }}/nat.log"
