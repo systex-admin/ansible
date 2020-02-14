@@ -12,11 +12,8 @@
   become_user: root
   become_method: sudo
   tasks:
-    #- name: "TEST"
-      #debug: msg="{{ ANSIBLE_PATH }}/stack.log"
-    #- name: "SEARCH FILE STRING"
-      #register: presence
-      #shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
+    - name: "SEARCH MAPPING LIST PRIVATE IP"
+      shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
 #    - name: Ansible check directory.
 #      stat:
 #        path: "{{ F5_DIR }}"
