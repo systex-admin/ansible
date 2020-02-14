@@ -15,7 +15,7 @@
         path: "internat_20200206.csv"
       register: users
     - debug:
-        msg: "{{ item.name }}"
-      with_items:
-        - "{{ users.list }}"
+        msg: "{{ users.list.name }}"
+      #with_items:
+        #- "{{ users.list }}"
     
