@@ -12,6 +12,7 @@
         msg: "{{ message }}"  
     - name: Read users from CSV file and return a dictionary
       read_csv:
-        path: "internat_20200206.csv"
-        delimiter: ','
-      register: users
+    - name:  Match 'Li' on the first column, return the second column (0 based index)
+      debug: 
+        msg: "{{ lookup('csvfile', 'Li file=/root/internat_20200206.csv delimiter=,') }}"
+        #path: "/root/internat_20200206.csv"
