@@ -13,3 +13,9 @@
     - name: Read users from CSV file and return a dictionary
       read_csv:
         path: "internat_20200206.csv"
+        fieldnames: "openstack VM"
+        delimiter: ";"
+      register: users
+    - name:
+      debug:
+        msg: "{{ users.list }}"
