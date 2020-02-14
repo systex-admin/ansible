@@ -1,7 +1,5 @@
-- name: Add virtual server with rate limit
-  bigip_virtual_server:
-    server: 10.241.62.104
-    user: root
-    password: 1qaz#EDC
-    name: NAT_TEST
-  delegate_to: localhost
+- name: Create a VIP, pool and pool members
+  hosts: all
+  connection: local
+  
+  
