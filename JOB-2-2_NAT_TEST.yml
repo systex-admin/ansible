@@ -13,6 +13,7 @@
     - name: Read users from CSV file and return a dictionary
       read_csv:
         path: "internat_20200206.csv"
+        splitlinebreaks: yes
       register: users
     - debug:
         msg: "{{ users.list.name }}"
