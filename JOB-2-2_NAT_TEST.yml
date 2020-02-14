@@ -14,6 +14,7 @@
       read_csv:
         path: "internat_20200206.csv"
         strict: yes
+        skipinitialspace: yes
       register: users
     - debug:
         msg: "{{ users.list.name }}"
