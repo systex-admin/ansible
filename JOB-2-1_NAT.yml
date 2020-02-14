@@ -21,7 +21,7 @@
         dest: "{{ F5_DIR }}"
         mode: '0755'
         follow: yes
-      with_items:
+      with_fileglob:
         - stack.log
         - nat.log
         - nat.sh
