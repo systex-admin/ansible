@@ -17,5 +17,4 @@
     #- debug:
     #    msg: "{{ users.list.name }}"
 - name: Define Values From CSV Fil
-  set_fact:
-    loop_ip: "{{ lookup('csvfile', bgp_neighbor_ip +' file=internat_20200206.csv delimiter=, col=1') }}"
+  debug: msg="The atomic mass of Lithium is {{ lookup('csvfile', 'Li file=internat_20200206.csv delimiter=, col=2') }}"
