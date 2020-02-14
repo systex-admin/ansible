@@ -7,7 +7,7 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"  
-- name: "STEP 2 - DEPLOY TO F5"
+- name: "STEP 2 - CSV TEST"
   hosts: 10.241.62.104
   vars:
     F5_DIR: "/config/ansible"
@@ -15,27 +15,6 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "DEPLOY RESOURCE"
-      copy:
-        src: "{{ ANSIBLE_PATH }}/{{ item }}"
-        dest: "{{ F5_DIR }}"
-        mode: '0755'
-        follow: yes
-      with_items:
-        - stack.log
-        - nat.log
-        - nat.sh
-- name: "STEP 3 - UPDATE TO F5"
-  hosts: 10.241.62.104
-  become: yes
-  become_user: root
-  become_method: sudo
-  tasks:
-    - name: "RUN SCRIPT"
-      shell: "{{ F5_DIR }}/nat.sh"
-      args:
-        chdir: /config/ansible/
-      register: nat
-    - name: "RESULT"
-      debug:
-        msg: "{{ nat.stdout_lines }}"
+    - name: Read users from CSV file and return a dictionary
+      read_csv:
+        path: "/var/lib/awx/projects/_34__auto_network_project/internat_20200206.csv"
