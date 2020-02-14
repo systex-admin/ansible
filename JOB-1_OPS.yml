@@ -34,10 +34,6 @@
         src: "{{ OPS_PATH }}/stack.log"
         dest: "{{ ANSIBLE_SCM_PATH }}"
         flat: yes
-      register: result2
-    - name: "RESULT"
-      debug:
-        msg: "{{ result2 }}"
     - name: "REMOVE RESOURCE"
       file:
         path: "{{ OPS_PATH }}/stack.sh"
