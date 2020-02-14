@@ -21,14 +21,14 @@
         dest: "{{ OPS_PATH }}/stack.sh"
         mode: '0755'
         follow: yes
-#    - name: "RUN SCRIPT"
-#      shell: "{{ OPS_PATH }}/stack.sh"
-#      args:
-#        chdir: "{{ OPS_PATH }}"
-#      register: result
-#    - name: "RESULT"
-#      debug:
-#        msg: "{{ result.stdout_lines }}"
+    - name: "RUN SCRIPT"
+      shell: "{{ OPS_PATH }}/stack.sh"
+      args:
+        chdir: "{{ OPS_PATH }}"
+      register: result
+    - name: "RESULT"
+      debug:
+        msg: "{{ result.stdout_lines }}"
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ OPS_PATH }}/stack.log"
