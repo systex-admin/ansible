@@ -1,12 +1,12 @@
-- name: "STEP 1 - CONNECT TO F5"
-  hosts: 10.241.62.104
-  tasks:
-    - name: "PING"
-      ping:
-      register: message
-    - name: "RESULT"
-      debug:
-        msg: "{{ message }}"
+#- name: "STEP 1 - CONNECT TO F5"
+#  hosts: 10.241.62.104
+#  tasks:
+#    - name: "PING"
+#      ping:
+#      register: message
+#    - name: "RESULT"
+#      debug:
+#        msg: "{{ message }}"  
 - name: "STEP 2 - DEPLOY TO F5"
   hosts: 10.241.62.104
   var:
