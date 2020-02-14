@@ -10,14 +10,12 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-    - name: Read users from CSV file and return a dictionary
-      read_csv:
-        path: "internat_20200206.csv"
-        strict: no
-        unique: no
-      register: users
-    - debug:
-        msg: "{{ users.list.name }}"
-      #with_items:
-        #- "{{ users.list }}"
-    
+    #- name: Read users from CSV file and return a dictionary
+    #  read_csv:
+    #    path: "internat_20200206.csv"
+    #  register: users
+    #- debug:
+    #    msg: "{{ users.list.name }}"
+- name: Define Values From CSV Fil
+  set_fact:
+    loop_ip: "{{ lookup('csvfile', bgp_neighbor_ip +' file=internat_20200206.csv delimiter=, col=1') }}"
