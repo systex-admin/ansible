@@ -9,11 +9,11 @@
         msg: "{{ message }}"  
 - name: "STEP 2 - DEPLOY TO F5"
   hosts: 10.241.62.104
-  var:
-    DEST_DIR: "/config/ansible"
-    DEPLOY_FILE1: "stack.log"
-    DEPLOY_FILE2: "nat.log"
-    DEPLOY_FILE3: "nat.sh"
+#  var:
+#    DEST_DIR: "/config/ansible"
+#    DEPLOY_FILE1: "stack.log"
+#    DEPLOY_FILE2: "nat.log"
+#    DEPLOY_FILE3: "nat.sh"
   become: yes
   become_user: root
   become_method: sudo
@@ -21,7 +21,7 @@
     - name: "DEPLOY RESOURCE1"
       copy:
         src: "{{ ANSIBLE_PATH }}/stack.log"
-        dest: "{{ DEST_DIR }}"
+        dest: /config/ansible
         mode: '0755'
         follow: yes
 
