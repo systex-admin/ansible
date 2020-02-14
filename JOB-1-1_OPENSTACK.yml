@@ -21,20 +21,20 @@
         dest: "{{ ANSIBLE_SRC_PATH }}/stack.sh"
         mode: '0755'
         follow: yes
-- name: "STEP 3 - UPDATE TO OPENSTACK"
-  hosts: undercloud
-  become: yes
-  become_user: root
-  become_method: sudo
-  tasks:
-    - name: "RUN SCRIPT"
-      shell: "{{ ANSIBLE_SRC_PATH }}/stack.sh"
-      args:
-        chdir: "{{ ANSIBLE_SRC_PATH }}"
-      register: result
-    - name: "RESULT"
-      debug:
-        msg: "{{ result.stdout_lines }}"
+#- name: "STEP 3 - UPDATE TO OPENSTACK"
+#  hosts: undercloud
+#  become: yes
+#  become_user: root
+#  become_method: sudo
+#  tasks:
+#    - name: "RUN SCRIPT"
+#      shell: "{{ ANSIBLE_SRC_PATH }}/stack.sh"
+#      args:
+#        chdir: "{{ ANSIBLE_SRC_PATH }}"
+#      register: result
+#    - name: "RESULT"
+#      debug:
+#        msg: "{{ result.stdout_lines }}"
 - name: "STEP 4 - DEPLOY TO ANSIBLE"
   hosts: undercloud
   become: yes
