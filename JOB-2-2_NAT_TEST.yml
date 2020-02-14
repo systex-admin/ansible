@@ -1,5 +1,8 @@
 - name: "STEP 1 - CONNECT TO F5"
   hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
   tasks:
     - name: "PING"
       ping:
