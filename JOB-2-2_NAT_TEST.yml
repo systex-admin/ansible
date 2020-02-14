@@ -13,7 +13,7 @@
     - name: Read users from CSV file and return a dictionary
       read_csv:
         path: "internat_20200206.csv"
-        strict: yes
+        strict: no
         unique: no
       register: users
     - debug:
