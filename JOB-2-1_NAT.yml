@@ -22,9 +22,9 @@
         mode: '0755'
         follow: yes
       with_items:
-        - { src: 'stack.log'}
-        - { src: 'nat.log'}
-        - { src: 'nat.sh'}
+        - "{ src: 'stack.log'}"
+        - "{ src: 'nat.log'}"
+        - "{ src: 'nat.sh'}"
     #- name: "DEPLOY RESOURCE2"
     #  copy:
     #    src: "{{ ANSIBLE_PATH }}/nat.log"
