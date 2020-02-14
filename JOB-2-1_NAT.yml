@@ -20,14 +20,11 @@
   tasks:
     - name: "DEPLOY RESOURCE1"
       copy:
-        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        src: "{{ ANSIBLE_PATH }}/stack.log"
         dest: "{{ DEST_DIR }}"
         mode: '0755'
         follow: yes
-      with_together:
-        - "{{ DEPLOY_FILE1 }}"
-        - "{{ DEPLOY_FILE2 }}"
-        - "{{ DEPLOY_FILE3 }}"
+
     #- name: "DEPLOY RESOURCE2"
     #  copy:
     #    src: "{{ ANSIBLE_PATH }}/nat.log"
