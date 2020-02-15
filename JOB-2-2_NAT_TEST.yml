@@ -8,7 +8,7 @@
       fetch:
         src: "{{ F5_PATH }}/internat_20200206.csv"
         dest: "{{ ANSIBLE_PATH }}"
-        flat: yes
+        #flat: yes
 - name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
