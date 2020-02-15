@@ -26,5 +26,9 @@
         fieldnames: vlan,seg,dnat,dnat_new
         skipinitialspace: yes
         delimiter: ','
+      register: csv
       delegate_to: localhost
+    - name: result
+      debug:
+        meg: "{{ csv.list.1 }}"
 
