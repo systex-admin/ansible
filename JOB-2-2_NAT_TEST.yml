@@ -1,6 +1,9 @@
 - name: "Ansible Test"
   hosts: localhost
   tasks:
+    - name: sleep for 300 seconds and continue with play
+      wait_for:
+        timeout: 10
     - read_csv:
         path: internat_20200206.csv
         fieldnames: 124,125,126
