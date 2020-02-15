@@ -12,6 +12,8 @@
 - name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
+    - name: PWD
+      shell: pwd
     - read_csv:
         path: internat_20200206.csv
         #fieldnames: 124,125,126
