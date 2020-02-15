@@ -15,26 +15,26 @@
   tasks:
     - name: "DEPLOY RESOURCE"
       copy:
-        src: stack.sh
-        dest: "{{ OPS_PATH }}/stack.sh"
+        src: "{{ STACK_SCRIPT }}"
+        dest: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         mode: '0755'
         follow: yes
-    - name: "RUN SCRIPT"
-      shell: "{{ OPS_PATH }}/stack.sh"
-      args:
-        chdir: "{{ OPS_PATH }}"
-      register: result
-    - name: "RESULT"
-      debug:
-        msg: "{{ result.stdout_lines }}"
+    #- name: "RUN SCRIPT"
+    #  shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+    #  args:
+    #    chdir: "{{ OSP_PATH }}"
+    #  register: result
+    #- name: "RESULT"
+    #  debug:
+    #    msg: "{{ result.stdout_lines }}"
     - name: "FETCH RESOURCE"
       fetch:
-        src: "{{ OPS_PATH }}/stack.log"
+        src: "{{ OSP_PATH }}/{{ STACK_LOG }}"
         dest: "{{ ANSIBLE_PATH }}"
         flat: yes
     - name: "REMOVE RESOURCE"
       file:
-        path: "{{ OPS_PATH }}/stack.sh"
+        path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         state: absent
 
 
