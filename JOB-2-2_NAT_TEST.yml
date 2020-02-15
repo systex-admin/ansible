@@ -9,6 +9,6 @@
       shell: pwd
     - name: ls
       shell: ls -la
-    - read_csv:
-        path: "/root/ansible/internat_20200206.csv"
-      register: test
+    #- read_csv:
+    #    path: "/root/ansible/internat_20200206.csv"
+    #  register: test
