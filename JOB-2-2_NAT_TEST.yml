@@ -5,8 +5,6 @@
   #become_method: sudo
   #connection: local
   tasks:
-    - name: cd path
-      shell: cd /root/ansible/
     - read_csv:
         path: internat_20200206.csv
       delegate_to: localhost
