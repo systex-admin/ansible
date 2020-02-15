@@ -1,8 +1,8 @@
 - name: "F5 COPY CSV"
   hosts: 10.241.62.104
-  become: yes
-  become_user: root
-  become_method: sudo
+  #become: yes
+  #become_user: root
+  #become_method: sudo
   tasks:
     - name: "FETCH RESOURCE"
       fetch:
