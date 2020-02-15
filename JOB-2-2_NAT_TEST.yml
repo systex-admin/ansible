@@ -1,14 +1,15 @@
 - name: "Ansible Test"
   hosts: localhost
-  #become: yes
-  #become_user: root
-  #become_method: sudo
+  become: yes
+  become_user: root
+  become_method: sudo
   connection: local
   tasks:
-    - name: pwd
-      shell: pwd
-    - name: ls
-      shell: ls -la
+    - name: sudo su
+      shell: sudo su
+    - name: cd path
+      shell: cd /root/ansible/
     - read_csv:
-        path: "/root/ansible/internat_20200206.csv"
-    #  register: test
+        path: internat_20200206.csv
+      delegate_to: localhost
+
