@@ -12,8 +12,8 @@
 - name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
-    - name: CHOWN AWX
-      shell: chown awx:awx internat_20200206.csv
+    - name: READ CSV
+      shell: cat internat_20200206.csv
     - read_csv:
         path: internat_20200206.csv
         #fieldnames: 124,125,126
