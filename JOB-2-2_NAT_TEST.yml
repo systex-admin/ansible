@@ -1,12 +1,22 @@
-- name: "Ansible Test"
+- name: "F5 COPY CSV"
+  hosts: 10.241.62.104
+  vars:
+    F5_DIR: "/config/ansible"
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "FETCH RESOURCE"
+      fetch:
+        src: "{{ F5_DIR }}/internat_20200206.csv"
+        dest: "{{ ANSIBLE_SCM_PATH }}"
+        flat: yes
+- name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
-    - name: sleep for 300 seconds and continue with play
-      wait_for:
-        timeout: 10
     - read_csv:
         path: internat_20200206.csv
-        fieldnames: 124,125,126
+        #fieldnames: 124,125,126
         delimiter: ';'
       delegate_to: localhost
 
