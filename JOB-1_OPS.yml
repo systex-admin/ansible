@@ -30,7 +30,7 @@
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ OPS_PATH }}/stack.log"
-        dest: "{{ ANSIBLE_SCM_PATH }}"
+        dest: "{{ ANSIBLE_PATH }}"
         flat: yes
     - name: "REMOVE RESOURCE"
       file:
