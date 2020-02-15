@@ -13,7 +13,7 @@
   hosts: localhost
   tasks:
     - name: READ CSV
-      shell: cat internat_20200206.csv
+      shell: cat internat_20200206.csv | tail -n 10
     - read_csv:
         path: internat_20200206.csv
         #fieldnames: 124,125,126
