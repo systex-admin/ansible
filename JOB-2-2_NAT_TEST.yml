@@ -23,8 +23,7 @@
   tasks:
     - read_csv:
         path: "{{ CSV_FILE }}"
-        key: VLAN-ID
-        #fieldnames: row
+        fieldnames: row
         skipinitialspace: yes
         delimiter: ','
       delegate_to: localhost
