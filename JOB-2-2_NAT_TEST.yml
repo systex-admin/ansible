@@ -30,5 +30,5 @@
       delegate_to: localhost
     - name: result
       debug:
-        meg: "{{ csv.list.1 }}"
+        meg: "{{ csv.list.1.vlan }}"
 
