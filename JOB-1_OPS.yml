@@ -9,8 +9,6 @@
         msg: "{{ message }}"
 - name: "STEP 2 - DEPLOY TO OPENSTACK"
   hosts: overcloud-controller-0
-  vars:
-    OPS_PATH: "/home/heat-admin/ansible"
   become: yes
   become_user: root
   become_method: sudo
