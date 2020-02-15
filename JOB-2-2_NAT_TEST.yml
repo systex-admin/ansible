@@ -9,7 +9,7 @@
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ F5_DIR }}/internat_20200206.csv"
-        dest: "{{ ANSIBLE_SCM_PATH }}"
+        dest: "{{ ANSIBLE_PATH }}"
         flat: yes
 - name: "ANSIBLE READ CSV"
   hosts: localhost
