@@ -3,5 +3,6 @@
   tasks:
     - read_csv:
         path: internat_20200206.csv
+        delimiter: ';'
       delegate_to: localhost
 
