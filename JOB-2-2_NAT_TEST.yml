@@ -2,15 +2,16 @@
   hosts: 10.241.62.104
   vars:
     F5_DIR: "/config/ansible"
-  #become: yes
-  #become_user: root
-  #become_method: sudo
+  become: yes
+  become_user: root
+  become_method: sudo
   tasks:
     - name: "FETCH RESOURCE"
-      fetch:
+      copy:
         src: "{{ F5_DIR }}/internat_20200206.csv"
         dest: "{{ ANSIBLE_PATH }}"
-        flat: yes
+        mode: '0755'
+        follow: yes
 - name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
