@@ -23,7 +23,7 @@
   tasks:
     - read_csv:
         path: "{{ CSV_FILE }}"
-        fieldnames: row
+        fieldnames: vlan,seg,dnat,dnat_new
         skipinitialspace: yes
         delimiter: ','
       delegate_to: localhost
