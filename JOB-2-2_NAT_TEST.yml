@@ -1,9 +1,5 @@
 - name: "Ansible Test"
   hosts: localhost
-  #become: yes
-  #become_user: root
-  #become_method: sudo
-  #connection: local
   tasks:
     - read_csv:
         path: internat_20200206.csv
