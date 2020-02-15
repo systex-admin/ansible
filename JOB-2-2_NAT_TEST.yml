@@ -1,4 +1,13 @@
-- name: "F5 COPY CSV"
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+- name: "STEP 2 - COPY CSV TO ANSIBLE"
   hosts: 10.241.62.104
   #become: yes
   #become_user: root
@@ -6,16 +15,14 @@
   tasks:
     - name: "FETCH RESOURCE"
       fetch:
-        src: "{{ F5_PATH }}/internat_20200206.csv"
+        src: "{{ F5_PATH }}/{{ CSV_FILE }}"
         dest: "{{ ANSIBLE_PATH }}"
         flat: yes
 - name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
-    #- name: READ CSV
-    #  shell: cat internat_20200206.csv | tail -n 10
     - read_csv:
-        path: internat_20200206.csv
+        path: "{{ CSV_FILE }}"
         fieldnames: 124
         skipinitialspace: yes
         delimiter: ';'
