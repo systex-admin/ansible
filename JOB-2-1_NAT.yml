@@ -6,7 +6,7 @@
       register: message
     - name: "RESULT"
       debug:
-        msg: "{{ message }}"  
+        msg: "{{ message }}"
 - name: "STEP 2 - DEPLOY TO F5"
   hosts: 10.241.62.104
   become: yes
