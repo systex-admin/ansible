@@ -32,8 +32,12 @@
       register: csvfile_list
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ csvfile_list | select('match', '') | list }}"
-      #register: csvfile_list
+        msg: "{{ csvfile_list | select('match', 'list') | list }}"
+      register: csvfile_list_array
+    - name: CSV RESULT TEST 3
+      debug:
+        msg: "{{ csvfile_list_array | select('match', '1') | list }}"
+      
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{ csvfile | select('match', '') | list }}"
