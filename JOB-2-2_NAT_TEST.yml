@@ -36,7 +36,7 @@
       register: csvfile_list_array
     - name: CSV RESULT TEST 3
       debug:
-        msg: "{{ csvfile_list_array.1 }}"
+        msg: "{{ csvfile_list.1 }}"
       
     #- name: CSV RESULT TEST 3
     #  debug:
