@@ -31,7 +31,7 @@
     #    msg: "{{ csvfile.list }}"
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ csvfile | select('match', 'dict') | list }}"
+        msg: "{{ csvfile | select('match', 'list') | list }}"
       #register: csvfile_list
     #- name: CSV RESULT TEST 3
     #  debug:
