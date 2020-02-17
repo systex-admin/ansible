@@ -17,9 +17,6 @@
         flat: yes
 - name: "ANSIBLE READ CSV"
   hosts: localhost
-  vars:
-    myvlan: 124
-    myvlan2: "{{ myvlan | map('map_format', '%s' ) | list }}"
   tasks:
     - name: READ CSV
       read_csv:
@@ -39,12 +36,12 @@
       register: csvfile_vlan
     - name: CSV RESULT - CATCH VLAN 124
       debug:
-        msg: "{{ csvfile_vlan.msg | select('match', 'item') | list }}"
-      with_items: "{{ TENANT_NUM }}"
+        msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
+      
     - name: CSV RESULT TEST 1
       debug:
-        msg: "{{ csvfile_list.msg.1.vlan }}"
-      #with_sequence: end=0 start=10
+        msg: "{{ csvfile_list.msg.item.vlan }}"
+      with_sequence: start=1 end=10
       
     #- name: CSV RESULT TEST 2
     #  debug:
@@ -54,6 +51,7 @@
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
+    
     #- name: with_sequence
     #  debug:
     #    msg: "{{ item }}"
