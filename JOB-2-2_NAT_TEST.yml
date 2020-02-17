@@ -30,20 +30,14 @@
       debug:
         msg: "{{ csvfile.list }}"
       register: csvfile_list
-    #- name: CSV RESULT TEST 2
-    #  debug:
-    #    msg: "{{ item }}"
-    #  loop: "{{ lookup('dict', csvfile_list) }}"
+    - name: CSV RESULT TEST 2
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ lookup('dict', csvfile_list) }}"
     - name: CSV RESULT TEST 3
       debug:
-        msg: "{{ csvfile_list | select('match', 'msg') | list }}"
-    #- name: CSV RESULT TEST 3
-    #  debug:
-    #    msg: "{{ csvfile | select('match', '') | list }}"
-    #  register: csv_vlan
-    #- name: CSV RESULT csvfile_vlan array 1
-    #  debug:
-    #    msg: "{{ csvfile.list.1.vlan }}"
+        msg: "{{item.key}}: {{item.value}}"
+      with_dict: {a: 1, b: 2, c: 3}
     #- name: with_sequence
     #  debug:
     #    msg: "{{ item }}"
