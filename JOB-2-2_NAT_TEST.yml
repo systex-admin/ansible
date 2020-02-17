@@ -29,21 +29,24 @@
         delimiter: ','
       register: csvfile
       delegate_to: localhost
-    #- name: CSV RESULT ALL DATA 
-    #  debug:
-    #    msg: "{{ csvfile.list }}"
-    #  register: csvfile_list
+    - name: CSV RESULT ALL DATA 
+      debug:
+        msg: "{{ csvfile.list }}"
+      register: csvfile_list
     - name: CSV RESULT - SHOW VLAN
       debug:
         msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
       register: csvfile_vlan
-    #- name: CSV RESULT - CATCH VLAN 124
-    #  debug:
-    #    msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
+    - name: CSV RESULT - CATCH VLAN 124
+      debug:
+        msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
     - name: CSV RESULT - CATCH VLAN 124 TEST 2
       debug:
-        msg: "TEST"
-      when: csvfile_vlan.msg  != "124"
+        msg: "TEST {{ csvfile_vlan.msg }}"
+      when: csvfile_vlan.msg  == "124"
+    - name: CSV RESULT TEST 3
+      debug:
+        msg: "{{ csvfile_list.1.vlan }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
