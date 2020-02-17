@@ -30,7 +30,7 @@
     #    msg: "{{ csvfile.list }}"
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ csvfile | select('match', '1') | list }}"
+        msg: "{{ csvfile | select('match', 'list') }}"
     - name: CSV RESULT TEST 3
       debug:
         msg: "{{ csvfile | select('match', 'vlan') | list }}"
