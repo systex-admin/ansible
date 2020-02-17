@@ -18,7 +18,8 @@
 - name: "ANSIBLE READ CSV"
   hosts: localhost
   tasks:
-    - read_csv:
+    - name: READ CSV
+      read_csv:
         path: "{{ CSV_FILE }}"
         fieldnames: vlan,seg,dnat,dnat_new
         skipinitialspace: yes
@@ -31,9 +32,10 @@
     - name: CSV RESULT TEST 2
       debug:
         msg: "{{ csvfile | select('match', 'list') }}"
+      register: csvfile_list
     - name: CSV RESULT TEST 3
       debug:
-        msg: "{{ csvfile | select('match', 'vlan') | list }}"
+        msg: "{{ csvfile_list | select('match', '1') }}"
       #register: csv_vlan
     #- name: CSV RESULT csvfile_vlan array 1
     #  debug:
