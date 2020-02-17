@@ -32,12 +32,7 @@
       register: csvfile_list
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ item.value }}"
-      loop: "{{ lookup('dict', csvfile_list) }}"
-      register: csvfile_list_value
-    - name: CSV RESULT TEST 3
-      debug:
-        msg: "{{ csvfile_list_value | map(attribute='vlan') | list }}"
+        msg: "{{ csvfile_list | map(attribute='vlan') | list }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
