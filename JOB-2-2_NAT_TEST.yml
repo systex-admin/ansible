@@ -30,7 +30,7 @@
         msg: "{{ csvfile.list }}"
     - read_csv:
         path: "{{ CSV_FILE }}"
-        key: name
+        key: vlan
         skipinitialspace: yes
         delimiter: ','
       register: csvfile_name
