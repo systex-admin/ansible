@@ -38,9 +38,7 @@
       var:
         vlan: "{{ TENANT_NUM }}"
       debug:
-        msg: "{{ csvfile_vlan.msg | select('match', item) | list }}"
-      loop:
-        - 124
+        msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
