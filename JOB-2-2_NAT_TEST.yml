@@ -25,16 +25,12 @@
         delimiter: ';'
       register: csvfile
       delegate_to: localhost
-    - name: CSV RESULT TEST
+    - name: CSV RESULT TEST 1
       debug:
         msg: "{{ csvfile.list }}"
-    - name: CSV RESULT TEST
+    - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ csvfile.list == item }}"
-      loop:
-        - 1
-        - 2
-        - 3
+        msg: "{{ csvfile | select('match', '1') | list }}"
           
     #- name: CSV RESULT csvfile_vlan array 1
     #  debug:
