@@ -36,7 +36,7 @@
       register: csvfile_vlan
     - name: CSV RESULT - CATCH VLAN 124
       debug:
-        msg: "{{ csvfile_vlan.1 }}"
+        msg: "{{ csvfile_vlan }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
