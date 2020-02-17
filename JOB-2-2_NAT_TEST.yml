@@ -37,12 +37,12 @@
     - name: CSV RESULT - CATCH VLAN 124
       debug:
         msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
-      
     - name: CSV RESULT TEST 1
       debug:
-        msg: "{{ csvfile_list.msg.item.vlan }}"
-      with_sequence: start=1 end=10
-      
+        msg: "{{ csvfile_list.msg }}"
+    - name: 
+      debug: "{{ csvfile_vlan.msg | select('match', item) | list }}"
+      loop: "{{ range(124, 125)|list }}"
     #- name: CSV RESULT TEST 2
     #  debug:
     #    msg: "{{ csvfile_vlan.msg }}"
