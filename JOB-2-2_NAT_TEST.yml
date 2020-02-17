@@ -30,6 +30,12 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.list.1.vlan }}"
-      loop: "{{ item }}"
+        msg: "{{ csvfile.list.item.vlan }}"
+      with_sequence: start=124 end=130
+        
+    #- name: Loop search 124 Tenant Test
+      
+
+
+
 
