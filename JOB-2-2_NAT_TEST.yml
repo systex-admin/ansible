@@ -43,7 +43,7 @@
     - name: CSV RESULT - CATCH VLAN 124 TEST 2
       debug:
         msg: "TEST"
-        when: csvfile_vlan.msg  == "124"
+      when: csvfile_vlan.msg  == "124"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
