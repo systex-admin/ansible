@@ -27,11 +27,16 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.list }}"
-    - name: CSV RESULT csvfile_vlan array 1
-      debug:
-        msg: "{{ csvfile.list.1.vlan }}"
-    - name: with_sequence
-      debug:
-        msg: "{{ item }}"
-      with_sequence: start=1 end=3 stride=1 #format=testuser%02x
+        msg: "{{ csvfile.list }}{{ item }}"
+      loop:
+        - ".1.vlan"
+        - ".2.vlan"
+      
+          
+    #- name: CSV RESULT csvfile_vlan array 1
+    #  debug:
+    #    msg: "{{ csvfile.list.1.vlan }}"
+    #- name: with_sequence
+    #  debug:
+    #    msg: "{{ item }}"
+    #  with_sequence: start=1 end=3 stride=1 #format=testuser%02x
