@@ -34,7 +34,7 @@
     - name: CSV RESULT TEST 3
       debug:
         msg: "{{ csvfile.list | select('match', 'vlan') | list }}"
-      register: csv_vlan
+      #register: csv_vlan
     #- name: CSV RESULT csvfile_vlan array 1
     #  debug:
     #    msg: "{{ csvfile.list.1.vlan }}"
