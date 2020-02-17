@@ -31,7 +31,5 @@
       register: csvfile_vlan
     - name: CSV RESULT csvfile_vlan array 1
       debug:
-        msg: "{{ csvfile_vlan[1] }}"
-    - name: CSV RESULT csvfile_vlan array 1 vlan
-      debug:
-        msg: "{{ csvfile_vlan[1].vlan }}"
+        msg: "{{ csvfile_vlan.1.vlan }}"
+
