@@ -32,7 +32,7 @@
       register: csvfile_list
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ item.value.vlan }}"
+        msg: "{{ item.value }}"
       loop: "{{ lookup('dict', csvfile_list) }}"
     #- name: CSV RESULT TEST 3
     #  debug:
