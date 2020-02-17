@@ -40,7 +40,7 @@
     - name: CSV RESULT - CATCH VLAN 124
       debug:
         msg: "{{ csvfile_vlan.msg | select('match', 'item') | list }}"
-      with_items: "{{ array_number }}"
+      with_items: "{{ TENANT_NUM }}"
     - name: CSV RESULT TEST 1
       debug:
         msg: "{{ csvfile_list.msg.1.vlan }}"
