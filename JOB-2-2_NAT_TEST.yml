@@ -26,13 +26,13 @@
         delimiter: ','
       register: csvfile
       delegate_to: localhost
-    - name: CSV RESULT TEST 1
-      debug:
-        msg: "{{ csvfile.list }}"
-      register: csvfile_list
+    #- name: CSV RESULT TEST 1
+    #  debug:
+    #    msg: "{{ csvfile.list }}"
+    #  register: csvfile_list
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ csvfile_list | map(attribute='vlan') | list }}"
+        msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
