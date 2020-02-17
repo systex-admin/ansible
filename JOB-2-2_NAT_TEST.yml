@@ -28,8 +28,10 @@
     - name: CSV RESULT TEST
       debug:
         msg: "{{ csvfile.list }}"
-      register: csvfile_vlan
     - name: CSV RESULT csvfile_vlan array 1
       debug:
-        msg: "{{ csvfile_vlan.1.vlan }}"
-
+        msg: "{{ csvfile.list.1.vlan }}"
+    - name: with_sequence
+      debug:
+        msg: "{{ item }}"
+      with_sequence: start=0 end=4 stride=2 format=testuser%02x
