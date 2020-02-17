@@ -27,7 +27,11 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.vlan }}"
+        msg: "{{ csvfile.list.item.vlan }}"
+      with_item:
+        - 1
+        - 2
+        - 3
           
     #- name: CSV RESULT csvfile_vlan array 1
     #  debug:
