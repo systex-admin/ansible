@@ -9,9 +9,6 @@
         msg: "{{ message }}"
 - name: "STEP 2 - COPY CSV TO ANSIBLE"
   hosts: 10.241.62.104
-  #become: yes
-  #become_user: root
-  #become_method: sudo
   tasks:
     - name: "FETCH RESOURCE"
       fetch:
@@ -30,9 +27,8 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.list.{{ item }}.vlan }}"
-      loop: [ 1,2,3 ]
-      when: item < 4
+        msg: "{{ csvfile.list.vlan }}"
+      
       
     #- name: CSV List 1 is Tenant number 124
     #  debug:
