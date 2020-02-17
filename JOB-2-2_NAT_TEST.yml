@@ -30,10 +30,9 @@
       debug:
         msg: "{{ csvfile.list }}"
       register: csvfile_list
-    - name: CSV RESULT TEST 2
-      debug:
-        msg: "{{ csvfile_list | select('match', 'list') | list }}"
-      register: csvfile_list_array
+    #- name: CSV RESULT TEST 2
+    #  debug:
+    #    msg: "{{ csvfile_list | select('match', 'list') | list }}"
     - name: CSV RESULT TEST 3
       debug:
         msg: "{{ csvfile_list.1 }}"
