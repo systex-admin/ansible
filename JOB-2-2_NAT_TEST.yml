@@ -17,8 +17,6 @@
         flat: yes
 - name: "ANSIBLE READ CSV"
   hosts: localhost
-  vars:
-    select_type: "match"
   tasks:
     - name: READ CSV
       read_csv:
@@ -43,7 +41,7 @@
       debug:
         msg: "{{ csvfile_list.msg }}"
     - name: 
-      debug: "{{ csvfile_vlan.msg | select(select_type, item) | list }}"
+      debug: "{{ csvfile_vlan.msg | select("match", item) | list }}"
       loop: "{{ range(124, 125)|list }}"
     #- name: CSV RESULT TEST 2
     #  debug:
