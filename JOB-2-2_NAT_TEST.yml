@@ -27,6 +27,9 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
+        msg: "{{ csvfile.list }}"
+    - name: CSV RESULT TEST
+      debug:
         msg: "{{ csvfile.list == item }}"
       loop:
         - 1
