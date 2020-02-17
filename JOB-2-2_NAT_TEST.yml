@@ -22,22 +22,12 @@
         path: "{{ CSV_FILE }}"
         fieldnames: vlan,seg,dnat,dnat_new
         skipinitialspace: yes
-        delimiter: ','
+        delimiter: ';'
       register: csvfile
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.list }}"
-    - read_csv:
-        path: "{{ CSV_FILE }}"
-        key: 124
-        skipinitialspace: yes
-        delimiter: ','
-      register: csvfile_name
-      delegate_to: localhost
-    - name: CSV RESULT TEST 2
-      debug:
-        msg: "{{ csvfile_name }}"
+        msg: "{{ csvfile.vlan }}"
           
     #- name: CSV RESULT csvfile_vlan array 1
     #  debug:
