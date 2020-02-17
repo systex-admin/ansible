@@ -39,14 +39,18 @@
       register: csvfile_vlan
     - name: CSV RESULT - CATCH VLAN 124
       debug:
-        msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
-    - name: CSV RESULT - CATCH VLAN 124 TEST 2
-      debug:
-        msg: "{{ csvfile_vlan.msg }}"
-      when: csvfile_vlan.msg  == "124"
-    - name: CSV RESULT TEST 3
+        msg: "{{ csvfile_vlan.msg | select('match', 'item') | list }}"
+      with_items: "{{ array_number }}"
+    - name: CSV RESULT TEST 1
       debug:
         msg: "{{ csvfile_list.msg.1.vlan }}"
+      #with_sequence: end=0 start=10
+      
+    #- name: CSV RESULT TEST 2
+    #  debug:
+    #    msg: "{{ csvfile_vlan.msg }}"
+    #  when: csvfile_vlan.msg  == "124"
+
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
