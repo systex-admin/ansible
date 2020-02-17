@@ -28,8 +28,12 @@
     - name: CSV RESULT TEST
       debug:
         msg: "{{ csvfile.list }}"
+      
     - name: CSV RESULT JSON ITEM ONE
       debug:
         msg: "{{ csvfile.list.1.vlan }}"
-       
-
+    - name: item is csv list
+      item: "{{ csvfile.list }}"
+    - name: Result
+      debug:
+        msg: "{{ item }}"
