@@ -27,7 +27,7 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.list.vlan }}"
+        msg: "{{ csvfile.list }}"
       
       
     #- name: CSV List 1 is Tenant number 124
