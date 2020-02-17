@@ -30,13 +30,13 @@
       debug:
         msg: "{{ csvfile.list }}"
       register: csvfile_list
-    - name: CSV RESULT TEST 2
-      debug:
-        msg: "{{ item }}"
-      loop: "{{ lookup('dict', csvfile_list) }}"
     #- name: CSV RESULT TEST 2
     #  debug:
-    #    msg: "{{ csvfile_list | select('match', 'list') | list }}"
+    #    msg: "{{ item }}"
+    #  loop: "{{ lookup('dict', csvfile_list) }}"
+    - name: CSV RESULT TEST 3
+      debug:
+        msg: "{{ csvfile_list | select('match', 'msg') | list }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{ csvfile | select('match', '') | list }}"
