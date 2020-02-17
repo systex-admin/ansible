@@ -39,7 +39,7 @@
         #msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
         msg: "{{ csvfile_vlan.msg | select('match', '{{ item }}') | list }}"
         #register: letsencrypt_challenge
-        with_items: "{{ TENANT_NUM }}"
+      with_items: "{{ TENANT_NUM }}"
     #- name: CSV RESULT TEST 1
     #  debug:
     #    msg: "{{ csvfile_list.msg }}"
