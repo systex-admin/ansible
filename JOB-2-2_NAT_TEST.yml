@@ -34,4 +34,4 @@
     - name: with_sequence
       debug:
         msg: "{{ item }}"
-      with_sequence: start=0 end=4 stride=2 format=testuser%02x
+      with_sequence: start=1 end=3 stride=1 #format=testuser%02x
