@@ -35,8 +35,8 @@
     #    msg: "{{ csvfile_list | select('match', 'list') | list }}"
     - name: CSV RESULT TEST 3
       debug:
-        msg: "{{ csvfile_list.1 }}"
-      
+        msg: "{{ item.1.vlan }}"
+      loop: "{{ lookup('dict', csvfile_list) }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{ csvfile | select('match', '') | list }}"
