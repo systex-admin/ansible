@@ -26,10 +26,10 @@
         delimiter: ','
       register: csvfile
       delegate_to: localhost
-    - name: CSV RESULT ALL DATA 
-      debug:
-        msg: "{{ csvfile.list }}"
-      register: csvfile_list
+    #- name: CSV RESULT ALL DATA 
+    #  debug:
+    #    msg: "{{ csvfile.list }}"
+    #  register: csvfile_list
     - name: CSV RESULT - SHOW VLAN
       debug:
         msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
@@ -37,12 +37,9 @@
     - name: CSV RESULT - CATCH VLAN 124
       debug:
         msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
-    - name: CSV RESULT TEST 1
-      debug:
-        msg: "{{ csvfile_list.msg }}"
-    - name: 
-      debug: "{{ csvfile_vlan.msg | select("match", item) | list }}"
-      loop: "{{ range(124, 125)|list }}"
+    #- name: CSV RESULT TEST 1
+    #  debug:
+    #    msg: "{{ csvfile_list.msg }}"
     #- name: CSV RESULT TEST 2
     #  debug:
     #    msg: "{{ csvfile_vlan.msg }}"
