@@ -28,13 +28,14 @@
         delimiter: ','
       register: csvfile
       delegate_to: localhost
-    #- name: CSV RESULT TEST
-    #  debug:
-    #    msg: "{{ csvfile.list.1.vlan }}"
+    - name: CSV RESULT TEST
+      debug:
+        msg: "{{ csvfile.list.{{ item }}.vlan }}"
       
     - name: CSV List 1 is Tenant number 124
       debug:
         msg: "True"
       when: "{{ csvfile.list.1.vlan }}" == "{{ TENANT_NUM }}"
-
+      loop: [ 1,2,3 ]
+      when: item < 4 
 
