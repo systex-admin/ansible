@@ -36,7 +36,7 @@
       register: csvfile_vlan
     - name: CSV RESULT - CATCH VLAN 124
       debug:
-        msg: "{{ csvfile_vlan.msg | select('match', '{{ TENANT_NUM }}') | list }}"
+        msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
