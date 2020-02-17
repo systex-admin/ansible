@@ -31,4 +31,5 @@
     - name: CSV RESULT TEST
       debug:
         msg: "{{ csvfile.list.1.vlan }}"
+      loop: "{{ item }}"
 
