@@ -31,11 +31,11 @@
     #    msg: "{{ csvfile.list }}"
     - name: CSV RESULT TEST 2
       debug:
-        msg: "{{ csvfile | select('match', 'list') }}"
+        msg: "{{ csvfile | select('match', 'list') | list }}"
       register: csvfile_list
     - name: CSV RESULT TEST 3
       debug:
-        msg: "{{ csvfile_list | select('match', '1') }}"
+        msg: "{{ csvfile_list | select('match', '1') | list }}"
       #register: csv_vlan
     #- name: CSV RESULT csvfile_vlan array 1
     #  debug:
