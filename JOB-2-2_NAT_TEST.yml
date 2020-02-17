@@ -28,11 +28,8 @@
     - name: CSV RESULT TEST
       debug:
         msg: "{{ csvfile.list }}"
-      
-      
-    #- name: CSV List 1 is Tenant number 124
-    #  debug:
-    #    msg: "True"
-    #  when: "{{ csvfile.list.1.vlan }}" == "{{ TENANT_NUM }}"
+    - name: CSV RESULT JSON ITEM ONE
+      debug:
+        msg: "{{ csvfile.list.1.vlan }}"
        
 
