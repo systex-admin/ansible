@@ -27,8 +27,8 @@
       delegate_to: localhost
     - name: CSV RESULT TEST
       debug:
-        msg: "{{ csvfile.list.item.vlan }}"
-      with_item:
+        msg: "{{ csvfile.list == item }}"
+      loop:
         - 1
         - 2
         - 3
