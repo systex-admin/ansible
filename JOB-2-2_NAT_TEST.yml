@@ -42,11 +42,11 @@
         msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
     - name: CSV RESULT - CATCH VLAN 124 TEST 2
       debug:
-        msg: "TEST {{ csvfile_vlan.msg }}"
+        msg: "{{ csvfile_vlan.msg }}"
       when: csvfile_vlan.msg  == "124"
     - name: CSV RESULT TEST 3
       debug:
-        msg: "{{ csvfile_list.1.vlan }}"
+        msg: "{{ csvfile_list.msg.1.vlan }}"
     #- name: CSV RESULT TEST 3
     #  debug:
     #    msg: "{{  }}"
