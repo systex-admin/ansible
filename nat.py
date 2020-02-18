@@ -45,6 +45,16 @@ def split_163_30_ip(ipAddr, symbol):
         addr=ipAddr.strip().split(symbol)
         return addr
 
+def check_user_nat_list(user_ipv4):
+        tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4
+        ##### DEMO #####
+        #print tmsh_list_cmd_str
+        os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+        if tmsh_list_cmd.read():
+                print "Have Data!!"
+
+
 def main():
         help()
         user_vlan = sys.argv[1]
@@ -90,7 +100,7 @@ def main():
                         if addr_gap > range_pool_limit:
                                 print "[ERROR] user private ip is over range."
                                 exit(1)
-
+                        check_user_nat_list(user_ipv4)
 
 
 if __name__ == '__main__':
