@@ -7,18 +7,7 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-#- name: "STEP 2 - COPY CSV TO ANSIBLE"
-#  hosts: 10.241.62.104
-#  tasks:
-#    - name: "FETCH RESOURCE"
-#      fetch:
-#        src: "{{ F5_PATH }}/{{ CSV_FILE }}"
-#        dest: "{{ ANSIBLE_PATH }}"
-#        flat: yes
-#    - name: "COPY RESOURCE"
-#      copy:
-       
-- name: "STEP 2 - USE CSV TO CREATE JSON FILE"
+- name: "STEP 2 - USE CSV TO CREATE JSON FILE TO F5"
   become: yes
   become_user: root
   become_method: sudo
@@ -31,7 +20,6 @@
         skipinitialspace: yes
         delimiter: ','
       register: csvfile
-      #delegate_to: localhost
     - name: CSV RESULT ALL DATA
       debug:
         msg: "{{ csvfile.list }}"
@@ -39,20 +27,18 @@
     - name: SAVING JSON DATA TO FILE
       copy:
         content:  "{{ csvfile_list.msg }}"
-        #dest: "{{ ANSIBLE_PATH }}{{ NAT_LIST_JSON_FILE }}"
         dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
-      #delegate_to: localhost
-- name: "STEP 4 - UPDATE TO F5"
+- name: "STEP 3 - UPDATE TO F5"
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ F5_PATH }}/nat.py 124"
+      command: "python {{ F5_PATH }}/nat.py {{ TENANT_NUM }}"
       args:
         chdir: "{{ F5_PATH }}"
-      register: nat
+      register: nat_script
     - name: "RESULT"
       debug:
-        msg: "{{ nat.stdout_lines }}"
+        msg: "{{ nat_script.stdout_lines }}"
         
     ######################################
     #- name: CSV RESULT - SHOW VLAN
