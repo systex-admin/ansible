@@ -32,7 +32,7 @@
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ F5_PATH }}/nat.py {{ TENANT_NUM }}"
+      command: "python {{ F5_PATH }}/nat.py {{ TENANT_NUM }} {{ INFOBLOX_IPV4 }}"
       args:
         chdir: "{{ F5_PATH }}"
       register: nat_script
