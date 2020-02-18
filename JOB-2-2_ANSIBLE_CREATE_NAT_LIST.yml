@@ -35,7 +35,21 @@
         content:  "{{ csvfile_list.msg }}"
         dest: "{{ ANSIBLE_PATH }}{{ NAT_LIST_JSON_FILE }}"
       delegate_to: localhost
-      
+- name: "STEP 3 - UPDATE TO F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "RUN SCRIPT"
+      shell: "{{ F5_PATH }}/nat.sh"
+      args:
+        chdir: "{{ F5_PATH }}"
+      register: nat
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat.stdout_lines }}"
+        
     ######################################
     #- name: CSV RESULT - SHOW VLAN
     #  debug:
