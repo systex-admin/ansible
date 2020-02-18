@@ -36,7 +36,7 @@
       register: csvfile_vlan
     - name: Saving data to local file
       copy:
-        content:  "{{  csvfile_vlan.stdout_lines  }}"
+        content:  "{{ csvfile_vlan.msg }}"
         dest: "{{ F5_PATH }}"
       delegate_to: localhost
     #- name: CSV RESULT - CATCH VLAN 124
