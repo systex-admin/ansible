@@ -4,14 +4,17 @@ import sys
 import re
 
 def help():
-        if 3 != len(sys.argv):
+        if 4 != len(sys.argv):
                 print "[INFO]This is the name of the script:", sys.argv[0]
                 print "[INFO]Number of arguments: ", len(sys.argv)
                 print "[INFO]The arguments are: ", str(sys.argv)
                 print "----------\n"
-                print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4]"
+                print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show|show_all>]"
                 print "Example: "
-                print " python", sys.argv[0], "124" "10.241.62.101"
+                print " python", sys.argv[0], "124 10.241.62.101 show_all"
+                print " python", sys.argv[0], "124 10.241.62.101 show"
+                print " python", sys.argv[0], "124 10.241.62.101 add"
+                print " python", sys.argv[0], "124 10.241.62.101 del"
                 print
                 print "[ERROR] Wrong number of arguments."
                 print
@@ -45,34 +48,53 @@ def split_163_30_ip(ipAddr, symbol):
         addr=ipAddr.strip().split(symbol)
         return addr
 
-def check_user_nat_list(user_ipv4):
+def bash_check_all_nat_list():
+        tmsh_list_cmd_str = "tmsh list ltm nat"
+        os.system(tmsh_list_cmd_str)
+
+def bash_check_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4
         ##### DEMO #####
         #print tmsh_list_cmd_str
-        os.system(tmsh_list_cmd_str)
+        #os.system(tmsh_list_cmd_str)
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         if tmsh_list_cmd.read():
-                print "Have Data!!"
+                os.system(tmsh_list_cmd_str)
+
+def bash_delete_user_nat_list(user_ipv4):
+        tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4
+        os.system(tmsh_list_cmd_str)
+        #tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+
+
+def bash_create_user_nat_list(user_ipv4, user_ext_ipv4):
+        tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + "originating-address " + user_ipv4 + "translation-address " + user_ext_ipv4
+        os.system(tmsh_list_cmd_str)
+        #tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
 
 
 def main():
         help()
         user_vlan = sys.argv[1]
         user_ipv4 = sys.argv[2]
-        range_pool_start = 101
+        user_nat_mode = sys.argv[3]
+        osp_range_pool_start = 101
+
+        #if user_nat_mode != "add" and user_nat_mode != "del" and user_nat_mode != "show"
+        #       print "[ERROR] User Mode failed."
+        #       exit(1)
 
         if check_10_ip(user_ipv4) != True:
-                print "[ERROR] IPv4 is not private IP."
+                print "[ERROR] User IPv4 failed."
                 exit(1)
 
         addr = []
         addr = split_10_ip(user_ipv4)
         addr_and_netmask = str(addr[0]) + "." + str(addr[1]) + "." + str(addr[2]) + ".0"
-        if int(addr[3]) < int(range_pool_start):
-                print "[ERROR] IPv4 is not range pool."
+        if int(addr[3]) < int(osp_range_pool_start):
+                print "[ERROR] User IPv4 range pool failed."
                 exit(1)
-        addr_gap = 0
-        addr_gap = int(addr[3]) - int(range_pool_start)
+        addr_gap = int(addr[3]) - int(osp_range_pool_start)
 
         f = open('nat_list.json')
         data = []
@@ -100,7 +122,21 @@ def main():
                         if addr_gap > range_pool_limit:
                                 print "[ERROR] user private ip is over range."
                                 exit(1)
-                        check_user_nat_list(user_ipv4)
+
+                        user_ext_8bit_ipv4 = ext_range_start + addr_gap
+                        user_ext_ipv4 = ext_list_addr2[0] + "." + ext_list_addr2[1] + "." + ext_list_addr2[2] + "." + str(user_ext_8bit_ipv4)
+                        print user_ext_ipv4
+                        if user_nat_mode == "show":
+                                bash_check_user_nat_list(user_ipv4)
+                        elif user_nat_mode == "show_all":
+                                bash_check_all_nat_list()
+                        elif user_nat_node == "add":
+                                bash_create_user_nat_list(user_ipv4, user_ext_ipv4)
+                        elif user_nat_node == "del":
+                                bash_delete_user_nat_list(user_ipv4)
+                        else:
+                                print "[ERROR] User Mode failed."
+                                exit(1)
 
 
 if __name__ == '__main__':
