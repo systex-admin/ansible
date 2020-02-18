@@ -11,10 +11,10 @@ def help():
                 print "----------\n"
                 print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show|show_all>]"
                 print "Example: "
-                print " python", sys.argv[0], "124 10.241.62.101 show_all"
-                print " python", sys.argv[0], "124 10.241.62.101 show"
-                print " python", sys.argv[0], "124 10.241.62.101 add"
-                print " python", sys.argv[0], "124 10.241.62.101 del"
+                print " python ", sys.argv[0], "124 10.241.62.101 show_all"
+                print " python ", sys.argv[0], "124 10.241.62.101 show"
+                print " python ", sys.argv[0], "124 10.241.62.101 add"
+                print " python ", sys.argv[0], "124 10.241.62.101 del"
                 print
                 print "[ERROR] Wrong number of arguments."
                 print
@@ -117,8 +117,7 @@ def main():
                         print "[INFO] User Private IP: ", data[i]['seg']
                         print "[INFO] User Public IP: ", data[i]['dnat_new']
                         print "[INFO] User DNAT External Range Pool Number: ", range_pool_limit + 1
-                        print "[INFO] External ", ext_list_addr2[0], ".", ext_list_addr2[1], ".", ext_list_addr2[2] , \
-                                "Range Pool: ", ext_range_start, " to ", ext_range_end
+                        print "[INFO] External ", ext_list_addr2[0], ".", ext_list_addr2[1], ".", ext_list_addr2[2], " Range Pool: ", ext_range_start, " to ", ext_range_end
                         if addr_gap > range_pool_limit:
                                 print "[ERROR] user private ip is over range."
                                 exit(1)
