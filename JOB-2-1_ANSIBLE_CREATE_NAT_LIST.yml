@@ -7,16 +7,22 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-- name: "STEP 2 - COPY CSV TO ANSIBLE"
+#- name: "STEP 2 - COPY CSV TO ANSIBLE"
+#  hosts: 10.241.62.104
+#  tasks:
+#    - name: "FETCH RESOURCE"
+#      fetch:
+#        src: "{{ F5_PATH }}/{{ CSV_FILE }}"
+#        dest: "{{ ANSIBLE_PATH }}"
+#        flat: yes
+#    - name: "COPY RESOURCE"
+#      copy:
+       
+- name: "STEP 2 - USE CSV TO CREATE JSON FILE"
+  become: yes
+  become_user: root
+  become_method: sudo
   hosts: 10.241.62.104
-  tasks:
-    - name: "FETCH RESOURCE"
-      fetch:
-        src: "{{ F5_PATH }}/{{ CSV_FILE }}"
-        dest: "{{ ANSIBLE_PATH }}"
-        flat: yes
-- name: "ANSIBLE READ CSV TO CREATE JSON FILE"
-  hosts: localhost
   tasks:
     - name: READ CSV
       read_csv:
@@ -25,7 +31,7 @@
         skipinitialspace: yes
         delimiter: ','
       register: csvfile
-      delegate_to: localhost
+      #delegate_to: localhost
     - name: CSV RESULT ALL DATA
       debug:
         msg: "{{ csvfile.list }}"
@@ -33,16 +39,14 @@
     - name: SAVING JSON DATA TO FILE
       copy:
         content:  "{{ csvfile_list.msg }}"
-        dest: "{{ ANSIBLE_PATH }}{{ NAT_LIST_JSON_FILE }}"
-      delegate_to: localhost
-- name: "STEP 3 - UPDATE TO F5"
+        #dest: "{{ ANSIBLE_PATH }}{{ NAT_LIST_JSON_FILE }}"
+        dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
+      #delegate_to: localhost
+- name: "STEP 4 - UPDATE TO F5"
   hosts: 10.241.62.104
-  become: yes
-  become_user: root
-  become_method: sudo
   tasks:
     - name: "RUN SCRIPT"
-      shell: "{{ F5_PATH }}/nat.sh"
+      command: "python {{ F5_PATH }}/nat.py 124"
       args:
         chdir: "{{ F5_PATH }}"
       register: nat
