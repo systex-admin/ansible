@@ -35,6 +35,8 @@
         content:  "{{ csvfile_list.msg }}"
         dest: "{{ ANSIBLE_PATH }}{{ NAT_LIST_JSON_FILE }}"
       delegate_to: localhost
+      
+    ######################################
     #- name: CSV RESULT - SHOW VLAN
     #  debug:
     #    msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
