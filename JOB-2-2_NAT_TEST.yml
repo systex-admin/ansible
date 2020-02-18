@@ -26,7 +26,7 @@
         delimiter: ','
       register: csvfile
       delegate_to: localhost
-    #- name: CSV RESULT ALL DATA 
+    #- name: CSV RESULT ALL DATA
     #  debug:
     #    msg: "{{ csvfile.list }}"
     #  register: csvfile_list
@@ -34,6 +34,11 @@
       debug:
         msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
       register: csvfile_vlan
+    - name: Saving data to local file
+      copy:
+        content:  "{{  csvfile_vlan.stdout_lines  }}"
+        dest: "{{ F5_PATH }}"
+      delegate_to: localhost
     #- name: CSV RESULT - CATCH VLAN 124
     #  debug:
     #    msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
