@@ -26,7 +26,7 @@
   tasks:
     - name: READ CSV
       read_csv:
-        path: "{{ CSV_FILE }}"
+        path: "{{ F5_PATH }}"/"{{ CSV_FILE }}"
         fieldnames: vlan,seg,dnat,dnat_new
         skipinitialspace: yes
         delimiter: ','
