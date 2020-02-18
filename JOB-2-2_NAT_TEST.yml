@@ -15,7 +15,7 @@
         src: "{{ F5_PATH }}/{{ CSV_FILE }}"
         dest: "{{ ANSIBLE_PATH }}"
         flat: yes
-- name: "ANSIBLE READ CSV"
+- name: "ANSIBLE READ CSV TO CREATE JSON FILE"
   hosts: localhost
   tasks:
     - name: READ CSV
@@ -30,15 +30,15 @@
       debug:
         msg: "{{ csvfile.list }}"
       register: csvfile_list
+    - name: SAVING JSON DATA TO FILE
+      copy:
+        content:  "{{ csvfile_list.msg }}"
+        dest: "{{ ANSIBLE_PATH }}{{ NAT_LIST_JSON_FILE }}"
+      delegate_to: localhost
     #- name: CSV RESULT - SHOW VLAN
     #  debug:
     #    msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
     #  register: csvfile_vlan
-    - name: Saving data to local file
-      copy:
-        content:  "{{ csvfile_list.msg }}"
-        dest: "{{ ANSIBLE_PATH }}{{ VLAN_FILE }}"
-      delegate_to: localhost
     #- name: CSV RESULT - CATCH VLAN 124
     #  debug:
     #    msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
