@@ -37,7 +37,7 @@
     - name: Saving data to local file
       copy:
         content:  "{{ csvfile_vlan.msg }}"
-        dest: "{{ F5_PATH }}"
+        dest: "{{ F5_PATH }}/{{ VLAN_FILE }}"
       delegate_to: localhost
     #- name: CSV RESULT - CATCH VLAN 124
     #  debug:
