@@ -1,7 +1,5 @@
 - name: ANSIBLE RUNNING INFOBLOX
   hosts: localhost
-  vars:
-    F5_DIR: "/root/A/B/C"
     nios_provider:
       host: "{{ INFOBLOX_HOST }}"
       username: "{{ INFOBLOX_USERNAME }}"
@@ -14,22 +12,6 @@
   tasks:
     - name: "SEARCH MAPPING LIST PRIVATE IP"
       shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
-#    - name: Ansible check directory.
-#      stat:
-#        path: "{{ F5_DIR }}"
-#      register: my_folder
-#    - name: "echo if directory already existed"
-#      debug:
-#        msg: "the directory is already existed"
-#      when: my_folder.stat.exists
-#    - name: "Ansible Create directory if not exists"
-#      shell: "mkdir -p {{ F5_DIR }}"
-#      when: my_folder.stat.exists == false
-#- name: ANSIBLE SEARCH NAT MAPPING LIST
-#  hosts: localhost 
-#  tasks:
-#    - name: "SEARCH FILE STRING"
-#      register: presence
-#      shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
+
 
 
