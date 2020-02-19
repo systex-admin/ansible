@@ -40,28 +40,4 @@
     - name: "RESULT"
       debug:
         msg: "{{ nat_script.stdout_lines }}"
-        
-    ######################################
-    #- name: CSV RESULT - SHOW VLAN
-    #  debug:
-    #    msg: "{{ csvfile.list | map(attribute='vlan') | list }}"
-    #  register: csvfile_vlan
-    #- name: CSV RESULT - CATCH VLAN 124
-    #  debug:
-    #    msg: "{{ csvfile_vlan.msg | select('match', '124') | list }}"
-    #- name: CSV RESULT TEST 1
-    #  debug:
-    #    msg: "{{ csvfile_list.msg }}"
-    #- name: CSV RESULT TEST 2
-    #  debug:
-    #    msg: "{{ csvfile_vlan.msg }}"
-    #  when: csvfile_vlan.msg  == "124"
 
-    #- name: CSV RESULT TEST 3
-    #  debug:
-    #    msg: "{{  }}"
-    
-    #- name: with_sequence
-    #  debug:
-    #    msg: "{{ item }}"
-    #  with_sequence: start=1 end=3 stride=1 #format=testuser%02x
