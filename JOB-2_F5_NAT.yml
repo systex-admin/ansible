@@ -22,7 +22,7 @@
       register: csvfile
     - name: SAVING JSON DATA TO FILE
       copy:
-        content:  "{{ csvfile.list.msg }}"
+        content:  "{{ csvfile.msg }}"
         dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
 - name: "STEP 3 - UPDATE TO F5"
   hosts: 10.241.62.104
