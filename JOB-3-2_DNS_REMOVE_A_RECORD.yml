@@ -12,9 +12,9 @@
       include_vars: INFOBLOX_VAR.yml
     - name: add a comment to an existing A record
       nios_a_record:
-        view: "{{ INFOBLOX_VIEW }}"
-        name: "{{ INFOBLOX_FQDN }}"
-        ipv4: "{{ INFOBLOX_IPV4 }}"
+        view: "{{ INFOBLOX_SCHOOL_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_IPV4 }}"
         state: absent
         provider: "{{nios_provider}}"
 
