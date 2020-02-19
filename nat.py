@@ -9,9 +9,8 @@ def help():
                 print "[INFO]Number of arguments: ", len(sys.argv)
                 print "[INFO]The arguments are: ", str(sys.argv)
                 print "----------\n"
-                print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show|show_all>]"
+                print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show>]"
                 print "Example: "
-                print " python ", sys.argv[0], "124 10.241.62.101 show_all"
                 print " python ", sys.argv[0], "124 10.241.62.101 show"
                 print " python ", sys.argv[0], "124 10.241.62.101 add"
                 print " python ", sys.argv[0], "124 10.241.62.101 del"
@@ -47,10 +46,6 @@ def split_10_ip(ipAddr):
 def split_163_30_ip(ipAddr, symbol):
         addr=ipAddr.strip().split(symbol)
         return addr
-
-def bash_check_all_nat_list():
-        tmsh_list_cmd_str = "tmsh list ltm nat"
-        os.system(tmsh_list_cmd_str)
 
 def bash_check_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4
@@ -127,8 +122,8 @@ def main():
                         print user_ext_ipv4
                         if user_nat_mode == "show":
                                 bash_check_user_nat_list(user_ipv4)
-                        elif user_nat_mode == "show_all":
-                                bash_check_all_nat_list()
+                        #elif user_nat_mode == "show_all":
+                        #       bash_check_all_nat_list()
                         elif user_nat_node == "add":
                                 bash_create_user_nat_list(user_ipv4, user_ext_ipv4)
                         elif user_nat_node == "del":
