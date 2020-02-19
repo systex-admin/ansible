@@ -32,11 +32,8 @@
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
-      ##### Online Use #####
-      #command: "python {{ F5_PATH }}/nat.py {{ USER_TENANT_NUM }} {{ USER_IPV4 }}"
-      
-      ##### Demo #####
-      command: "python {{ F5_PATH }}/nat.py {{ TENANT_NUM }} {{ USER_IPV4 }}"
+      #command: "python {{ F5_PATH }}/nat.py {{ USER_TENANT_NUM }} {{ USER_IPV4 }}" ##### Online Use #####
+      command: "python {{ F5_PATH }}/nat.py {{ TENANT_NUM }} {{ USER_IPV4 }}" ##### Demo #####
       args:
         chdir: "{{ F5_PATH }}"
       register: nat_script
