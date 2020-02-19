@@ -20,9 +20,12 @@
         skipinitialspace: yes
         delimiter: ','
       register: csvfile
+    - debug:
+        msg: "{{ csvfile.list }}"
+      register: csvfile_list
     - name: SAVING JSON DATA TO FILE
       copy:
-        content:  "{{ csvfile.msg }}"
+        content:  "{{ csvfile_list.msg }}"
         dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
 - name: "STEP 3 - UPDATE TO F5"
   hosts: 10.241.62.104
