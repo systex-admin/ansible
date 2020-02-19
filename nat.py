@@ -124,9 +124,9 @@ def main():
                                 bash_check_user_nat_list(user_ipv4)
                         #elif user_nat_mode == "show_all":
                         #       bash_check_all_nat_list()
-                        elif user_nat_node == "add":
+                        elif user_nat_mode == "add":
                                 bash_create_user_nat_list(user_ipv4, user_ext_ipv4)
-                        elif user_nat_node == "del":
+                        elif user_nat_mode == "del":
                                 bash_delete_user_nat_list(user_ipv4)
                         else:
                                 print "[ERROR] User Mode failed."
