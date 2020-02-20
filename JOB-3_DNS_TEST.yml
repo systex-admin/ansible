@@ -15,13 +15,10 @@
     - name: "GET USER INTERNAT IP"
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }} | grep translation-address | cut -d' ' -f6 | sed s/[[:space:]]//g"
       register: user_ext_addr
-    - name: "CHECK USER INTERNAT IP"
-      debug:
-        msg: "{{ user_ext_addr.stdout }}"
-    - name: "MATCH USER INTERNAT IP"
-      when: "{{ user_ext_addr.stdout | match('163.30.') }}"
-      
-    - 
+    - debug:
+        msg: "{{ user_ext_addr.stdout_lines }}"
+      when: user_ext_addr.stdout | join('') | search('163.30.')
+
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
