@@ -29,17 +29,14 @@
   connection: local
   tasks:
     - name: "TEST"
-      command: "ls -la dns_*"
+      command: "ls -la dns_* | wc -l"
       register: output
-    - debug:
-        msg: "{{output.stdout_lines}}"
-      when: output.stdout | join('') | search('No such file or directory')
-    #- name: "FETCH RESOURCE"
-    #  fetch:
-    #    src: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
-    #    dest: "{{ ANSIBLE_PATH }}"
-    #    flat: yes
-    #  with_sequence: start=0 end=9
+    - name: "FETCH RESOURCE"
+      fetch:
+        src: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
+        dest: "{{ ANSIBLE_PATH }}"
+        flat: yes
+      with_sequence: start=0 count={{ output }}
       
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
