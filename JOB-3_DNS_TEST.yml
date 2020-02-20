@@ -17,9 +17,9 @@
       register: user_ext_addr
     - name: "CHECK USER INTERNAT IP"
       debug:
-        msg: "{{ user_ext_addr }}"
+        msg: "{{ user_ext_addr.stdout }}"
     - name: "MATCH USER INTERNAT IP"
-      when: "{{ user_ext_addr | match("163.30.") }}"
+      when: "{{ user_ext_addr.stdout | match('163.30.') }}"
       
     - 
 #- name: "STEP 3 - UPDATE DNS VIEW"
