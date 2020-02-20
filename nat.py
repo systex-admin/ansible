@@ -48,34 +48,34 @@ def split_163_30_ip(ipAddr, symbol):
         return addr
 
 def bash_check_user_nat_list(user_ipv4):
-        tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4
-        #os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
-        if tmsh_log.find("was not found."):
+        if "was not found." in tmsh_log:
                 print "[ERROR] F5 NAT NAT_" + user_ipv4 + " was not found. "
+                exit(1)
         else:
                 print tmsh_log
-        #if tmsh_list_cmd.read():
-        #       os.system(tmsh_list_cmd_str)
 
 def bash_delete_user_nat_list(user_ipv4):
-        tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4
-        #os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
-        if not tmsh_list_cmd.read():
-                print "Deleted ", user_ipv4, "->", user_ext_ipv4
-        else:
+        tmsh_log = tmsh_list_cmd.read()
+        if "was not found." in tmsh_log:
+                print tmsh_log
                 exit(1)
+        else:
+                print "[SUCCESS] Deleted NAT_" + user_ipv4
 
 def bash_create_user_nat_list(user_ipv4, user_ext_ipv4):
-        tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4
-        #os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
-        if not tmsh_list_cmd.read():
-                print "Ceeated ", user_ipv4, "->", user_ext_ipv4
-        else:
+        tmsh_log = tmsh_list_cmd.read()
+        if "already exists in partition Common." in tmsh_log:
+                print "[ERROR] Created NAT ", user_ipv4, " failed."
                 exit(1)
+        else:
+                print "[SUCCESS] Created ", user_ipv4, " NAT TO ", user_ext_ipv4
 
 def main():
         help()
@@ -115,18 +115,17 @@ def main():
                         ext_range_end = int(ext_split1[1])
                         ext_range_pool = ext_range_end - ext_range_start
                         ext_and_netmask= str(ext_split2[0]) + "." + str(ext_split2[1]) + "." + str(ext_split2[2])
-                        print "[INFO] User Vlan: ", data[i]['vlan']
-                        print "[INFO] User Private IP: ", data[i]['seg']
-                        print "[INFO] User Public IP: ", data[i]['dnat_new']
-                        print "[INFO] User DNAT External Range Pool: ", ext_range_pool + 1
-                        print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
                         if addr_gap > ext_range_pool:
                                 print "[ERROR] user private ip is over range."
                                 exit(1)
-
                         user_ext_8bit_ipv4 = ext_range_start + addr_gap
                         user_ext_ipv4 = str(ext_and_netmask) + "." + str(user_ext_8bit_ipv4)
-                        print user_ext_ipv4
+                        print "[INFO] User Vlan: ", data[i]['vlan']
+                        print "[INFO] User Private IP: ", user_ipv4
+                        print "[INFO] User Public IP: ", user_ext_ipv4
+                        print "[INFO] User DNAT External Range Pool: ", ext_range_pool + 1
+                        print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
+
                         if user_nat_mode == "show":
                                 bash_check_user_nat_list(user_ipv4)
                         elif user_nat_mode == "add":
