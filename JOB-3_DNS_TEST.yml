@@ -7,19 +7,39 @@
     - name: "RESULT"
       debug:
         msg: "{{ message }}"
-- name: "STEP 2 - UPDATE DNS VIEW"
-  hosts: localhost
+- name: "STEP 2 - GET USER INTERNAT IP TO F5"
+  hosts: 10.241.62.104
   vars:
-    nios_provider:
-      host: "{{ INFOBLOX_HOST }}"
-      username: "{{ INFOBLOX_USERNAME }}"
-      password: "{{ INFOBLOX_PASSWORD }}"
-      wapi_version: "{{ WAPI_VERSION }}"
-  connection: local
+    USER_EXT_IP: ""
   tasks:
-    - name: INCLUDE VARIABLE BY OTHER YML FILE
-      include_vars: INFOBLOX_VAR.yml
-    - name: add a comment to an existing A record
+    - name: "GET USER INTERNAT IP"
+      command: "tmsh list ltm nat NAT_{{ USER_IPV4 }} | grep translation-address | cut -d' ' -f6 | sed s/[[:space:]]//g"
+      register: user_ext_addr
+    - name: "CHECK USER INTERNAT IP"
+      debug:
+        msg: "False get user internat ip"
+      when: "{{ user_ext_addr | match('163.30.') | bool }} == 'false'"
+    - name: "CHECK USER INTERNAT IP"
+      USER_EXT_IP: "{{ user_ext_addr }}"
+      when: "{{ user_ext_addr | match('163.30.') | bool }} == 'true'"
+    - name: "CHECK USER INTERNAT IP"
+      debug:
+        msg: "{{ USER_EXT_IP }}"
+      
+    - 
+#- name: "STEP 3 - UPDATE DNS VIEW"
+  #hosts: localhost
+  #vars:
+  #  nios_provider:
+  #    host: "{{ INFOBLOX_HOST }}"
+  #    username: "{{ INFOBLOX_USERNAME }}"
+  #    password: "{{ INFOBLOX_PASSWORD }}"
+  #    wapi_version: "{{ WAPI_VERSION }}"
+  #connection: local
+  #tasks:
+    #- name: INCLUDE VARIABLE BY OTHER YML FILE
+    #  include_vars: INFOBLOX_VAR.yml
+    #- name: add a comment to an existing A record
       #nios_a_record:
         #view: "{{ INFOBLOX_SCHOOL_VIEW }}"
         #name: "{{ USER_FQDN }}"
