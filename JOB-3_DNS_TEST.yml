@@ -1,4 +1,13 @@
-- name: ANSIBLE RUNNING INFOBLOX
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+- name: "STEP 2 - UPDATE DNS VIEW"
   hosts: localhost
     nios_provider:
       host: "{{ INFOBLOX_HOST }}"
@@ -10,8 +19,15 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "SEARCH MAPPING LIST PRIVATE IP"
-      shell: "grep -i '10.241' {{ ANSIBLE_PATH }}/nat.log"
-
+    - name: update the comment for dns view
+      nios_dns_view:
+        name: ansible_school
+        comment: ansible test Form_School view
+        state: present
+    - name: update the comment for dns view
+      nios_dns_view:
+        name: ansible_internat
+        comment: ansible test Form_Internat view
+        state: present
 
 
