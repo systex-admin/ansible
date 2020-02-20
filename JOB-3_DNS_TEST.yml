@@ -15,11 +15,12 @@
     - name: "GET USER INTERNAT IP"
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }}"
       register: nat
-    - debug:
+    - name: "CHECK USER INTERNAT IP"
+      debug:
         msg: "{{ nat.stdout_lines[4] }}"
       when: nat.stdout_lines | join('') | search('163.30.')
     - debug:
-        msg: "{{ nat.stdout_lines[4].split('translation-address') | join(' ') }}"
+        msg: "{{ nat.stdout_lines[4].split() | join('') }}"
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
