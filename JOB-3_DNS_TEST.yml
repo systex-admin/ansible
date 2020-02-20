@@ -19,7 +19,7 @@
         msg: "{{ nat.stdout_lines[4] }}"
       when: nat.stdout_lines | join('') | search('163.30.')
     - debug:
-        msg: "{{ nat.stdout_lines[4].split('translation-address') | join('') }}"
+        msg: "{{ nat.stdout_lines[4].split('translation-address') | join(' ') }}"
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
