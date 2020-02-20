@@ -49,12 +49,10 @@ def split_163_30_ip(ipAddr, symbol):
 
 def bash_check_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4
-        ##### DEMO #####
-        #print tmsh_list_cmd_str
-        #os.system(tmsh_list_cmd_str)
-        tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
-        if tmsh_list_cmd.read():
-                os.system(tmsh_list_cmd_str)
+        os.system(tmsh_list_cmd_str)
+        #tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+        #if tmsh_list_cmd.read():
+        #       os.system(tmsh_list_cmd_str)
 
 def bash_delete_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4
@@ -100,23 +98,23 @@ def main():
         ext_range_pool = 0
         ext_range_start = 0
         ext_range_end = 0
-        ext_split_addr1 = []
-        ext_split_addr2 = []
+        ext_split1 = []
+        ext_split2 = []
         for i in range(len(data)):
                 if (data[i]['vlan'] == user_vlan and \
                     data[i]['seg'] == addr_and_netmask and \
                     data[i]['dnat_new']):
-                        ext_split_addr_start = split_163_30_ip(str(data[i]['dnat_new']), '-')
-                        ext_range_end = int(ext_split_addr[1])
-                        ext_split_addr2 = split_163_30_ip(str(ext_split_addr1[0]), '.')
-                        ext_and_netmask= str(ext_split_addr2[0]) + "." + str(ext_split_addr2[1]) + "." + str(ext_split_addr2[2])
-                        ext_range_start = int(ext_split_addr2[3])
+                        ext_split1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
+                        ext_split2 = split_163_30_ip(str(ext_split1[0]), '.')
+                        ext_range_start = int(ext_split2[3])
+                        ext_range_end = int(ext_split1[1])
                         ext_range_pool = ext_range_end - ext_range_start
+                        ext_and_netmask= str(ext_split2[0]) + "." + str(ext_split2[1]) + "." + str(ext_split2[2])
                         print "[INFO] User Vlan: ", data[i]['vlan']
                         print "[INFO] User Private IP: ", data[i]['seg']
                         print "[INFO] User Public IP: ", data[i]['dnat_new']
                         print "[INFO] User DNAT External Range Pool: ", ext_range_pool + 1
-                        print "[INFO] External ", addr_ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
+                        print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
                         if addr_gap > ext_range_pool:
                                 print "[ERROR] user private ip is over range."
                                 exit(1)
