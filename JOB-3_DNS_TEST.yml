@@ -16,12 +16,8 @@
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }} | grep translation-address | cut -d' ' -f6 | sed s/[[:space:]]//g"
       register: user_ext_addr
     - name: "CHECK USER INTERNAT IP"
-      debug:
-        msg: "False get user internat ip"
-      when: "{{ user_ext_addr | match('163.30.') | bool }} == 'false'"
-    - name: "CHECK USER INTERNAT IP"
       USER_EXT_IP: "{{ user_ext_addr }}"
-      when: "{{ user_ext_addr | match('163.30.') | bool }} == 'true'"
+      when: "{{ user_ext_addr | match('163.30.') }}"
     - name: "CHECK USER INTERNAT IP"
       debug:
         msg: "{{ USER_EXT_IP }}"
