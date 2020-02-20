@@ -26,14 +26,17 @@
       username: "{{ INFOBLOX_USERNAME }}"
       password: "{{ INFOBLOX_PASSWORD }}"
       wapi_version: "{{ WAPI_VERSION }}"
-  connection: local
+  become: yes
+  become_user: root
+  become_method: sudo
   tasks:
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
         dest: "{{ ANSIBLE_PATH }}"
         flat: yes
-      with_sequence: start=1 end=10
+      with_sequence: start=0 end=9
+      connection: local
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
     #- name: add a comment to an existing A record
