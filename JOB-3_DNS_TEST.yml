@@ -9,6 +9,7 @@
         msg: "{{ message }}"
 - name: "STEP 2 - UPDATE DNS VIEW"
   hosts: localhost
+  vars:
     nios_provider:
       host: "{{ INFOBLOX_HOST }}"
       username: "{{ INFOBLOX_USERNAME }}"
