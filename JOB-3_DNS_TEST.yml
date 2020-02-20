@@ -10,21 +10,14 @@
 - name: "STEP 2 - GET USER INTERNAT IP TO F5"
   hosts: 10.241.62.104
   tasks:
-    - name: "GET USER INTERNAT IP"
-      command: "tmsh list ltm nat NAT_{{ USER_IPV4 }}"
-      register: nat
-    - name: "CHECK USER INTERNAT IP"
+    - name: "RUN SCRIPT"
+      command: "python {{ F5_PATH }}/dns.py {{ USER_IPV4 }}"
+      args:
+        chdir: "{{ F5_PATH }}"
+      register: dns_script
+    - name: "RESULT"
       debug:
-        msg: "{{ nat.stdout_lines[4] }}"
-      when: nat.stdout_lines | join('') | search('163.30.')
-    - debug:
-        msg: "{{ nat.stdout_lines[4].split('translation-address') | join('') }}"
-      register: nat_space_ip
-    - debug:
-        msg: "{{ nat_space_ip.msg.split() | join('') }}"
-      register: user_ext_ip
-    - set_fact:
-        USER_EXT_ADDR: "{{ user_ext_ip }}"
+        msg: "{{ dns_script.stdout_lines }}"
 - name: "STEP 3 - UPDATE DNS VIEW"
   hosts: localhost
   vars:
@@ -36,10 +29,7 @@
   connection: local
   tasks:
     - name: INCLUDE VARIABLE BY OTHER YML FILE
-      include_vars: INFOBLOX_VAR.yml
-    - name: "TEST"
-      debug:
-        msg: "{{ USER_EXT_ADDR }}"
+      include_vars: INFOBLOX_VAR.yml}"
     #- name: add a comment to an existing A record
       #nios_a_record:
         #view: "{{ INFOBLOX_SCHOOL_VIEW }}"
