@@ -9,8 +9,6 @@
         msg: "{{ message }}"
 - name: "STEP 2 - GET USER INTERNAT IP TO F5"
   hosts: 10.241.62.104
-  vars:
-    USER_EXT_IP: ""
   tasks:
     - name: "GET USER INTERNAT IP"
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }}"
@@ -20,26 +18,25 @@
         msg: "{{ nat.stdout_lines[4] }}"
       when: nat.stdout_lines | join('') | search('163.30.')
     - debug:
-        msg: "{{ nat.stdout_lines[4].split('translation-address').split() | join('') }}"
+        msg: "{{ nat.stdout_lines[4].split('translation-address') | join('') }}"
       register: nat_space_ip
-    #- debug:
-    #    msg: "{{ nat_space_ip.msg.split() | join('') }}"
-    #  register: user_ext_ip
-    #- name: "SHOW USER INTERNAT IP"
-    #  debug:
-    #    msg: "{{ user_ext_ip }}"
-#- name: "STEP 3 - UPDATE DNS VIEW"
-  #hosts: localhost
-  #vars:
-  #  nios_provider:
-  #    host: "{{ INFOBLOX_HOST }}"
-  #    username: "{{ INFOBLOX_USERNAME }}"
-  #    password: "{{ INFOBLOX_PASSWORD }}"
-  #    wapi_version: "{{ WAPI_VERSION }}"
-  #connection: local
-  #tasks:
+    - debug:
+        msg: "{{ nat_space_ip.msg.split() | join('') }}"
+      register: user_ext_ip
+- name: "STEP 3 - UPDATE DNS VIEW"
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
+    - debug:
+      msg: "{{ user_ext_ip }}"
     #- name: add a comment to an existing A record
       #nios_a_record:
         #view: "{{ INFOBLOX_SCHOOL_VIEW }}"
