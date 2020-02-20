@@ -37,6 +37,6 @@
         #name: "{{ USER_FQDN }}"
         #ipv4: "{{ USER_IPV4 }}"
         #state: present
-        provider: "{{nios_provider}}"
+        #provider: "{{nios_provider}}"
       
 
