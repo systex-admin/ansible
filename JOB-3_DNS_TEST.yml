@@ -16,11 +16,10 @@
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }} | grep translation-address | cut -d' ' -f6 | sed s/[[:space:]]//g"
       register: user_ext_addr
     - name: "CHECK USER INTERNAT IP"
-      USER_EXT_IP: "{{ user_ext_addr }}"
-      when: "{{ user_ext_addr | match('163.30.') }}"
-    - name: "CHECK USER INTERNAT IP"
       debug:
-        msg: "{{ USER_EXT_IP }}"
+        msg: "{{ user_ext_addr }}"
+    - name: "MATCH USER INTERNAT IP"
+      when: "{{ user_ext_addr | match('163.30.') }}"
       
     - 
 #- name: "STEP 3 - UPDATE DNS VIEW"
