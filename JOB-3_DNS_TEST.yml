@@ -14,12 +14,13 @@
   tasks:
     - name: "GET USER INTERNAT IP"
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }}"
-      register: user_ext_addr
+      register: nat
     - debug:
-        msg: "{{ user_ext_addr.stdout_lines[4] }}"
-      when: user_ext_addr.stdout_lines | join('') | search('163.30.')
+        msg: "{{ nat.stdout_lines[4] }}"
+      when: nat.stdout_lines | join('') | search('163.30.')
+      register: nat_user_ext
     - debug:
-        msg: "{{ user_ext_addr.stdout_lines[4].split | join(' ') }}"
+        msg: "{{ nat_user_ext.split() | join(' ') }}"
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
