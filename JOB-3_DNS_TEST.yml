@@ -23,6 +23,8 @@
     - debug:
         msg: "{{ nat_space_ip.msg.split() | join('') }}"
       register: user_ext_ip
+    - set_fact:
+        USER_EXT_ADDR: "{{ user_ext_ip }}"
 - name: "STEP 3 - UPDATE DNS VIEW"
   hosts: localhost
   vars:
@@ -33,10 +35,11 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-    #- name: INCLUDE VARIABLE BY OTHER YML FILE
-    #  include_vars: INFOBLOX_VAR.yml
-    - debug:
-      msg: "{{ user_ext_ip }}"
+    - name: INCLUDE VARIABLE BY OTHER YML FILE
+      include_vars: INFOBLOX_VAR.yml
+    - name: "TEST"
+      debug:
+        msg: "{{ USER_EXT_ADDR }}"
     #- name: add a comment to an existing A record
       #nios_a_record:
         #view: "{{ INFOBLOX_SCHOOL_VIEW }}"
