@@ -14,7 +14,6 @@
   tasks:
     - name: "GET USER INTERNAT IP"
       command: "tmsh list ltm nat NAT_{{ USER_IPV4 }}"
-      #tmsh list ltm nat NAT_{{ USER_IPV4 }} 2>$1 | grep translation-address | cut -d' ' -f6 | sed s/[[:space:]]//g
       register: user_ext_addr
     - debug:
         msg: "{{ user_ext_addr.stdout_lines[4] }}"
