@@ -26,9 +26,8 @@
         msg: "{{ nat_space_ip.msg.split() | join('') }}"
       register: user_ext_ip
     - name: "SHOW USER INTERNAT IP"
-      USER_EXT_IP: "{{ user_ext_ip }}"
-    - debug:
-        msg: "{{ USER_EXT_IP }}"
+      debug:
+        msg: "{{ user_ext_ip }}"
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
