@@ -18,7 +18,8 @@
     - debug:
         msg: "{{ user_ext_addr.stdout_lines[4] }}"
       when: user_ext_addr.stdout_lines | join('') | search('163.30.')
-
+    - debug:
+        msg: "{{ user_ext_addr.stdout_lines[4].split }}"
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
