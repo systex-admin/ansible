@@ -28,22 +28,19 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-    - name: "FETCH RESOURCE"
-      fetch:
-        src: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
-        dest: "{{ ANSIBLE_PATH }}"
-        flat: yes
-      with_sequence: start=0 end=9
-      ignore_errors: True
-    - name: "CHECK DNS LOG FILE"
-      stat:
-        path: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
-      with_sequence: start=0 end=9
-      register: stat_result
-    - name: "IF DNS LOG FILE EXIST"
-      debug:
-        msg: "{{ stat_result }}"
-      when: stat_result.stat.exists == True 
+    - name: "TEST"
+      command: "ls -la dns_*"
+      register: output
+    - debug:
+        msg: "{{output.stdout_lines}}"
+      when: output.stdout | join('') | search('No such file or directory')
+    #- name: "FETCH RESOURCE"
+    #  fetch:
+    #    src: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
+    #    dest: "{{ ANSIBLE_PATH }}"
+    #    flat: yes
+    #  with_sequence: start=0 end=9
+      
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
     #- name: add a comment to an existing A record
