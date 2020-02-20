@@ -51,7 +51,7 @@ def bash_check_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
-        if "was not found." in tmsh_log:
+        if "was not found" in tmsh_log:
                 print "[ERROR] F5 NAT NAT_" + user_ipv4 + " was not found. "
                 exit(1)
         else:
@@ -61,7 +61,7 @@ def bash_delete_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
-        if "was not found." in tmsh_log:
+        if "was not found" in tmsh_log:
                 print tmsh_log
                 exit(1)
         else:
@@ -71,7 +71,7 @@ def bash_create_user_nat_list(user_ipv4, user_ext_ipv4):
         tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
-        if "already exists in partition Common." in tmsh_log:
+        if "already exists in partition Common" in tmsh_log:
                 print "[ERROR] Created NAT ", user_ipv4, " failed."
                 exit(1)
         else:
