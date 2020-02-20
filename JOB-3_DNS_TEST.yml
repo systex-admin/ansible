@@ -17,8 +17,8 @@
       #tmsh list ltm nat NAT_{{ USER_IPV4 }} 2>$1 | grep translation-address | cut -d' ' -f6 | sed s/[[:space:]]//g
       register: user_ext_addr
     - debug:
-        msg: "{{ user_ext_addr.stdout_lines }}"
-      when: user_ext_addr.stdout | join('') | search('163.30.')
+        msg: "{{ user_ext_addr.stdout_lines[4] }}"
+      when: user_ext_addr.stdout_lines | join('') | search('163.30.')
 
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
