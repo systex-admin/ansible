@@ -17,15 +17,15 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
-    - name: update the comment for dns view
+    - name: update the comment for dns test Form_School view
       nios_dns_view:
-        name: ansible_school
-        comment: ansible test Form_School view
+        name: {new_name: Ansible_School, old_name: ansibleDnsView}
         state: present
-    - name: update the comment for dns view
+      connection: local
+    - name: update the comment for dns test Form_Internat view
       nios_dns_view:
-        name: ansible_internat
+        name: Ansible_Internat
         comment: ansible test Form_Internat view
         state: present
-
+      connection: local
 
