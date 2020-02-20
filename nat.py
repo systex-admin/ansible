@@ -58,15 +58,21 @@ def bash_check_user_nat_list(user_ipv4):
 
 def bash_delete_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4
-        os.system(tmsh_list_cmd_str)
-        #tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
-
+        #os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+        if not tmsh_list_cmd.read():
+                print "Deleted ", user_ipv4, "->", user_ext_ipv4
+        else:
+                exit(1)
 
 def bash_create_user_nat_list(user_ipv4, user_ext_ipv4):
-        tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + "originating-address " + user_ipv4 + "translation-address " + user_ext_ipv4
-        os.system(tmsh_list_cmd_str)
-        #tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
-
+        tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4
+        #os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+        if not tmsh_list_cmd.read():
+                print "Ceeated ", user_ipv4, "->", user_ext_ipv4
+        else:
+                exit(1)
 
 def main():
         help()
@@ -74,10 +80,6 @@ def main():
         user_ipv4 = sys.argv[2]
         user_nat_mode = sys.argv[3]
         osp_range_pool_start = 101
-
-        #if user_nat_mode != "add" and user_nat_mode != "del" and user_nat_mode != "show"
-        #       print "[ERROR] User Mode failed."
-        #       exit(1)
 
         if check_10_ip(user_ipv4) != True:
                 print "[ERROR] User IPv4 failed."
@@ -94,36 +96,36 @@ def main():
         f = open('nat_list.json')
         data = []
         data = json.load(f)
+
+        ext_range_pool = 0
+        ext_range_start = 0
+        ext_range_end = 0
+        ext_split_addr1 = []
+        ext_split_addr2 = []
         for i in range(len(data)):
                 if (data[i]['vlan'] == user_vlan and \
                     data[i]['seg'] == addr_and_netmask and \
                     data[i]['dnat_new']):
-                        range_pool_limit = 0
-                        ext_range_start = 0
-                        ext_range_end = 0
-                        ext_list_addr1 = []
-                        ext_list_addr2 = []
-                        ext_list_addr1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
-                        ext_range_end = int(ext_list_addr1[1])
-                        ext_list_addr2 = split_163_30_ip(str(ext_list_addr1[0]), '.')
-                        ext_range_start = int(ext_list_addr2[3])
-                        range_pool_limit = ext_range_end - ext_range_start
+                        ext_split_addr_start = split_163_30_ip(str(data[i]['dnat_new']), '-')
+                        ext_range_end = int(ext_split_addr[1])
+                        ext_split_addr2 = split_163_30_ip(str(ext_split_addr1[0]), '.')
+                        ext_and_netmask= str(ext_split_addr2[0]) + "." + str(ext_split_addr2[1]) + "." + str(ext_split_addr2[2])
+                        ext_range_start = int(ext_split_addr2[3])
+                        ext_range_pool = ext_range_end - ext_range_start
                         print "[INFO] User Vlan: ", data[i]['vlan']
                         print "[INFO] User Private IP: ", data[i]['seg']
                         print "[INFO] User Public IP: ", data[i]['dnat_new']
-                        print "[INFO] User DNAT External Range Pool Number: ", range_pool_limit + 1
-                        print "[INFO] External ", ext_list_addr2[0], ".", ext_list_addr2[1], ".", ext_list_addr2[2], " Range Pool: ", ext_range_start, " to ", ext_range_end
-                        if addr_gap > range_pool_limit:
+                        print "[INFO] User DNAT External Range Pool: ", ext_range_pool + 1
+                        print "[INFO] External ", addr_ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
+                        if addr_gap > ext_range_pool:
                                 print "[ERROR] user private ip is over range."
                                 exit(1)
 
                         user_ext_8bit_ipv4 = ext_range_start + addr_gap
-                        user_ext_ipv4 = ext_list_addr2[0] + "." + ext_list_addr2[1] + "." + ext_list_addr2[2] + "." + str(user_ext_8bit_ipv4)
+                        user_ext_ipv4 = str(ext_and_netmask) + "." + str(user_ext_8bit_ipv4)
                         print user_ext_ipv4
                         if user_nat_mode == "show":
                                 bash_check_user_nat_list(user_ipv4)
-                        #elif user_nat_mode == "show_all":
-                        #       bash_check_all_nat_list()
                         elif user_nat_mode == "add":
                                 bash_create_user_nat_list(user_ipv4, user_ext_ipv4)
                         elif user_nat_mode == "del":
