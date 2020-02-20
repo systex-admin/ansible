@@ -49,8 +49,13 @@ def split_163_30_ip(ipAddr, symbol):
 
 def bash_check_user_nat_list(user_ipv4):
         tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4
-        os.system(tmsh_list_cmd_str)
-        #tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+        #os.system(tmsh_list_cmd_str)
+        tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+        tmsh_log = tmsh_list_cmd.read()
+        if tmsh_log.find("was not found."):
+                print "[ERROR] F5 NAT NAT_" + user_ipv4 + " was not found. "
+        else:
+                print tmsh_log
         #if tmsh_list_cmd.read():
         #       os.system(tmsh_list_cmd_str)
 
