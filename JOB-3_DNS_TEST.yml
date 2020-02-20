@@ -26,9 +26,7 @@
       username: "{{ INFOBLOX_USERNAME }}"
       password: "{{ INFOBLOX_PASSWORD }}"
       wapi_version: "{{ WAPI_VERSION }}"
-  become: yes
-  become_user: root
-  become_method: sudo
+  connection: local
   tasks:
     - name: "FETCH RESOURCE"
       fetch:
@@ -36,7 +34,16 @@
         dest: "{{ ANSIBLE_PATH }}"
         flat: yes
       with_sequence: start=0 end=9
-      connection: local
+      ignore_errors: True
+    - name: "CHECK DNS LOG FILE"
+      stat:
+        path: "{{ F5_PATH }}/{{ DNS_SUBNAME }}{{ item }}.log"
+      with_sequence: start=0 end=9
+      register: stat_result
+    - name: "IF DNS LOG FILE EXIST"
+      debug:
+        msg: "{{ stat_result }}"
+      when: stat_result.stat.exists == True 
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
     #- name: add a comment to an existing A record
