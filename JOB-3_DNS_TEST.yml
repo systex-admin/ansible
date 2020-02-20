@@ -21,11 +21,12 @@
       nios_dns_view:
         name: {new_name: Ansible_School, old_name: ansibleDnsView}
         state: present
-      connection: local
+        provider: "{{nios_provider}}"
     - name: update the comment for dns test Form_Internat view
       nios_dns_view:
         name: Ansible_Internat
         comment: ansible test Form_Internat view
         state: present
-      connection: local
+        provider: "{{nios_provider}}"
+      
 
