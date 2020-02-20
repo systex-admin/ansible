@@ -23,7 +23,7 @@
         msg: "{{ nat.stdout_lines[4].split('translation-address') | join('') }}"
       register: nat_space_ip
     - debug:
-        msg: "{{ nat_space_ip }}"
+        msg: "{{ nat_space_ip.msg.split() | join('') }}"
 #- name: "STEP 3 - UPDATE DNS VIEW"
   #hosts: localhost
   #vars:
