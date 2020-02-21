@@ -29,9 +29,9 @@
   connection: local
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ ANSIBLE_ROOT_PATH }}test.py"
-      become: true
-      become_user: root
+      command: "python {{ ANSIBLE_PATH }}test.py"
+      args:
+        chdir: "{{ ANSIBLE_PATH }}"
       register: dns_script
     - name: "RESULT"
       debug:
