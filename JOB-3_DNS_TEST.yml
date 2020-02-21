@@ -42,9 +42,6 @@
       debug:
         msg: "{{ DNS_MODE }}"
       register: is_dns_mode
-    - name: "User Internat ip"
-      debug:
-        msg: "{{ USER_INTERNAT_IP }}"
     - name: "ADD SCHOOL VIEW A RECORD"
       nios_a_record:
         view: "{{ INFOBLOX_SCHOOL_VIEW }}"
@@ -57,7 +54,7 @@
       nios_a_record:
         view: "{{ INFOBLOX_INTERNAT_VIEW }}"
         name: "{{ USER_FQDN }}"
-        ipv4: "{{ USER_INTERNAT_IP }}"
+        ipv4: "{{ USER_INTERNAT_IP.stdout }}"
         state: present
         provider: "{{ nios_provider }}"
       when: is_dns_mode.msg == "add"
