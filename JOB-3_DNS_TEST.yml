@@ -58,18 +58,27 @@
         state: present
         provider: "{{ nios_provider }}"
       when: is_dns_mode.msg == "add"
-    - name: "MODE IS DELETE"
-      debug:
-        msg: "mode is del"
+      
+    - name: "DELETE SCHOOL VIEW A RECORD"
+      nios_a_record:
+        view: "{{ INFOBLOX_SCHOOL_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_IPV4 }}"
+        state: absent
+        provider: "{{nios_provider}}"
       when: is_dns_mode.msg == "del"
-    - name: "MODE IS SHOW"
-      debug:
-        msg: "mode is show"
-      when: is_dns_mode.msg == "show"
-- name: "STEP 4 - REMOVE TMP FILE"
+    - name: "DELETE INTERNAT VIEW A RECORD"
+      nios_a_record:
+        view: "{{ INFOBLOX_INTERNAT_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_INTERNAT_IP.stdout }}"
+        state: present
+        provider: "{{ nios_provider }}"
+      when: is_dns_mode.msg == "del"      
+- name: "STEP 4 - REMOVE RESOURCE"
   hosts: 10.241.62.104
   tasks:
-    - name: "REMOVE FILE"
+    - name: "REMOVE LOG FILE"
       file:
         path: "{{ F5_PATH }}dns_{{ USER_IPV4 }}.log"
         state: absent
