@@ -55,15 +55,15 @@
         ipv4: "{{ USER_INTERNAT_IP.stdout }}"
         state: present
         provider: "{{nios_provider}}"
-      when: is_dns_mode.stdout == "add"
+      when: is_dns_mode.msg == "add"
     - name: "MODE IS DELETE"
       debug:
         msg: "mode is del"
-      when: is_dns_mode.stdout == "del"
+      when: is_dns_mode.msg == "del"
     - name: "MODE IS SHOW"
       debug:
         msg: "mode is show"
-      when: is_dns_mode.stdout == "show"
+      when: is_dns_mode.msg == "show"
 - name: "STEP 4 - REMOVE TMP FILE"
   hosts: 10.241.62.104
   tasks:
