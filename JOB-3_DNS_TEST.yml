@@ -45,5 +45,14 @@
         #ipv4: "{{ USER_IPV4 }}"
         #state: present
         #provider: "{{nios_provider}}"
+        
+- name: "STEP 4 - REMOVE TMP FILE"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "REMOVE FILE"
+      file:
+        path: "{{ F5_PATH }}dns_{{ USER_IPV4 }}.log"
+        state: absent
+
       
 
