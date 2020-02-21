@@ -5,13 +5,7 @@ import re
 
 def help():
         if 2 != len(sys.argv):
-                print "[INFO]This is the name of the script:", sys.argv[0]
-                print "[INFO]Number of arguments: ", len(sys.argv)
-                print "[INFO]The arguments are: ", str(sys.argv)
-                print "----------\n"
-                print "Usage: python", sys.argv[0], " [Private_IPv4]"
-                print "Example: "
-                print " python ", sys.argv[0], "10.241.62.101"
+                print "Usage: python", sys.argv[0], " [User_Private_IPv4]"
                 print
                 print "[ERROR] Wrong number of arguments."
                 print
@@ -28,9 +22,12 @@ def bash_catch_user_ext_ip(user_ipv4):
         return user_ext_ip
 
 def write_file(user_ipv4, user_ext_ipv4):
-        f = open( "dns.log", 'w' )
-        f.write( user_ipv4 + "-" + user_ext_ipv4 )
-        f.close()
+        file_name = "dns_" + str(user_ipv4) + ".log"
+        if os.path.isfile(file_name):
+                f = open(file_name, 'w')
+                f.write(user_ext_ipv4)
+                f.close()
+                break
 
 def main():
         help()
