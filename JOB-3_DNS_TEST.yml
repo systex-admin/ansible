@@ -51,7 +51,7 @@
         ipv4: "{{ USER_INTERNAT_IP.stdout }}"
         state: present
         provider: "{{nios_provider}}"
-      when: "{{ DNS_MODE }}" == "add"
+      when: "{{ DNS_MODE }} | match('add')"
       
 - name: "STEP 4 - REMOVE TMP FILE"
   hosts: 10.241.62.104
