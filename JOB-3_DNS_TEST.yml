@@ -29,9 +29,6 @@
   connection: local
   tasks:
     - name: "RUN SCRIPT"
-      become: true
-      become_method: sudo
-      become_user: root
       command: "python {{ ANSIBLE_ROOT_PATH }}test.py"
       args:
         chdir: "{{ ANSIBLE_ROOT_PATH }}"
