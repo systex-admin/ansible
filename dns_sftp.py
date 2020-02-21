@@ -31,8 +31,8 @@ def main():
         user_ext_ipv4 = str(sys.argv[5])
         file_name = "dns_" + user_ext_ipv4 + ".log"
         remote_file = remote_path + file_name
-        output = sftp_exec_command(host, user, password, "cat " + remote_path + file_name)
-        print output
+        USER_INTERNAT_IP = sftp_exec_command(host, user, password, "cat " + remote_path + file_name)
+        print USER_INTERNAT_IP
         #sftp_exec_command(host, user, password, "ls -la /config/ansible/dns_*")
         #sftp_exec_command(host, user, password, "sudo rm /config/ansible/dns_6.log")
 
