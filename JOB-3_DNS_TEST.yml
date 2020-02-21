@@ -28,6 +28,17 @@
       wapi_version: "{{ WAPI_VERSION }}"
   connection: local
   tasks:
+    - name: "RUN SCRIPT"
+      become: true
+      become_method: su
+      become_user: root
+      command: "python {{ ANSIBLE_ROOT_PATH }}test.py"
+      args:
+        chdir: "{{ ANSIBLE_ROOT_PATH }}"
+      register: dns_script
+    - name: "RESULT"
+      debug:
+        msg: "{{ dns_script }}"
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
     #- name: add a comment to an existing A record
