@@ -38,6 +38,10 @@
         msg: "{{ USER_INTERNAT_IP.stdout }}"
     - name: INCLUDE VARIABLE BY OTHER YML FILE
       include_vars: INFOBLOX_VAR.yml
+    - name: "DNS MODE"
+      debug:
+        msg: "{{ DNS_MODE }}"
+      register: is_dns_mode
     - name: WHEN CREATE MODE - ADD A RECORD
       nios_a_record:
         view: "{{ INFOBLOX_SCHOOL_VIEW }}"
@@ -51,8 +55,15 @@
         ipv4: "{{ USER_INTERNAT_IP.stdout }}"
         state: present
         provider: "{{nios_provider}}"
-      when: "{{ DNS_MODE }} | match('add')"
-      
+      when: is_dns_mode.stdout == "add"
+    - name: "MODE IS DELETE"
+      debug:
+        msg: "mode is del"
+      when: is_dns_mode.stdout == "del"
+    - name: "MODE IS SHOW"
+      debug:
+        msg: "mode is show"
+      when: is_dns_mode.stdout == "show"
 - name: "STEP 4 - REMOVE TMP FILE"
   hosts: 10.241.62.104
   tasks:
