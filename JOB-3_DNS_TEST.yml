@@ -42,19 +42,24 @@
       debug:
         msg: "{{ DNS_MODE }}"
       register: is_dns_mode
-    - name: WHEN CREATE MODE - ADD A RECORD
+    - name: "User Internat ip"
+      debug:
+        msg: "{{ USER_INTERNAT_IP }}"
+    - name: "ADD SCHOOL VIEW A RECORD"
       nios_a_record:
         view: "{{ INFOBLOX_SCHOOL_VIEW }}"
         name: "{{ USER_FQDN }}"
         ipv4: "{{ USER_IPV4 }}"
         state: present
         provider: "{{nios_provider}}"
+      when: is_dns_mode.msg == "add"
+    - name: "ADD INTERNAT VIEW A RECORD"
       nios_a_record:
         view: "{{ INFOBLOX_INTERNAT_VIEW }}"
         name: "{{ USER_FQDN }}"
-        ipv4: "{{ USER_INTERNAT_IP.stdout }}"
+        ipv4: "{{ USER_INTERNAT_IP }}"
         state: present
-        provider: "{{nios_provider}}"
+        provider: "{{ nios_provider }}"
       when: is_dns_mode.msg == "add"
     - name: "MODE IS DELETE"
       debug:
