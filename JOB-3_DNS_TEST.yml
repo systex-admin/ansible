@@ -30,7 +30,7 @@
   tasks:
     - name: "RUN SCRIPT"
       become: true
-      become_method: su
+      become_method: sudo
       become_user: root
       command: "python {{ ANSIBLE_ROOT_PATH }}test.py"
       args:
