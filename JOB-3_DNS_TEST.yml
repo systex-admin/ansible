@@ -36,16 +36,23 @@
     - name: "RESULT"
       debug:
         msg: "{{ USER_INTERNAT_IP.stdout }}"
-    #- name: INCLUDE VARIABLE BY OTHER YML FILE
-    #  include_vars: INFOBLOX_VAR.yml
-    #- name: add a comment to an existing A record
-      #nios_a_record:
-        #view: "{{ INFOBLOX_SCHOOL_VIEW }}"
-        #name: "{{ USER_FQDN }}"
-        #ipv4: "{{ USER_IPV4 }}"
-        #state: present
-        #provider: "{{nios_provider}}"
-        
+    - name: INCLUDE VARIABLE BY OTHER YML FILE
+      include_vars: INFOBLOX_VAR.yml
+    - name: WHEN CREATE MODE - ADD A RECORD
+      nios_a_record:
+        view: "{{ INFOBLOX_SCHOOL_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_IPV4 }}"
+        state: present
+        provider: "{{nios_provider}}"
+      nios_a_record:
+        view: "{{ INFOBLOX_INTERNAT_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_INTERNAT_IP.stdout }}"
+        state: present
+        provider: "{{nios_provider}}"
+      when: "{{ DNS_MODE }}" == "add"
+      
 - name: "STEP 4 - REMOVE TMP FILE"
   hosts: 10.241.62.104
   tasks:
