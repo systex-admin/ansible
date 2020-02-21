@@ -11,7 +11,7 @@
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ F5_PATH }}/dns.py {{ USER_IPV4 }}"
+      command: "python {{ F5_PATH }}dns.py {{ USER_IPV4 }}"
       args:
         chdir: "{{ F5_PATH }}"
       register: dns_script
@@ -29,13 +29,13 @@
   connection: local
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ ANSIBLE_PATH }}dns_sftp.py"
+      command: "python2 {{ ANSIBLE_PATH }}dns_sftp.py {{ F5_HOST }} {{ F5_USERNAME }} {{ F5_PASSWORD }} {{ F5_PATH }} {{ USER_IPV4 }}"
       args:
         chdir: "{{ ANSIBLE_PATH }}"
-      register: dns_script
+      register: USER_INTERNAT_IP
     - name: "RESULT"
       debug:
-        msg: "{{ dns_script }}"
+        msg: "{{ USER_INTERNAT_IP }}"
     #- name: INCLUDE VARIABLE BY OTHER YML FILE
     #  include_vars: INFOBLOX_VAR.yml
     #- name: add a comment to an existing A record
