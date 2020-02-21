@@ -29,7 +29,7 @@
   connection: local
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ ANSIBLE_PATH }}test.py"
+      command: "python {{ ANSIBLE_PATH }}dns_sftp.py"
       args:
         chdir: "{{ ANSIBLE_PATH }}"
       register: dns_script
