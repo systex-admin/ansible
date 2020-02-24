@@ -9,11 +9,11 @@ def help():
                 print "[INFO]Number of arguments: ", len(sys.argv)
                 print "[INFO]The arguments are: ", str(sys.argv)
                 print "----------\n"
-                print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show>]"
+                print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show>] [NAT_JSON_File_Name]"
                 print "Example: "
-                print " python ", sys.argv[0], "124 10.241.62.101 show"
-                print " python ", sys.argv[0], "124 10.241.62.101 add"
-                print " python ", sys.argv[0], "124 10.241.62.101 del"
+                print " python ", sys.argv[0], "124 10.241.62.101 show nat_list.json"
+                print " python ", sys.argv[0], "124 10.241.62.101 add nat_list.json"
+                print " python ", sys.argv[0], "124 10.241.62.101 del nat_list.json"
                 print
                 print "[ERROR] Wrong number of arguments."
                 print
@@ -82,6 +82,7 @@ def main():
         user_vlan = sys.argv[1]
         user_ipv4 = sys.argv[2]
         user_nat_mode = sys.argv[3]
+        nat_json_file_name = sys.argv[4]
         osp_range_pool_start = 101
 
         if check_10_ip(user_ipv4) != True:
@@ -96,7 +97,7 @@ def main():
                 exit(1)
         addr_gap = int(addr[3]) - int(osp_range_pool_start)
 
-        f = open('nat_list.json')
+        f = open(nat_json_file_name)
         data = []
         data = json.load(f)
 
