@@ -33,8 +33,6 @@ def main():
         remote_file = remote_path + file_name
         USER_INTERNAT_IP = sftp_exec_command(host, user, password, "cat " + remote_path + file_name)
         print USER_INTERNAT_IP
-        #sftp_exec_command(host, user, password, "ls -la /config/ansible/dns_*")
-        #sftp_exec_command(host, user, password, "sudo rm /config/ansible/dns_6.log")
 
 if __name__ == '__main__':
         main()
