@@ -4,7 +4,7 @@ import sys
 import re
 
 def help():
-        if 4 != len(sys.argv):
+        if 5 != len(sys.argv):
                 print "[INFO]This is the name of the script:", sys.argv[0]
                 print "[INFO]Number of arguments: ", len(sys.argv)
                 print "[INFO]The arguments are: ", str(sys.argv)
