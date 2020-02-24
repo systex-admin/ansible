@@ -24,13 +24,27 @@
       copy:
         content:  "{{ csvfile.list }}"
         dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
-- name: "STEP 3 - UPDATE TO F5"
+- name: "STEP 3 - DEPLOY TO F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE"
+      copy:
+        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        dest: "{{ F5_PATH }}/"
+        mode: '0755'
+        follow: yes
+      with_items:
+        - nat.py
+- name: "STEP 4 - UPDATE TO F5"
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
       command: "python {{ F5_PATH }}/nat.py {{ USER_TENANT_NUM }} {{ USER_IPV4 }} {{ NAT_MODE }}"
       args:
-        chdir: "{{ F5_PATH }}"
+        chdir: "{{ F5_PATH }}/"
       register: nat_script
     - name: "RESULT"
       debug:
