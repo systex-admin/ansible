@@ -75,13 +75,6 @@
         state: present
         provider: "{{ nios_provider }}"
       when: is_dns_mode.msg == "del"
-- name: "STEP 4 - REMOVE RESOURCE"
-  hosts: 10.241.62.104
-  tasks:
-    - name: "REMOVE LOG FILE"
-      file:
-        path: "{{ F5_PATH }}/dns_{{ USER_IPV4 }}.log"
-        state: absent
 
       
 
