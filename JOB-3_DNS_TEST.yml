@@ -11,9 +11,9 @@
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
-      command: "python {{ F5_PATH }}dns.py {{ USER_IPV4 }}"
+      command: "python {{ F5_PATH }}/dns.py {{ USER_IPV4 }}"
       args:
-        chdir: "{{ F5_PATH }}"
+        chdir: "{{ F5_PATH }}/"
       register: dns_script
     - name: "RESULT"
       debug:
@@ -29,9 +29,9 @@
   connection: local
   tasks:
     - name: "RUN SCRIPT"
-      command: "python2 {{ ANSIBLE_PATH }}dns_sftp.py {{ F5_HOST }} {{ F5_USERNAME }} {{ F5_PASSWORD }} {{ F5_PATH }} {{ USER_IPV4 }}"
+      command: "python2 {{ ANSIBLE_PATH }}/dns_sftp.py {{ F5_HOST }} {{ F5_USERNAME }} {{ F5_PASSWORD }} {{ F5_PATH }} {{ USER_IPV4 }}"
       args:
-        chdir: "{{ ANSIBLE_PATH }}"
+        chdir: "{{ ANSIBLE_PATH }}/"
       register: USER_INTERNAT_IP
     - name: "RESULT"
       debug:
@@ -74,13 +74,13 @@
         ipv4: "{{ USER_INTERNAT_IP.stdout }}"
         state: present
         provider: "{{ nios_provider }}"
-      when: is_dns_mode.msg == "del"      
+      when: is_dns_mode.msg == "del"
 - name: "STEP 4 - REMOVE RESOURCE"
   hosts: 10.241.62.104
   tasks:
     - name: "REMOVE LOG FILE"
       file:
-        path: "{{ F5_PATH }}dns_{{ USER_IPV4 }}.log"
+        path: "{{ F5_PATH }}/dns_{{ USER_IPV4 }}.log"
         state: absent
 
       
