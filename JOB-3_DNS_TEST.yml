@@ -21,7 +21,7 @@
         follow: yes
       with_items:
         - dns.py
-- name: "STEP 3 - GET USER INTERNAT IP TO F5"
+- name: "STEP 3 - UPDATE TO F5"
   hosts: 10.241.62.104
   tasks:
     - name: "RUN SCRIPT"
@@ -32,7 +32,7 @@
     - name: "RESULT"
       debug:
         msg: "{{ dns_script.stdout_lines }}"
-- name: "STEP 4 - UPDATE DNS VIEW"
+- name: "STEP 4 - UPDATE TO DNS"
   hosts: localhost
   vars:
     nios_provider:
