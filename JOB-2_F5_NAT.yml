@@ -1,5 +1,5 @@
 - name: "STEP 1 - CONNECT TO F5"
-  hosts: 10.241.62.104
+  hosts: "{{ F5_HOST }}"
   tasks:
     - name: "PING"
       ping:
@@ -11,12 +11,12 @@
   become: yes
   become_user: root
   become_method: sudo
-  hosts: 10.241.62.104
+  hosts: "{{ F5_HOST }}"
   tasks:
     - name: READ CSV FILE
       read_csv:
         path: "{{ F5_PATH }}/{{ CSV_FILE }}"
-        fieldnames: vlan,seg,dnat,dnat_new
+        fieldnames: "{{ FIELD_NAME1 }}","{{ FIELD_NAME2 }}","{{ FIELD_NAME3 }}","{{ FIELD_NAME4 }}"
         skipinitialspace: yes
         delimiter: ','
       register: csvfile
@@ -25,7 +25,7 @@
         content:  "{{ csvfile.list }}"
         dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
 - name: "STEP 3 - DEPLOY TO F5"
-  hosts: 10.241.62.104
+  hosts: "{{ F5_HOST }}"
   become: yes
   become_user: root
   become_method: sudo
@@ -39,7 +39,7 @@
       with_items:
         - nat.py
 - name: "STEP 4 - UPDATE TO F5"
-  hosts: 10.241.62.104
+  hosts: "{{ F5_HOST }}"
   tasks:
     - name: "RUN SCRIPT"
       command: "python {{ F5_PATH }}/nat.py {{ USER_TENANT_NUM }} {{ USER_IPV4 }} {{ NAT_MODE }} {{ NAT_LIST_JSON_FILE }}"
