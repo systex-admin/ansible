@@ -2,7 +2,9 @@
 
 source /home/heat-admin/overcloudrc
 
+# Current folder
 local_path=`pwd`
+
 pid=`echo $$`
 openstack stack list | egrep -v "^#|^$|^\+" | grep "CREATE_COMPLETE" | sed s/[[:space:]]//g > ${local_path}/tmp_${pid}.log
 
@@ -19,8 +21,10 @@ while [ $count -lt $stack_limit ]; do
 	# Catch Stack Floating_IP
         array_stack_id[$count]=`sed -n "${num}p" ${local_path}/tmp_${pid}.log | awk -F "|" '{print $2}'`
         ext_ip[$count]=`openstack stack show ${array_stack_id[$count]} | grep  -A1 "output_key: server1_public_ip" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | grep "output_value" | awk -F ":" '{print $2}'`
+	
         # Catch Floating_IP ID
         ext_ip_id[$count]=`openstack floating ip list | grep ${ext_ip[$count]}" " | awk -F "|" '{print $2}' | sed s/[[:space:]]//g`
+	
         # Catch Floating IP Status
         ext_ip_status[$count]=`openstack floating ip show ${ext_ip_id[$count]} | grep "status" | awk -F "|" '{print $3}' | sed s/[[:space:]]//g`
 
