@@ -1,5 +1,5 @@
 - name: "STEP 1 - CONNECT TO OPENSTACK"
-  hosts: "{{ CONTROLLER-0_HOST }}"
+  hosts: "{{ CONTROLLER0_HOST }}"
   tasks:
     - name: "PING"
       ping:
@@ -8,7 +8,7 @@
       debug:
         msg: "{{ message }}"
 - name: "STEP 2 - DEPLOY TO OPENSTACK"
-  hosts: "{{ CONTROLLER-0_HOST }}"
+  hosts: "{{ CONTROLLER0_HOST }}"
   become: yes
   become_user: root
   become_method: sudo
