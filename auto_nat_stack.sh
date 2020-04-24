@@ -22,9 +22,9 @@ function getIP(){
     STACK_ID[$COUNT]=`sed -n "${NUM}p" ${local_path}/tmp_${OSP_PID}.log | awk -F "|" '{print $2}'`
     #echo "STACK ID : "${STACK_ID[$COUNT]}
     FLOATING_IP[$COUNT]=`openstack stack show ${STACK_ID[$COUNT]} | grep  -A1 "output_key: server1_public_ip" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | grep "output_value" | awk -F ":" '{print $2}'`
-    #echo "FLOATING_IP : "${FLOATING_IP[$COUNT]}
+    echo "FLOATING_IP : "${FLOATING_IP[$COUNT]}
 
-    PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep -o '[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^10\.241\.155\." | head -n 1`
+    PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep '10\.[0-9]{1,3}\.[0-9]{1,3}\.10[1-9]|10\.[0-9]{1,3}\.[0-9]{1,3}\.11[1-2]' | egrep -v "^10\.241\.155\.[0-9]{1,3}" | head -n 1`
 }
 
 function getParameter(){
@@ -40,6 +40,7 @@ getLimit
 
 COUNT=0
 while [ $COUNT -lt $STACK_LIMIT ]; do
+    echo "#####################"
     getIP
     if [[ "${PUBLIC_IP}" != "" ]]; then
         echo "PUBLIC IP: "${PUBLIC_IP}
@@ -50,6 +51,9 @@ while [ $COUNT -lt $STACK_LIMIT ]; do
                 echo "${PUBLIC_IP[$COUNT]}" >> ${local_path}/stack_${OSP_PID}.log
         fi
     fi
+
+    echo
+    echo
 
     (( COUNT++ ))
 done
