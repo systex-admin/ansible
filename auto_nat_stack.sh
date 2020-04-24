@@ -24,7 +24,7 @@ function getIP(){
     FLOATING_IP[$COUNT]=`openstack stack show ${STACK_ID[$COUNT]} | grep  -A1 "output_key: server1_public_ip" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | grep "output_value" | awk -F ":" '{print $2}'`
     #echo "FLOATING_IP : "${FLOATING_IP[$COUNT]}
 
-    PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep -o '[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}\.[101-112]{1,3}' | head -n 1`
+    PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep -o '[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^10\.241\.155\." | head -n 1`
 }
 
 function getParameter(){
@@ -54,8 +54,12 @@ while [ $COUNT -lt $STACK_LIMIT ]; do
     (( COUNT++ ))
 done
 
+if [[ -f ${local_path}/stack.log ]]; then
+    sudo rm ${local_path}/stack.log
+fi
+
 if [[ -f ${local_path}/stack_${OSP_PID}.log ]]; then
-    cp ${local_path}/stack_${OSP_PID}.log ${local_path}/stack_.log
+    cp ${local_path}/stack_${OSP_PID}.log ${local_path}/stack.log
     sudo rm ${local_path}/stack_${OSP_PID}.log
     sudo rm ${local_path}/tmp_${OSP_PID}.log
 fi
