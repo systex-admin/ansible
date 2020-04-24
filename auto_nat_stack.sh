@@ -20,10 +20,9 @@ function getIP(){
     # Floating_IP
     NUM=$(( $COUNT + 1 ))
     STACK_ID[$COUNT]=`sed -n "${NUM}p" ${local_path}/tmp_${OSP_PID}.log | awk -F "|" '{print $2}'`
-    #echo "STACK ID : "${STACK_ID[$COUNT]}
-    FLOATING_IP[$COUNT]=`openstack stack show ${STACK_ID[$COUNT]} | grep  -A1 "output_key: server1_public_ip" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | grep "output_value" | awk -F ":" '{print $2}'`
-    echo "FLOATING_IP : "${FLOATING_IP[$COUNT]}
 
+    FLOATING_IP[$COUNT]=`openstack stack show ${STACK_ID[$COUNT]} | grep  -A1 "output_key: server1_public_ip" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | grep "output_value" | awk -F ":" '{print $2}'`
+    
     PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep '10\.[0-9]{1,3}\.[0-9]{1,3}\.10[1-9]|10\.[0-9]{1,3}\.[0-9]{1,3}\.11[1-2]' | egrep -v "^10\.241\.155\.[0-9]{1,3}" | head -n 1`
 }
 
@@ -33,6 +32,12 @@ function getParameter(){
 
     # Catch Floating IP Status
     EXTERNAL_IP_STATUS[$COUNT]=`openstack floating ip show ${EXTERNAL_IP_ID[$COUNT]} | grep "status" | awk -F "|" '{print $3}' | sed s/[[:space:]]//g`
+}
+
+function getSchoolVlan(){
+    PROJECT_ID=`openstack stack show ${STACK_ID[$COUNT]} | grep "OS::project_id: " | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | awk -F "OS::project_id:" '{print $2}'`
+    VLAN=`openstack project show ${PROJECT_ID} | grep "name" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | awk -F "_" '{print $1}'`
+    echo "VLAN: \""${VLAN}"\""
 }
 
 getStack
@@ -46,8 +51,7 @@ while [ $COUNT -lt $STACK_LIMIT ]; do
         echo "PUBLIC IP: "${PUBLIC_IP}
         getParameter
         if [[ "${EXTERNAL_IP_STATUS[$COUNT]}" == "ACTIVE" ]]; then
-            echo "EXTERNAL_IP_ID: ${EXTERNAL_IP_ID[$COUNT]}"
-            echo "EXTERNAL_IP_STATUS: ${EXTERNAL_IP_STATUS[$COUNT]}"
+            getSchoolVlan 
             echo "${PUBLIC_IP}" >> ${local_path}/stack_${OSP_PID}.log
         fi
     fi
