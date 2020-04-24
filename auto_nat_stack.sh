@@ -46,9 +46,9 @@ while [ $COUNT -lt $STACK_LIMIT ]; do
         echo "PUBLIC IP: "${PUBLIC_IP}
         getParameter
         if [[ "${EXTERNAL_IP_STATUS[$COUNT]}" == "ACTIVE" ]]; then
-                ### echo "Ext_IP:${EXTERNAL_IP_STATUS[$COUNT]}" >> ${local_path}/stack_${OSP_PID}.log
-                ### echo "Ext_IP_Status:${ext_ip_status[$count]}" >> ${local_path}/stack_${OSP_PID}.log
-                echo "${PUBLIC_IP}" >> ${local_path}/stack_${OSP_PID}.log
+            echo "EXTERNAL_IP_ID: ${EXTERNAL_IP_ID[$COUNT]}"
+            echo "EXTERNAL_IP_STATUS: ${EXTERNAL_IP_STATUS[$COUNT]}"
+            echo "${PUBLIC_IP}" >> ${local_path}/stack_${OSP_PID}.log
         fi
     fi
 
