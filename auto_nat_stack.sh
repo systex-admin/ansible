@@ -48,7 +48,7 @@ while [ $COUNT -lt $STACK_LIMIT ]; do
         if [[ "${EXTERNAL_IP_STATUS[$COUNT]}" == "ACTIVE" ]]; then
                 ### echo "Ext_IP:${EXTERNAL_IP_STATUS[$COUNT]}" >> ${local_path}/stack_${OSP_PID}.log
                 ### echo "Ext_IP_Status:${ext_ip_status[$count]}" >> ${local_path}/stack_${OSP_PID}.log
-                echo "${PUBLIC_IP[$COUNT]}" >> ${local_path}/stack_${OSP_PID}.log
+                echo "${PUBLIC_IP}" >> ${local_path}/stack_${OSP_PID}.log
         fi
     fi
 
