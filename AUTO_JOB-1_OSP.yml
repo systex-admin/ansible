@@ -19,11 +19,11 @@
         dest: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         mode: '0755'
         follow: yes
-    - name: "RUN SCRIPT"
-      shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
-      args:
-        chdir: "{{ OSP_PATH }}"
-      register: result
+    #- name: "RUN SCRIPT"
+    #  shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+    #  args:
+    #    chdir: "{{ OSP_PATH }}"
+    #  register: result
     - name: "RESULT"
       debug:
         msg: "{{ result.stdout_lines }}"
