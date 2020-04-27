@@ -37,7 +37,10 @@
         path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         state: absent
 - name: "STEP 3 - SAVE STACK TO ANSIBLE"
-  hosts: "{{ ANSIBLE_HOST }}"
+  hosts:
+    localhost:
+      vars:
+        ansible_connection: local
   become: yes
   become_user: root
   become_method: sudo
