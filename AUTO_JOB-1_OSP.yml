@@ -30,10 +30,19 @@
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ OSP_PATH }}/{{ STACK_LOG }}"
-        #dest: "{{ ANSIBLE_PATH }}"
-        dest: "/var/lib/awx/projects/"
+        dest: "{{ ANSIBLE_PATH }}"
         flat: yes
     - name: "REMOVE RESOURCE"
       file:
         path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         state: absent
+- name: "STEP 3 - SAVE STACK TO ANSIBLE"
+  hosts: localhost
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "Copy auto stack list"
+      command: "sudo cp -p auto_stack.log /root/ansible/"
+      args:
+        chdir: "{{ ANSIBLE_PATH }}/"
