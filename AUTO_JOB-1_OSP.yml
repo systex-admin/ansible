@@ -45,4 +45,4 @@
     - name: "Copy auto stack list"
       command: "sh ./{{ AUTO_COPY_SCRIPT }} {{ ANSIBLE_PATH }}{{ STACK_LOG }} {{ ANSIBLE_ROOT_PATH }}{{ STACK_LOG }}"
       args:
-        chdir: "{{ ANSIBLE_ROOT_PATH }}"
+        chdir: "{{ ANSIBLE_PATH }}"
