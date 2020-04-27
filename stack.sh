@@ -41,5 +41,6 @@ if [[ -f ${local_path}/stack_${pid}.log ]]; then
         cp ${local_path}/stack_${pid}.log ${local_path}/stack.log
         sudo rm ${local_path}/stack_${pid}.log
 	sudo rm ${local_path}/tmp_${pid}.log
+	#sshpass -p "smartvm" scp /home/heat-admin/ansible/auto_stack.log root@10.255.8.25:/root/ansible/
 fi
 
