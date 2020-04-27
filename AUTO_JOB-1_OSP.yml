@@ -24,9 +24,9 @@
     #  args:
     #    chdir: "{{ OSP_PATH }}"
     #  register: result
-    - name: "RESULT"
-      debug:
-        msg: "{{ result.stdout_lines }}"
+    #- name: "RESULT"
+    #  debug:
+    #    msg: "{{ result.stdout_lines }}"
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ OSP_PATH }}/{{ STACK_LOG }}"
