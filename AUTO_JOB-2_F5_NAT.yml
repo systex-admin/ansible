@@ -43,7 +43,7 @@
   hosts: "{{ F5_HOST }}"
   tasks:
     - name: "RUN SCRIPT - GET STACK"
-      command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ ANSIBLE_PASS }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ STACK_LOG }} {{ F5_PATH }}"
+      command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ STACK_LOG }} {{ F5_PATH }}"
       args:
         chdir: "{{ F5_PATH }}/"
 #    - name: "RUN SCRIPT"
