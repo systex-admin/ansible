@@ -37,7 +37,8 @@
         mode: '0755'
         follow: yes
       with_items:
-        - auto_nat.py
+        - auto_nat.sh
+        - nat.py
 #- name: "STEP 4 - UPDATE TO F5"
 #  hosts: "{{ F5_HOST }}"
 #  tasks:
