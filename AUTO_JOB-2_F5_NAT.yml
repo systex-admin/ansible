@@ -51,6 +51,10 @@
       command: "sh ./{{ AUTO_NAT_SCRIPT }}"
       args:
         chdir: "{{ F5_PATH }}/"
+      register: nat_script
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat_script.stdout_lines }}"
 #    - name: "RUN SCRIPT"
       #command: "python {{ F5_PATH }}/nat.py {{ USER_TENANT_NUM }} {{ USER_IPV4 }} {{ NAT_MODE }} {{ NAT_LIST_JSON_FILE }}"
 #      command: "python {{ F5_PATH }}/auto_nat.py"
