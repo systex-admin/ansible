@@ -68,7 +68,7 @@ if [[ -f ${local_path}/stack.log ]]; then
 fi
 
 if [[ -f ${local_path}/stack_${OSP_PID}.log ]]; then
-    cp ${local_path}/stack_${OSP_PID}.log ${local_path}/stack.log
+    cp ${local_path}/stack_${OSP_PID}.log ${local_path}/auto_stack.log
     sudo rm ${local_path}/stack_${OSP_PID}.log
     sudo rm ${local_path}/tmp_${OSP_PID}.log
 fi
