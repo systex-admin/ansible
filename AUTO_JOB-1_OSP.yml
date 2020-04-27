@@ -42,6 +42,10 @@
   become_user: root
   become_method: sudo
   tasks:
+    - name: "test 1"
+      command: "chmod 755 {{ AUTO_COPY_SCRIPT }}"
+      args:
+        chdir: "{{ ANSIBLE_PATH }}"
     - name: "Copy auto stack list"
       command: "sh ./{{ AUTO_COPY_SCRIPT }} {{ ANSIBLE_PATH }}{{ STACK_LOG }} {{ ANSIBLE_ROOT_PATH }}{{ STACK_LOG }}"
       args:
