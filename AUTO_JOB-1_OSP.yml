@@ -43,6 +43,9 @@
   become_method: sudo
   tasks:
     - name: "Copy auto stack list"
-      command: "cp auto_stack.log /tmp/"
-      args:
-        chdir: "{{ ANSIBLE_PATH }}/"
+      copy:
+        src: "{{ ANSIBLE_PATH }}auto_stack.log"
+        dest: "{{ ANSIBLE_ROOT_PATH }}"
+        owner: awx
+        group: awx
+        mode: '0644'
