@@ -37,11 +37,11 @@
         path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         state: absent
 - name: "STEP 3 - SAVE STACK TO ANSIBLE"
-  hosts: 127.0.0.1
-  connection: local
-  #become: yes
-  #become_user: root
-  #become_method: sudo
+  hosts:
+    - localhost
+  become: yes
+  become_user: root
+  become_method: sudo
   tasks:
     - name: "test 1"
       command: "sleep 3"
