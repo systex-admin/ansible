@@ -19,14 +19,14 @@
         dest: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         mode: '0755'
         follow: yes
-    #- name: "RUN SCRIPT"
-    #  shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
-    #  args:
-    #    chdir: "{{ OSP_PATH }}"
-    #  register: result
-    #- name: "RESULT"
-    #  debug:
-    #    msg: "{{ result.stdout_lines }}"
+    - name: "RUN SCRIPT"
+      shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+      args:
+        chdir: "{{ OSP_PATH }}"
+      register: result
+    - name: "RESULT"
+      debug:
+        msg: "{{ result.stdout_lines }}"
     - name: "FETCH RESOURCE"
       fetch:
         src: "{{ OSP_PATH }}/{{ STACK_LOG }}"
@@ -36,12 +36,3 @@
       file:
         path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         state: absent
-- name: "STEP 3 - SAVE STACK TO ANSIBLE"
-  hosts: 127.0.0.1
-  connection: local
-  become: yes
-  tasks:
-    - name: "Copy auto stack list"
-      command: "sh ./{{ AUTO_COPY_SCRIPT }} {{ ANSIBLE_PATH }}{{ STACK_LOG }} {{ ANSIBLE_ROOT_PATH }}{{ STACK_LOG }}"
-      args:
-        chdir: "{{ ANSIBLE_PATH }}"
