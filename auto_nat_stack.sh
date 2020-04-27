@@ -45,18 +45,19 @@ getLimit
 
 COUNT=0
 while [ $COUNT -lt $STACK_LIMIT ]; do
-    echo "#####################"
+    #echo "#####################"
     getIP
     if [[ "${PUBLIC_IP}" != "" ]]; then
         echo "PUBLIC IP: "${PUBLIC_IP}
         getParameter
         if [[ "${EXTERNAL_IP_STATUS[$COUNT]}" == "ACTIVE" ]]; then
-            getSchoolVlan 
+            getSchoolVlan
+            echo "${VLAN}" >> ${local_path}/stack_${OSP_PID}.log
             echo "${PUBLIC_IP}" >> ${local_path}/stack_${OSP_PID}.log
         fi
     fi
 
-    echo
+    #echo
     echo
 
     (( COUNT++ ))
