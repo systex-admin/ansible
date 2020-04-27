@@ -39,9 +39,13 @@
       with_items:
         - auto_nat.sh
         - nat.py
-#- name: "STEP 4 - UPDATE TO F5"
-#  hosts: "{{ F5_HOST }}"
-#  tasks:
+- name: "STEP 4 - UPDATE TO F5"
+  hosts: "{{ F5_HOST }}"
+  tasks:
+    - name: "RUN SCRIPT - GET STACK"
+      command: "sh ./{{ auto_nat.sh }} {{ ANSIBLE_PASS }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ STACK_LOG }} {{ F5_PATH }}"
+      args:
+        chdir: "{{ F5_PATH }}/"
 #    - name: "RUN SCRIPT"
       #command: "python {{ F5_PATH }}/nat.py {{ USER_TENANT_NUM }} {{ USER_IPV4 }} {{ NAT_MODE }} {{ NAT_LIST_JSON_FILE }}"
 #      command: "python {{ F5_PATH }}/auto_nat.py"
