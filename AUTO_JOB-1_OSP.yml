@@ -31,7 +31,7 @@
       fetch:
         src: "{{ OSP_PATH }}/{{ STACK_LOG }}"
         #dest: "{{ ANSIBLE_PATH }}"
-        dest: "/home/user/src/"
+        dest: "/var/lib/awx/projects/"
         flat: yes
     - name: "REMOVE RESOURCE"
       file:
