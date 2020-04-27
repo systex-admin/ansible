@@ -37,7 +37,7 @@
         path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
         state: absent
 - name: "STEP 3 - SAVE STACK TO ANSIBLE"
-  hosts: localhost
+  hosts: "{{ ANSIBLE_HOST }}"
   become: yes
   become_user: root
   become_method: sudo
