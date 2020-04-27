@@ -13,22 +13,31 @@ getVLAN(){
     VLAN=`cat auto_stack.log | grep "VLAN" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
 }
 
-getPublicIP(){
+getPrivateIP(){
     NUM=$(( $COUNT + 1 ))
-    PUBLIC_IP=`cat auto_stack.log | grep "IP" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
+    RRIVATE_IP=`cat auto_stack.log | grep "IP" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
 }
 
 
 COUNT=0
-while [ $COUNT -lt $LIMIT ]; do
-    
-    getVLAN
-    getPublicIP
-    echo "[${COUNT}]"
-    echo "P VLAN: "$VLAN
-    echo "P PUBLIC IP: "$PUBLIC_IP
-    echo
-    
+#while [ $COUNT -lt $LIMIT ]; do
+while true ; do
+    if [ $COUNT -ge $LIMIT ]; then
+        break
+    fi
+
+    if [ $COUNT -lt $LIMIT ]; then
+        getVLAN
+        getPrivateIP
+        N=$(( $COUNT + 1 ))
+        echo "[${N}]"
+        #echo "P VLAN: "$VLAN
+        #echo "P RRIVATE IP: "$RRIVATE_IP
+        tmsh list ltm nat NAT_${RRIVATE_IP}
+        echo
+    fi
+
     (( COUNT++ ))
 done
+
 
