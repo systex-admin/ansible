@@ -1,0 +1,53 @@
+- name: "STEP 1 - CONNECT TO OPENSTACK"
+  hosts: "{{ CONTROLLER0_HOST }}"
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+- name: "STEP 2 - DEPLOY TO OPENSTACK"
+  hosts: "{{ CONTROLLER0_HOST }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE"
+      copy:
+        src: "{{ STACK_SCRIPT }}"
+        dest: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+        mode: '0755'
+        follow: yes
+    - name: "RUN SCRIPT"
+      shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+      args:
+        chdir: "{{ OSP_PATH }}"
+      register: result
+    - name: "RESULT"
+      debug:
+        msg: "{{ result.stdout_lines }}"
+    - name: "FETCH RESOURCE"
+      fetch:
+        src: "{{ OSP_PATH }}/{{ STACK_LOG }}"
+        dest: "{{ ANSIBLE_PATH }}"
+        flat: yes
+    - name: "REMOVE RESOURCE"
+      file:
+        path: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+        state: absent
+- name: "STEP 3 - DEPLOY TO F5"
+  hosts: "{{ F5_HOST }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE"
+      copy:
+        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        dest: "{{ F5_PATH }}/"
+        mode: '0755'
+        follow: yes
+      with_items:
+        - {{ STACK_LOG }}
+        
