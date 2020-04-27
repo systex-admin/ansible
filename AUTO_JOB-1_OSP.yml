@@ -46,6 +46,5 @@
       copy:
         src: "{{ ANSIBLE_PATH }}auto_stack.log"
         dest: "{{ ANSIBLE_ROOT_PATH }}"
-        owner: root
-        group: root
-        mode: '0644'
+        mode: '0755'
+        follow: yes
