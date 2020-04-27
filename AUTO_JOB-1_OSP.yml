@@ -43,8 +43,6 @@
   become_method: sudo
   tasks:
     - name: "Copy auto stack list"
-      copy:
-        src: "{{ ANSIBLE_PATH }}auto_stack.log"
-        dest: "{{ ANSIBLE_ROOT_PATH }}"
-        mode: '0755'
-        follow: yes
+      shell: "{{ ANSIBLE_PATH }}{{ AUTO_COPY_SCRIPT }}"
+      args:
+        chdir: "{{ ANSIBLE_PATH }}"
