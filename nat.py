@@ -27,15 +27,6 @@ def check_10_ip(ipAddr):
         else:
                 return False
 
-def check_nat_data(data, vlan):
-        for i in range(len(data)):
-                if (data[i]['vlan'] == vlan and \
-                        data[i]['vlan'] and \
-                        data[i]['seg']  and \
-                        data[i]['dnat_new']):
-                        return True
-        return False
-
 def split_10_ip(ipAddr):
         addr=ipAddr.strip().split('.')
         if len(addr) != 4:
@@ -47,53 +38,54 @@ def split_163_30_ip(ipAddr, symbol):
         addr=ipAddr.strip().split(symbol)
         return addr
 
-def bash_check_user_nat_list(name_header, user_ipv4):
-        tmsh_list_cmd_str = "tmsh list ltm nat " + name_header + user_ipv4 + " 2>&1"
+def bash_check_user_nat_list(header_name, private_ip):
+        tmsh_list_cmd_str = "tmsh list ltm nat " + header_name + private_ip + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
         print tmsh_log
         if "was not found" in tmsh_log:
                 exit(1)
 
-def bash_delete_user_nat_list(name_header, user_ipv4):
-        tmsh_list_cmd_str = "tmsh delete ltm nat " + name_header + user_ipv4 + " 2>&1"
+def bash_delete_user_nat_list(header_name, private_ip):
+        tmsh_list_cmd_str = "tmsh delete ltm nat " + header_name + private_ip + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
         print tmsh_log
         if "was not found" in tmsh_log:
                 exit(1)
 
-def bash_create_user_nat_list(name_header, user_ipv4, user_ext_ipv4):
-        tmsh_list_cmd_str = "tmsh create ltm nat " + name_header + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4 + " 2>&1"
+def bash_create_user_nat_list(header_name, private_ip, user_ext_ipv4):
+        tmsh_list_cmd_str = "tmsh create ltm nat " + header_name + private_ip + " originating-address " + private_ip + " translation-address " + user_ext_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
         print tmsh_log
         if "already exists in partition Common" in tmsh_log:
                 exit(1)
-        
+
 
 def main():
         help()
-        user_vlan = sys.argv[1]
-        user_ipv4 = sys.argv[2]
-        user_nat_mode = sys.argv[3]
-        nat_json_file_name = sys.argv[4]
-        osp_range_pool_start = 101
-        name_header = "nat_"
+        vlan = sys.argv[1]
+        private_ip = sys.argv[2]
+        op_mode = sys.argv[3]
+        json_file = sys.argv[4]
+        header_private_ip = 101
+        header_name = "nat_"
 
-        if check_10_ip(user_ipv4) != True:
+        if check_10_ip(private_ip) != True:
                 print "[ERROR] User IPv4 failed."
                 exit(1)
 
-        addr = []
-        addr = split_10_ip(user_ipv4)
-        addr_and_netmask = str(addr[0]) + "." + str(addr[1]) + "." + str(addr[2]) + ".0"
-        if int(addr[3]) < int(osp_range_pool_start):
-                print "[ERROR] User IPv4 range pool failed."
+        private_ip_array = []
+        private_ip_array = split_10_ip(private_ip)
+        private_seg = str(private_ip_array[0]) + "." + str(private_ip_array[1]) + "." + str(private_ip_array[2]) + ".0"
+        if int(private_ip_array[3]) < int(header_private_ip):
+                print "[ERROR] private ip failed."
                 exit(1)
-        addr_gap = int(addr[3]) - int(osp_range_pool_start)
 
-        f = open(nat_json_file_name)
+        addr_gap = int(private_ip_array[3]) - int(header_private_ip)
+
+        f = open(json_file)
         data = []
         data = json.load(f)
 
@@ -103,32 +95,34 @@ def main():
         ext_split1 = []
         ext_split2 = []
         for i in range(len(data)):
-                if (data[i]['vlan'] == user_vlan and \
-                    data[i]['seg'] == addr_and_netmask and \
+                if (data[i]['vlan'] == vlan and \
+                    data[i]['seg'] == private_seg and \
                     data[i]['dnat_new']):
                         ext_split1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
                         ext_split2 = split_163_30_ip(str(ext_split1[0]), '.')
                         ext_range_start = int(ext_split2[3])
                         ext_range_end = int(ext_split1[1])
                         ext_range_pool = ext_range_end - ext_range_start
+
                         ext_and_netmask= str(ext_split2[0]) + "." + str(ext_split2[1]) + "." + str(ext_split2[2])
                         if addr_gap > ext_range_pool:
-                                print "[ERROR] user private ip is over range."
+                                print "[ERROR] Floating IP out of range."
                                 exit(1)
+
                         user_ext_8bit_ipv4 = ext_range_start + addr_gap
                         user_ext_ipv4 = str(ext_and_netmask) + "." + str(user_ext_8bit_ipv4)
                         print "[INFO] User Vlan: ", data[i]['vlan']
-                        print "[INFO] User Private IP: ", user_ipv4
+                        print "[INFO] User Private IP: ", private_ip
                         print "[INFO] User Public IP: ", user_ext_ipv4
                         print "[INFO] User DNAT External Range Pool: ", ext_range_pool + 1
                         print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
 
-                        if user_nat_mode == "show":
-                                bash_check_user_nat_list(name_header, user_ipv4)
-                        elif user_nat_mode == "add":
-                                bash_create_user_nat_list(name_header, user_ipv4, user_ext_ipv4)
-                        elif user_nat_mode == "del":
-                                bash_delete_user_nat_list(name_header, user_ipv4)
+                        if op_mode == "show":
+                                bash_check_user_nat_list(header_name, private_ip)
+                        elif op_mode == "add":
+                                bash_create_user_nat_list(header_name, private_ip, user_ext_ipv4)
+                        elif op_mode == "del":
+                                bash_delete_user_nat_list(header_name, private_ip)
                         else:
                                 print "[ERROR] User Mode failed."
                                 exit(1)
@@ -136,3 +130,4 @@ def main():
 
 if __name__ == '__main__':
         main()
+
