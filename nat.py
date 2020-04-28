@@ -47,8 +47,8 @@ def split_163_30_ip(ipAddr, symbol):
         addr=ipAddr.strip().split(symbol)
         return addr
 
-def bash_check_user_nat_list(user_ipv4):
-        tmsh_list_cmd_str = "tmsh list ltm nat NAT_" + user_ipv4 + " 2>&1"
+def bash_check_user_nat_list(name_header, user_ipv4):
+        tmsh_list_cmd_str = "tmsh list ltm nat " + name_header + user_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
         if "was not found" in tmsh_log:
@@ -57,8 +57,8 @@ def bash_check_user_nat_list(user_ipv4):
         else:
                 print tmsh_log
 
-def bash_delete_user_nat_list(user_ipv4):
-        tmsh_list_cmd_str = "tmsh delete ltm nat NAT_" + user_ipv4 + " 2>&1"
+def bash_delete_user_nat_list(name_header, user_ipv4):
+        tmsh_list_cmd_str = "tmsh delete ltm nat " + name_header + user_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
         if "was not found" in tmsh_log:
@@ -67,8 +67,8 @@ def bash_delete_user_nat_list(user_ipv4):
         else:
                 print "[SUCCESS] Deleted NAT_" + user_ipv4
 
-def bash_create_user_nat_list(user_ipv4, user_ext_ipv4):
-        tmsh_list_cmd_str = "tmsh create ltm nat NAT_" + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4 + " 2>&1"
+def bash_create_user_nat_list(name_header, user_ipv4, user_ext_ipv4):
+        tmsh_list_cmd_str = "tmsh create ltm nat " + name_header + user_ipv4 + " originating-address " + user_ipv4 + " translation-address " + user_ext_ipv4 + " 2>&1"
         tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
         tmsh_log = tmsh_list_cmd.read()
         if "already exists in partition Common" in tmsh_log:
@@ -84,6 +84,7 @@ def main():
         user_nat_mode = sys.argv[3]
         nat_json_file_name = sys.argv[4]
         osp_range_pool_start = 101
+        name_header = "nat_"
 
         if check_10_ip(user_ipv4) != True:
                 print "[ERROR] User IPv4 failed."
@@ -128,11 +129,11 @@ def main():
                         print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
 
                         if user_nat_mode == "show":
-                                bash_check_user_nat_list(user_ipv4)
+                                bash_check_user_nat_list(name_header, user_ipv4)
                         elif user_nat_mode == "add":
-                                bash_create_user_nat_list(user_ipv4, user_ext_ipv4)
+                                bash_create_user_nat_list(name_header, user_ipv4, user_ext_ipv4)
                         elif user_nat_mode == "del":
-                                bash_delete_user_nat_list(user_ipv4)
+                                bash_delete_user_nat_list(name_header, user_ipv4)
                         else:
                                 print "[ERROR] User Mode failed."
                                 exit(1)
