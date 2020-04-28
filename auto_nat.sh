@@ -8,6 +8,11 @@ NAT_PYTHON_DIR="${pwd}/${NAT_PYTHON}"
 # STACK LOG
 #STACK_LOG="$1"
 
+if [[ $# -lt 1 ]]; then
+    echo "usage: ${script_name} ${DIR}/nat.py "
+    exit 1
+fi
+
 LIMIT=`cat ${DIR}/auto_stack.log | grep "VLAN" | wc -l`
 
 getVLAN(){
