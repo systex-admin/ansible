@@ -18,7 +18,7 @@
         path: "{{ F5_PATH }}/{{ CSV_FILE }}"
         fieldnames: "{{ FIELD_NAME1 }},{{ FIELD_NAME2 }},{{ FIELD_NAME3 }},{{ FIELD_NAME4 }}"
         skipinitialspace: yes
-        delimiter: ':'
+        delimiter: ','
       register: csvfile
     - name: SAVING JSON DATA TO FILE
       copy:
