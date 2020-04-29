@@ -62,7 +62,6 @@ def bash_create_user_nat_list(header_name, private_ip, user_ext_ipv4):
         if "already exists in partition Common" in tmsh_log:
                 exit(1)
 
-
 def main():
         help()
         vlan = sys.argv[1]
@@ -88,7 +87,7 @@ def main():
         data = json.load(f)
 
         addr_gap = int(private_ip_array[3]) - int(header_private_ip)
-        int_range_pool = int(addr_gap) + 1
+        int_gap_range_pool = int(addr_gap) + 1
         ext_range_pool = 0
         ext_range_start = 0
         ext_range_end = 0
@@ -99,14 +98,18 @@ def main():
                 if (data[i]['vlan'] == vlan and \
                     data[i]['seg'] == private_seg and \
                     data[i]['dnat_new']):
+                        #if count > 0:
+
+
+
                         ext_split1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
                         ext_split2 = split_163_30_ip(str(ext_split1[0]), '.')
                         ext_range_start = int(ext_split2[3])
                         ext_range_end = int(ext_split1[1])
                         ext_range_pool = ext_range_end - ext_range_start + 1
-                        if int_range_pool > ext_range_pool:
+                        if int_gap_range_pool > ext_range_pool:
                                 addr_gap = addr_gap - ext_range_pool
-                                int_range_pool = int(addr_gap) + 1
+                                int_gap_range_pool = int(addr_gap) + 1
                                 count += 1
                                 continue
                                 #print "[ERROR] Floating IP out of range."
