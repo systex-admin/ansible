@@ -44,7 +44,6 @@ do
         NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
         if [[ "${NAT_RESULT}" == "" ]] ; then
             if [[ -f ${NAT_PYTHON_DIR} ]]; then
-                #python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add nat_list.json
                 echo "VLAN: "$VLAN
                 echo "RRIVATE IP: "$RRIVATE_IP
                 python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} show nat_list.json
