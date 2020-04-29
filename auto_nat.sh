@@ -3,6 +3,7 @@
 # Current folder
 DIR=`pwd`
 NAT_PYTHON=$1
+NAT_LIST_JSON_FILE=$2
 NAT_PYTHON_DIR="${pwd}/${NAT_PYTHON}"
 
 # STACK LOG
@@ -46,12 +47,11 @@ do
             if [[ -f ${NAT_PYTHON_DIR} ]]; then
                 echo "VLAN: "$VLAN
                 echo "RRIVATE IP: "$RRIVATE_IP
-                python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} show nat_list.json
+                python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
             fi
         else
-                echo "[SUCCESS] ${RRIVATE_IP} EXIST NAT."
+                echo "[INFO] ${RRIVATE_IP} IS EXIST OF NAT LIST."
         fi
-
         echo
     fi
 
