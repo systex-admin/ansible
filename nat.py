@@ -21,7 +21,8 @@ def help():
         return sys.argv[1]
 
 def check_10_ip(ipAddr):
-        compile_ip=re.compile("^(10)\.(24[0-1])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)$")
+        # 10.24X.[0-255].[101-112]
+        compile_ip=re.compile("^(10)\.(24[0-1])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(10[1-9]|11[0-2])$")
         if compile_ip.match(ipAddr):
                 return True
         else:
@@ -72,8 +73,9 @@ def main():
         header_name = "nat_"
 
         if check_10_ip(private_ip) != True:
-                print "[ERROR] User IPv4 failed."
+                print "[ERROR] Check for Private IP error."
                 exit(1)
+        exit(0)
 
         private_ip_array = []
         private_ip_array = split_10_ip(private_ip)
