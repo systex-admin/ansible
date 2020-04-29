@@ -75,7 +75,6 @@ def main():
         if check_10_ip(private_ip) != True:
                 print "[ERROR] Check for Private IP error."
                 exit(1)
-        exit(0)
 
         private_ip_array = []
         private_ip_array = split_10_ip(private_ip)
@@ -95,15 +94,10 @@ def main():
         ext_range_end = 0
         ext_split1 = []
         ext_split2 = []
-        count = 0
         for i in range(len(data)):
                 if (data[i]['vlan'] == vlan and \
                     data[i]['seg'] == private_seg and \
                     data[i]['dnat_new']):
-                        #if count > 0:
-
-
-
                         ext_split1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
                         ext_split2 = split_163_30_ip(str(ext_split1[0]), '.')
                         ext_range_start = int(ext_split2[3])
@@ -112,10 +106,7 @@ def main():
                         if int_gap_range_pool > ext_range_pool:
                                 addr_gap = addr_gap - ext_range_pool
                                 int_gap_range_pool = int(addr_gap) + 1
-                                count += 1
                                 continue
-                                #print "[ERROR] Floating IP out of range."
-                                #exit(1)
 
                         user_ext_8bit_ipv4 = ext_range_start + addr_gap
                         ext_and_netmask= str(ext_split2[0]) + "." + str(ext_split2[1]) + "." + str(ext_split2[2])
