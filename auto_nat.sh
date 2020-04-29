@@ -49,7 +49,7 @@ do
                 python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} show nat_list.json
             fi
         else
-                echo "${RRIVATE_IP} EXIST NAT."
+                echo "[SUCCESS] ${RRIVATE_IP} EXIST NAT."
         fi
 
         echo
