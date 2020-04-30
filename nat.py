@@ -178,7 +178,6 @@ def dnat():
                 exit(1)
 
 def snat():
-    # 502 : 10.251.155.10
     help()
     header_name = "snat_"
     private_ip_array = []
