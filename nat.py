@@ -36,10 +36,14 @@ def help():
         print "[INFO]The arguments are: ", str(sys.argv)
         print "----------\n"
         print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show>] [NAT_JSON_File_Name]"
-        print "Example: "
+        print "DNAT Example: "
         print " python ", sys.argv[0], "124 10.241.62.101 show nat_list.json"
         print " python ", sys.argv[0], "124 10.241.62.101 add nat_list.json"
         print " python ", sys.argv[0], "124 10.241.62.101 del nat_list.json"
+        print "SNAT Example: "
+        print " python ", sys.argv[0], "124 10.251.62.10 show nat_list.json"
+        print " python ", sys.argv[0], "124 10.251.62.10 add nat_list.json"
+        print " python ", sys.argv[0], "124 10.251.62.10 del nat_list.json"
         print
         print "[ERROR] Wrong number of arguments."
         print
@@ -94,12 +98,34 @@ def bash_create_user_nat_list(header_name, private_ip, user_ext_ipv4):
     if "already exists in partition Common" in tmsh_log:
         exit(1)
 
+def bash_check_user_snat_list(header_name, snat_public_ip):
+    tmsh_list_cmd_str = "tmsh list ltm snat " + header_name + snat_public_ip + " 2>&1"
+    tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+    tmsh_log = tmsh_list_cmd.read()
+    print tmsh_log
+    if "was not found" in tmsh_log:
+        exit(1)
+
+def bash_delete_user_snat_list(header_name, snat_public_ip):
+    tmsh_list_cmd_str = "tmsh delete ltm snat " + header_name + snat_public_ip + " 2>&1"
+    tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+    tmsh_log = tmsh_list_cmd.read()
+    print tmsh_log
+    if "was not found" in tmsh_log:
+        exit(1)
+
+def bash_create_user_snat_list(header_name, snat_public_ip, private_prefix):
+    tmsh_list_cmd_str = "tmsh create ltm snat " + header_name + snat_public_ip + " origins add { " + private_prefix + "} translation " + snat_public_ip + " 2>&1"
+    tmsh_list_cmd = os.popen(tmsh_list_cmd_str)
+    tmsh_log = tmsh_list_cmd.read()
+    print tmsh_log
+    if "already exists in partition Common" in tmsh_log:
+        exit(1)
 
 def dnat():
     help()
     header_private_ip = 101
     header_name = "nat_"
-
     private_ip_array = []
     private_ip_array = split_10_ip(private_ip)
     private_seg = str(private_ip_array[0]) + "." + str(private_ip_array[1]) + "." + str(private_ip_array[2]) + ".0"
@@ -122,38 +148,65 @@ def dnat():
         if (data[i]['vlan'] == vlan and \
             data[i]['seg'] == private_seg and \
             data[i]['dnat_new']):
-                ext_split1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
-                ext_split2 = split_163_30_ip(str(ext_split1[0]), '.')
-                ext_range_start = int(ext_split2[3])
-                ext_range_end = int(ext_split1[1])
-                ext_range_pool = ext_range_end - ext_range_start + 1
-                if int_gap_range_pool > ext_range_pool:
-                    addr_gap = addr_gap - ext_range_pool
-                    int_gap_range_pool = int(addr_gap) + 1
-                    continue
+            ext_split1 = split_163_30_ip(str(data[i]['dnat_new']), '-')
+            ext_split2 = split_163_30_ip(str(ext_split1[0]), '.')
+            ext_range_start = int(ext_split2[3])
+            ext_range_end = int(ext_split1[1])
+            ext_range_pool = ext_range_end - ext_range_start + 1
+            if int_gap_range_pool > ext_range_pool:
+                addr_gap = addr_gap - ext_range_pool
+                int_gap_range_pool = int(addr_gap) + 1
+                continue
 
-                user_ext_8bit_ipv4 = ext_range_start + addr_gap
-                ext_and_netmask= str(ext_split2[0]) + "." + str(ext_split2[1]) + "." + str(ext_split2[2])
-                user_ext_ipv4 = str(ext_and_netmask) + "." + str(user_ext_8bit_ipv4)
-                print "[INFO] User Vlan: ", data[i]['vlan']
-                print "[INFO] User Private IP: ", private_ip
-                print "[INFO] User Public IP: ", user_ext_ipv4
-                print "[INFO] User DNAT External Range Pool: ", ext_range_pool
-                print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
+            user_ext_8bit_ipv4 = ext_range_start + addr_gap
+            ext_and_netmask= str(ext_split2[0]) + "." + str(ext_split2[1]) + "." + str(ext_split2[2])
+            user_ext_ipv4 = str(ext_and_netmask) + "." + str(user_ext_8bit_ipv4)
+            print "[INFO] User Vlan: ", data[i]['vlan']
+            print "[INFO] User Private IP: ", private_ip
+            print "[INFO] User Public IP: ", user_ext_ipv4
+            print "[INFO] User DNAT External Range Pool: ", ext_range_pool
+            print "[INFO] External ", ext_and_netmask, " Range Pool: ", ext_range_start, " to ", ext_range_end
 
-                if op_mode == "show":
-                    bash_check_user_nat_list(header_name, private_ip)
-                elif op_mode == "add":
-                    bash_create_user_nat_list(header_name, private_ip, user_ext_ipv4)
-                elif op_mode == "del":
-                    bash_delete_user_nat_list(header_name, private_ip)
-                else:
-                    print "[ERROR] User Mode failed."
-                    exit(1)
+            if op_mode == "show":
+                bash_check_user_nat_list(header_name, private_ip)
+            elif op_mode == "add":
+                bash_create_user_nat_list(header_name, private_ip, user_ext_ipv4)
+            elif op_mode == "del":
+                bash_delete_user_nat_list(header_name, private_ip)
+            else:
+                print "[ERROR] User Mode failed."
+                exit(1)
 
 def snat():
-    print "SNAT"
+    # 502 : 10.251.155.10
+    help()
+    header_name = "snat_"
+    private_ip_array = []
+    private_ip_array = split_10_ip(private_ip)
+    private_prefix = str(private_ip_array[0]) + "." + str(private_ip_array[1]) + "." + str(private_ip_array[2]) + ".0/24"
 
+    f = open(json_file)
+    data = []
+    data = json.load(f)
+    
+    for i in range(len(data)):
+        if (data[i]['vlan'] == vlan):
+            private_ip_array = []
+            private_ip_array = split_10_ip(private_ip)
+
+            print "[INFO] User Vlan: ", data[i]['vlan']
+            print "[INFO] User SNAT Address/Prefix: ", private_prefix
+            print "[INFO] User SNAT Public IP: ", data[i]['snat']
+            
+            if op_mode == "show":
+                bash_check_user_snat_list(header_name, data[i]['snat'])
+            elif op_mode == "add":
+                bash_create_user_snat_list(header_name, data[i]['snat'], private_prefix)
+            elif op_mode == "del":
+                bash_delete_user_snat_list(header_name, data[i]['snat'])
+            else:
+                print "[ERROR] User Mode failed."
+                exit(1)
 
 def main():
     f5_mode = check_10_ip(private_ip)
