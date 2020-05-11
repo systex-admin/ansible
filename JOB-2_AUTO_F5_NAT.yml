@@ -48,7 +48,7 @@
       args:
         chdir: "{{ F5_PATH }}/"
     - name: "RUN SCRIPT - AUTO NAT"
-      command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ F5_PATH }}/{{ NAT_PYTHON }} {{ NAT_LIST_JSON_FILE }}"
+      command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ NAT_PYTHON }} {{ NAT_LIST_JSON_FILE }}"
       args:
         chdir: "{{ F5_PATH }}/"
       register: nat_script
