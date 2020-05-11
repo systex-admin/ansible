@@ -40,14 +40,14 @@ do
 
         N=$(( $COUNT + 1 ))
 
-        NAT_LIST_MSG=`tmsh list ltm nat nat_${RRIVATE_IP}`
+        NAT_LIST_MSG=`tmsh list ltm nat nat_${RRIVATE_IP} 2>&1`
         NAT_HAVE_MSG="inherited-traffic-group true"
         NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
-        if [[ "${NAT_RESULT}" == "" ]] ; then
+        if [[ "${NAT_RESULT}" != "was not found" ]] ; then
             if [[ -f ${NAT_PYTHON_DIR} ]]; then
                 echo "VLAN: "$VLAN
                 echo "RRIVATE IP: "$RRIVATE_IP
-                python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
+                #python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
             fi
         else
                 echo "[INFO] ${RRIVATE_IP} IS EXIST OF NAT LIST."
