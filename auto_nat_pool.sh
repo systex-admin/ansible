@@ -49,8 +49,7 @@ function checkNAT(){
 
 function getDNATPool(){
         pool=`echo ${RRIVATE_IP} | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"`
-        private_ip_count=""
-
+                PRIVATE_COUNT=""
         if [ "${RRIVATE_IP_POOL}" != "${pool}" ]; then
                 RRIVATE_IP_POOL="${pool}"
                 count=$DNAT_STR_POOL
@@ -61,23 +60,23 @@ function getDNATPool(){
                         fi
 
                         if [ ${count} -le ${DNAT_END_POOL} ]; then
-                                private_ip_count="${pool}.${count}"
-                                echo "${private_ip_count}"
-                                echo ${count}
-                                NAT_LIST_MSG=`tmsh list ltm nat nat_${RRIVATE_IP} 2>&1`
+                                PRIVATE_COUNT="${pool}.${count}"
+                                #echo "${PRIVATE_COUNT}"
+                                #echo ${count}
+                                NAT_LIST_MSG=`tmsh list ltm nat nat_${PRIVATE_COUNT} 2>&1`
                                 NAT_HAVE_MSG="inherited-traffic-group true"
                                 NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
                                 if [[ "${NAT_RESULT}" == "" ]] ; then
                                         if [[ -f ${NAT_PYTHON_DIR} ]]; then
                                                 echo "VLAN: "$VLAN
-                                                python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
+                                                python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
 
                                         fi
                                 else
-                                        echo "[INFO] ${RRIVATE_IP} IS EXIST OF NAT LIST."
+                                        echo "[INFO] ${PRIVATE_COUNT} IS EXIST OF NAT LIST."
                                 fi
                         fi
-                        sleep 1
+                        sleep 3
                         (( count++ ))
                 done
         fi
