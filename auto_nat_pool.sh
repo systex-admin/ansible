@@ -49,7 +49,10 @@ function checkNAT(){
 
 function getDNATPool(){
         pool=`echo ${RRIVATE_IP} | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"`
+        private_ip_count=""
+
         if [ "${RRIVATE_IP_POOL}" != "${pool}" ]; then
+                RRIVATE_IP_POOL="${pool}"
                 count=$DNAT_STR_POOL
                 while true
                 do
@@ -58,22 +61,23 @@ function getDNATPool(){
                         fi
 
                         if [ ${count} -le ${DNAT_END_POOL} ]; then
-                                RRIVATE_IP_POOL="${pool}.${count}"
-                                echo "${RRIVATE_IP_POOL}"
-                                #echo ${count}
-                                #NAT_LIST_MSG=`tmsh list ltm nat nat_${RRIVATE_IP} 2>&1`
-                                #NAT_HAVE_MSG="inherited-traffic-group true"
-                                #NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
-                                #if [[ "${NAT_RESULT}" == "" ]] ; then
-                                #       if [[ -f ${NAT_PYTHON_DIR} ]]; then
-                                #               echo "VLAN: "$VLAN
-                                #               python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
+                                private_ip_count="${pool}.${count}"
+                                echo "${private_ip_count}"
+                                echo ${count}
+                                NAT_LIST_MSG=`tmsh list ltm nat nat_${RRIVATE_IP} 2>&1`
+                                NAT_HAVE_MSG="inherited-traffic-group true"
+                                NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
+                                if [[ "${NAT_RESULT}" == "" ]] ; then
+                                        if [[ -f ${NAT_PYTHON_DIR} ]]; then
+                                                echo "VLAN: "$VLAN
+                                                python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
 
-                                #       fi
-                                #else
-                                #       echo "[INFO] ${RRIVATE_IP} IS EXIST OF NAT LIST."
-                                #fi
+                                        fi
+                                else
+                                        echo "[INFO] ${RRIVATE_IP} IS EXIST OF NAT LIST."
+                                fi
                         fi
+                        sleep 1
                         (( count++ ))
                 done
         fi
@@ -81,7 +85,7 @@ function getDNATPool(){
 }
 
 function getSNATPool(){
-        echo "get SNAT"
+        echo "SNAT is disable."
 }
 
 COUNT=0
@@ -103,18 +107,6 @@ do
                         echo "[ERROR] CHECK ${RRIVATE_IP} SNAT OR DNAT FAIL."
                 fi
 
-        #NAT_LIST_MSG=`tmsh list ltm nat nat_${RRIVATE_IP} 2>&1`
-        #NAT_HAVE_MSG="inherited-traffic-group true"
-        #NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
-        #if [[ "${NAT_RESULT}" == "" ]] ; then
-        #    if [[ -f ${NAT_PYTHON_DIR} ]]; then
-        #        echo "VLAN: "$VLAN
-                #python ${NAT_PYTHON_DIR} ${VLAN} ${RRIVATE_IP} add ${NAT_LIST_JSON_FILE}
-
-        #    fi
-        #else
-        #        echo "[INFO] ${RRIVATE_IP} IS EXIST OF NAT LIST."
-        #fi
                 RRIVATE_IP=""
     fi
 
