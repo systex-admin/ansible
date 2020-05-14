@@ -32,8 +32,8 @@
     #    src: "{{ OSP_PATH }}/{{ TENANT_LOG }}"
     #    dest: "{{ ANSIBLE_PATH }}"
     #    flat: yes
-    #- name: "REMOVE RESOURCE"
-    #  file:
-    #    path: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
-    #    state: absent
+    - name: "REMOVE RESOURCE"
+      file:
+        path: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
+        state: absent
 
