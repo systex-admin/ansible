@@ -54,8 +54,10 @@ def check_10_ip(ipAddr):
     if compile_ip.match(ipAddr):
         return "dnat"
     else:
-        # snat: 10.25X.[0-255].[10-250]
-        compile_ip=re.compile("^(10)\.(25[0-1])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.([1-9]\d|1\d{2}|2[0-4]\d|250)$")
+        # snat: 10.25[0-1].[0-255].[10-250]
+        #compile_ip=re.compile("^(10)\.(25[0-1])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.([1-9]\d|1\d{2}|2[0-4]\d|250)$")
+        # snat: 10.25X.[0-255].[201-212]
+        compile_ip=re.compile("^(10)\.(25[0-1])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(20[1-9]|21[0-2])$")
         if compile_ip.match(ipAddr):
             return "snat"
         else:
