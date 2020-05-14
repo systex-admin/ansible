@@ -1,1 +1,30 @@
-
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: "{{ F5_HOST }}"
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+- name: "STEP 2 - DEPLOY TO F5"
+  become: yes
+  become_user: root
+  become_method: sudo
+  hosts: "{{ F5_HOST }}"
+  tasks:
+    - name: READ CSV FILE
+      read_csv:
+        path: "{{ F5_PATH }}/{{ CSV_FILE }}"
+        fieldnames: "{{ FIELD_NAME1 }},{{ FIELD_NAME2 }},{{ FIELD_NAME3 }},{{ FIELD_NAME4 }},{{ FIELD_NAME5 }}"
+        skipinitialspace: yes
+        delimiter: ","
+      register: csvfile
+    - name: SAVING JSON DATA TO FILE
+      copy:
+        content:  "{{ csvfile.list }}"
+        dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
+        
+        
+        
+        
