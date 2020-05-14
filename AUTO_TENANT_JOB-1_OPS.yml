@@ -20,7 +20,7 @@
         mode: '0755'
         follow: yes
     - name: "RUN SCRIPT"
-      shell: "{{ OSP_PATH }}/{{ STACK_SCRIPT }}"
+      shell: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
       args:
         chdir: "{{ OSP_PATH }}"
       register: result
