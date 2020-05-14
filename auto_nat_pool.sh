@@ -13,8 +13,6 @@ RRIVATE_IP=""
 IS_DNAT="10.24"
 IS_SNAT="10.25"
 
-# STACK LOG
-#STACK_LOG="$1"
 if [[ $# -lt 6 ]]; then
     echo "usage: ./${0##*/} ${DIR}/nat.py nat_list.json 101 112 201 212 "
     exit 1
