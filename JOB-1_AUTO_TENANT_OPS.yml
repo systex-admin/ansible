@@ -27,13 +27,13 @@
     - name: "RESULT"
       debug:
         msg: "{{ result.stdout_lines }}"
-    - name: "FETCH RESOURCE"
-      fetch:
-        src: "{{ OSP_PATH }}/{{ TENANT_LOG }}"
-        dest: "{{ ANSIBLE_PATH }}"
-        flat: yes
-    - name: "REMOVE RESOURCE"
-      file:
-        path: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
-        state: absent
+    #- name: "FETCH RESOURCE"
+    #  fetch:
+    #    src: "{{ OSP_PATH }}/{{ TENANT_LOG }}"
+    #    dest: "{{ ANSIBLE_PATH }}"
+    #    flat: yes
+    #- name: "REMOVE RESOURCE"
+    #  file:
+    #    path: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
+    #    state: absent
 
