@@ -35,15 +35,13 @@ def help():
         print "[INFO]Number of arguments: ", len(sys.argv)
         print "[INFO]The arguments are: ", str(sys.argv)
         print "----------\n"
-        print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del|show>] [NAT_JSON_File_Name]"
+        print "Usage: python", sys.argv[0], "[Vlan_Number]" "[Private_IPv4] [User_NAT_Mode <add|del>] [NAT_JSON_File_Name]"
         print "DNAT Example: "
-        print " python ", sys.argv[0], "124 10.241.62.101 show nat_list.json"
         print " python ", sys.argv[0], "124 10.241.62.101 add nat_list.json"
         print " python ", sys.argv[0], "124 10.241.62.101 del nat_list.json"
         print "SNAT Example: "
-        print " python ", sys.argv[0], "124 10.251.62.10 show nat_list.json"
-        print " python ", sys.argv[0], "124 10.251.62.10 add nat_list.json"
-        print " python ", sys.argv[0], "124 10.251.62.10 del nat_list.json"
+        print " python ", sys.argv[0], "124 10.251.62.201 add nat_list.json"
+        print " python ", sys.argv[0], "124 10.251.62.201 del nat_list.json"
         print
         print "[ERROR] Wrong number of arguments."
         print
