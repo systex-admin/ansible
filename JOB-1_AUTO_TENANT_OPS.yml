@@ -16,7 +16,7 @@
     - name: "DEPLOY RESOURCE"
       copy:
         src: "{{ CREATE_OSP_TENANT_SCRIPT }}"
-        dest: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }} {{ PROJECT_VLAN }}"
+        dest: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
         mode: '0755'
         follow: yes
     - name: "RUN SCRIPT"
