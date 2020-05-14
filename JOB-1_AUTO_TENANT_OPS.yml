@@ -16,13 +16,13 @@
     - name: "DEPLOY RESOURCE"
       copy:
         src: "{{ CREATE_OSP_TENANT_SCRIPT }}"
-        dest: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
+        dest: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }} {{ PROJECT_VLAN }}"
         mode: '0755'
         follow: yes
     - name: "RUN SCRIPT"
-      shell: "{{ OSP_PATH }}/{{ CREATE_OSP_TENANT_SCRIPT }}"
+      command: "sh ./{{ CREATE_OSP_TENANT_SCRIPT }} {{ TENANT_LOG }} {{ PROJECT_VLAN }} {{ PROJECT_DESCRIPTION }}"
       args:
-        chdir: "{{ OSP_PATH }}"
+        chdir: "{{ OSP_PATH }}/"
       register: result
     - name: "RESULT"
       debug:
