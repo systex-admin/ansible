@@ -20,7 +20,7 @@
         mode: '0755'
         follow: yes
     - name: "RUN SCRIPT"
-      command: "sh ./{{ CREATE_OSP_TENANT_SCRIPT }} {{ TENANT_LOG }} {{ PROJECT_VLAN }} {{ PROJECT_DESCRIPTION }}"
+      command: "sh ./{{ CREATE_OSP_TENANT_SCRIPT }} {{ TENANT_LOG }} {{ PROJECT_VLAN }} {{ PROJECT_DESCRIPTION }} {{ PROJECT_EXT_SEGMENT_NUM }} {{ PROJECT_EXT_IP_24BIT }} {{ PROJECT_MANAGE_IP_24BIT }}"
       args:
         chdir: "{{ OSP_PATH }}/"
       register: result
