@@ -23,7 +23,6 @@ function getIP(){
 
     FLOATING_IP[$COUNT]=`openstack stack show ${STACK_ID[$COUNT]} | grep  -A1 "output_key: server1_public_ip" | sed s/[[:space:]]//g | awk -F "|" '{print $3}' | grep "output_value" | awk -F ":" '{print $2}'`
 
-    #PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep '10\.[0-9]{1,3}\.[0-9]{1,3}\.10[1-9]|10\.[0-9]{1,3}\.[0-9]{1,3}\.11[1-2]' | egrep -v "^10\.241\.155\.[0-9]{1,3}" | head -n 1`
     PUBLIC_IP=`echo ${FLOATING_IP[$COUNT]} | egrep '10\.[0-9]{1,3}\.[0-9]{1,3}\.10[1-9]|10\.[0-9]{1,3}\.[0-9]{1,3}\.11[1-2]' | head -n 1`
 }
 
