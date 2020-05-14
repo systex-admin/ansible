@@ -1,5 +1,9 @@
 #!/bin/bash
 
 TENANT_LOG=$1
+PROJECT_VLAN=$2
+PROJECT_DESCRIPTION=$3
 
-echo "tenant.sh hello" > ${TENANT_LOG}
+
+echo "${PROJECT_VLAN}" > ${TENANT_LOG}
+echo "${PROJECT_DESCRIPTION}"  > ${TENANT_LOG}
