@@ -24,7 +24,34 @@
       copy:
         content:  "{{ csvfile.list }}"
         dest: "{{ F5_PATH }}/{{ NAT_LIST_JSON_FILE }}"
-        
-        
-        
-        
+- name: "STEP 3 - DEPLOY TO F5"
+  hosts: "{{ F5_HOST }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE"
+      copy:
+        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        dest: "{{ F5_PATH }}/"
+        mode: '0755'
+        follow: yes
+      with_items:
+        - "{{ AUTO_GET_STACK_SCRIPT }}"
+        - "{{ AUTO_NAT_SCRIPT }}"
+        - "{{ NAT_PYTHON }}"
+- name: "STEP 4 - UPDATE TO F5"
+  hosts: "{{ F5_HOST }}"
+  tasks:
+    - name: "RUN SCRIPT - GET STACK"
+      command: "sh ./{{ AUTO_GET_STACK_SCRIPT }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ STACK_LOG }} {{ F5_PATH }}"
+      args:
+        chdir: "{{ F5_PATH }}/"
+    - name: "RUN SCRIPT - AUTO NAT"
+      command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ NAT_PYTHON }} {{ NAT_LIST_JSON_FILE }} {{ DNAT_STR_POOL }} {{ DNAT_END_POOL }} {{ SNAT_STR_POOL }} {{ SNAT_END_POOL }}"
+      args:
+        chdir: "{{ F5_PATH }}/"
+      register: nat_script
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat_script.stdout_lines }}"
