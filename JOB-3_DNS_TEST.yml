@@ -1,0 +1,94 @@
+- name: "STEP 1 - CONNECT TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "PING"
+      ping:
+      register: message
+    - name: "RESULT"
+      debug:
+        msg: "{{ message }}"
+- name: "STEP 2 - DEPLOY TO F5"
+  hosts: 10.241.62.104
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: "DEPLOY RESOURCE"
+      copy:
+        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        dest: "{{ F5_PATH }}/"
+        mode: '0755'
+        follow: yes
+      with_items:
+        - dns.py
+- name: "STEP 3 - UPDATE TO F5"
+  hosts: 10.241.62.104
+  tasks:
+    - name: "RUN SCRIPT"
+      command: "python {{ F5_PATH }}/dns.py {{ USER_IPV4 }}"
+      args:
+        chdir: "{{ F5_PATH }}/"
+      register: dns_script
+    - name: "RESULT"
+      debug:
+        msg: "{{ dns_script.stdout_lines }}"
+- name: "STEP 4 - UPDATE TO DNS"
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+    - name: "RUN SCRIPT"
+      command: "python2 {{ ANSIBLE_PATH }}/dns_sftp.py {{ F5_HOST }} {{ F5_USERNAME }} {{ F5_PASSWORD }} {{ F5_PATH }} {{ USER_IPV4 }}"
+      args:
+        chdir: "{{ ANSIBLE_PATH }}/"
+      register: USER_INTERNAT_IP
+    - name: "RESULT"
+      debug:
+        msg: "{{ USER_INTERNAT_IP.stdout }}"
+    - name: INCLUDE VARIABLE BY OTHER YML FILE
+      include_vars: INFOBLOX_VAR.yml
+    - name: "DNS MODE"
+      debug:
+        msg: "{{ DNS_MODE }}"
+      register: is_dns_mode
+    - name: "ADD SCHOOL VIEW A RECORD"
+      nios_a_record:
+        view: "{{ INFOBLOX_SCHOOL_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_IPV4 }}"
+        state: present
+        provider: "{{nios_provider}}"
+      when: is_dns_mode.msg == "add"
+    - name: "ADD INTERNAT VIEW A RECORD"
+      nios_a_record:
+        view: "{{ INFOBLOX_INTERNAT_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_INTERNAT_IP.stdout }}"
+        state: present
+        provider: "{{ nios_provider }}"
+      when: is_dns_mode.msg == "add"
+      
+    - name: "DELETE SCHOOL VIEW A RECORD"
+      nios_a_record:
+        view: "{{ INFOBLOX_SCHOOL_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_IPV4 }}"
+        state: absent
+        provider: "{{nios_provider}}"
+      when: is_dns_mode.msg == "del"
+    - name: "DELETE INTERNAT VIEW A RECORD"
+      nios_a_record:
+        view: "{{ INFOBLOX_INTERNAT_VIEW }}"
+        name: "{{ USER_FQDN }}"
+        ipv4: "{{ USER_INTERNAT_IP.stdout }}"
+        state: present
+        provider: "{{ nios_provider }}"
+      when: is_dns_mode.msg == "del"
+
+      
+

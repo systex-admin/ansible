@@ -3,6 +3,8 @@
 local_path=`pwd`
 nat_log=${local_path}/nat.log
 stack_log=${local_path}/stack.log
+nat_private_header_start=101
+nat_pool_range=16
 
 if [[ ! -f ${nat_log} ]]; then
         echo "[ERROR][F5] ${nat_log} FILE NOT FOUND."
@@ -15,7 +17,6 @@ if [[ ! -f ${stack_log} ]]; then
 fi
 
 private_limit=`cat ${stack_log} | wc -l`
-nat_private_header_start=101
 count=0
 num=1
 while [[ ${count} -lt ${private_limit} ]]; do
@@ -37,7 +38,7 @@ while [[ ${count} -lt ${private_limit} ]]; do
                 fi
                 
                 nat_private_diff=$((10#${nat_private_header}-10#${nat_private_header_start}))
-                if [[ ${nat_private_diff} -lt 0 ]] && [[ ${nat_private_diff} -ge 16 ]]; then
+                if [[ ${nat_private_diff} -lt 0 ]] && [[ ${nat_private_diff} -ge ${nat_pool_range} ]]; then
                         echo "[ERROR][F5] ${nat_private_diff} NUMBER IS PROBLEM BETWEEN THE TWO NUMBERS."
                         exit 1
                 fi

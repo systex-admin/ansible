@@ -13,24 +13,16 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: "DEPLOY RESOURCE1"
+    - name: "DEPLOY RESOURCE"
       copy:
-        src: /var/lib/awx/projects/_34__auto_network_project/stack.log
-        dest: /config/ansible/
-        mode: '0644'
-        follow: yes
-    - name: "DEPLOY RESOURCE2"
-      copy:
-        src: /var/lib/awx/projects/_34__auto_network_project/nat.log
-        dest: /config/ansible/
-        mode: '0644'
-        follow: yes
-    - name: "DEPLOY RESOURCE3"
-      copy:
-        src: /var/lib/awx/projects/_34__auto_network_project/nat.sh
-        dest: /config/ansible/
+        src: "{{ ANSIBLE_PATH }}/{{ item }}"
+        dest: "{{ F5_PATH }}"
         mode: '0755'
         follow: yes
+      with_items:
+        - stack.log
+        - nat.log
+        - nat.sh
 - name: "STEP 3 - UPDATE TO F5"
   hosts: 10.241.62.104
   become: yes
@@ -38,9 +30,9 @@
   become_method: sudo
   tasks:
     - name: "RUN SCRIPT"
-      shell: /config/ansible/nat.sh
+      shell: "{{ F5_PATH }}/nat.sh"
       args:
-        chdir: /config/ansible/
+        chdir: "{{ F5_PATH }}"
       register: nat
     - name: "RESULT"
       debug:

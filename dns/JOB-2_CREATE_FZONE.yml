@@ -1,0 +1,16 @@
+- name: Infoblox host search play
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+    - name: Create a forward DNS zone called tyc.edu.tw
+      nios_zone:
+        name: tyc.edu.tw
+        view: ansibleDnsView
+        state: present
+        provider: "{{ nios_provider }}"

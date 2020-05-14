@@ -1,0 +1,20 @@
+- name: Infoblox host search play
+  hosts: localhost
+  vars:
+    nios_provider:
+      host: "{{ INFOBLOX_HOST }}"
+      username: "{{ INFOBLOX_USERNAME }}"
+      password: "{{ INFOBLOX_PASSWORD }}"
+      wapi_version: "{{ WAPI_VERSION }}"
+  connection: local
+  tasks:
+  - name: fetch all networkview objects
+    set_fact:
+      networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+  - name: create DNS view
+    nios_dns_view:
+      name: ansibleDnsView
+      network_view: "default"
+      comment: Created with Ansible
+      state: present
+      provider: "{{ nios_provider }}"
