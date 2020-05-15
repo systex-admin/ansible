@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#ANSIBLE_PASS="$1"
 ANSIBLE_HOST="$1"
 ANSIBLE_ROOT_PATH="$2"
 STACK_LOG="$3"
