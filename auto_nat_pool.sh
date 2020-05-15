@@ -8,11 +8,13 @@ DNAT_STR_POOL=$3
 DNAT_END_POOL=$4
 SNAT_STR_POOL=$5
 SNAT_END_POOL=$6
-#VLAN_ARRAY=""
+STACK_RRIVATE_IP_POOL=""
 RRIVATE_IP=""
 IS_DNAT="10.24"
 IS_SNAT="10.25"
 
+# STACK LOG
+#STACK_LOG="$1"
 if [[ $# -lt 6 ]]; then
     echo "usage: ./${0##*/} ${DIR}/nat.py nat_list.json 101 112 201 212 "
     exit 1
@@ -22,7 +24,7 @@ LIMIT=`cat ${DIR}/auto_stack.log | grep "VLAN" | wc -l`
 
 function getVLAN(){
     NUM=$(( $COUNT + 1 ))
-    VLAN=`cat auto_stack.log | grep "VLAN" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1 | sed s/[[:space:]]//g`
+    VLAN=`cat auto_stack.log | grep "VLAN" | awk -F ": " '{print $2}' | head -n $NUM | tai                                            l -n 1 | sed s/[[:space:]]//g`
 
         i=0
         while true
@@ -47,7 +49,7 @@ function getVLAN(){
 
 function getPrivateIP(){
     NUM=$(( $COUNT + 1 ))
-    RRIVATE_IP=`cat auto_stack.log | grep "IP" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
+    RRIVATE_IP=`cat auto_stack.log | grep "IP" | awk -F ": " '{print $2}' | head -n $NUM |                                             tail -n 1`
 }
 
 function checkNAT(){
@@ -68,8 +70,6 @@ function getDNATPool(){
                 PRIVATE_COUNT=""
         if [ "${STACK_RRIVATE_IP_POOL}" != "${pool}" ]; then
                 STACK_RRIVATE_IP_POOL="${pool}"
-                                echo "POOL: ${pool}"
-                                echo "STACK_RRIVATE_IP_POOL: ${STACK_RRIVATE_IP_POOL}"
 
                 count=$DNAT_STR_POOL
                 while true
@@ -82,20 +82,18 @@ function getDNATPool(){
                                                 PRIVATE_COUNT="${pool}.${count}"
                                                 echo "${PRIVATE_COUNT}"
                                                 echo ${count}
-                                                NAT_LIST_MSG=`tmsh list ltm nat nat_${PRIVATE_COUNT} 2>&1`
-                                                NAT_HAVE_MSG="inherited-traffic-group true"
-                                                NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
+                                                NAT_LIST_MSG=`tmsh list ltm nat nat_${PRIV                                            ATE_COUNT} 2>&1`
+                                                NAT_HAVE_MSG="inherited-traffic-group true                                            "
+                                                NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${                                            NAT_HAVE_MSG}")
+                                                #echo "NAT_RESULT=${NAT_RESULT}"
                                                 if [[ "${NAT_RESULT}" == "" ]] ; then
-                                                        if [[ -f ${NAT_PYTHON_DIR} ]]; then
-                                                                echo "VLAN: "$VLAN
-                                                                python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
-
+                                                        if [[ -f ${NAT_PYTHON_DIR} ]]; the                                            n
+                                                                python ${NAT_PYTHON_DIR} $                                            {VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
                                                         fi
                                                 else
-                                                        echo "[INFO] ${PRIVATE_COUNT} IS EXIST OF NAT LIST."
+                                                        echo "[INFO] VLAN: \"${VLAN}\" ,PR                                            IVATE IP: \"${PRIVATE_COUNT}\" IS EXIST OF NAT LIST."
                                                 fi
                                         fi
-                                        sleep 1
                                         (( count++ ))
                 done
                 else
@@ -109,6 +107,7 @@ function getSNATPool(){
         echo "SNAT is disable."
 }
 
+
 COUNT=0
 while true
 do
@@ -118,16 +117,15 @@ do
 
     if [ $COUNT -lt $LIMIT ]; then
         getVLAN
-        #getPrivateIP
-        is_nat=$(checkNAT)
-        if [ "${is_nat}" == "DNAT" ]; then
-            getDNATPool
-        elif [ "${is_nat}" == "SNAT" ]; then
-            getSNATPool
-        else
-            echo "[ERROR] CHECK ${RRIVATE_IP} SNAT OR DNAT FAIL."
-        fi
-        #RRIVATE_IP=""
+        getPrivateIP
+                is_nat=$(checkNAT)
+                if [ "${is_nat}" == "DNAT" ]; then
+                        getDNATPool
+                elif [ "${is_nat}" == "SNAT" ]; then
+                        getSNATPool
+                else
+                        echo "[ERROR] CHECK ${RRIVATE_IP} SNAT OR DNAT FAIL."
+                fi
     fi
 
     (( COUNT++ ))
