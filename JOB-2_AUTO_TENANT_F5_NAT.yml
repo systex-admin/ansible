@@ -44,7 +44,7 @@
   hosts: "{{ F5_HOST }}"
   tasks:
     - name: "RUN SCRIPT - GET STACK"
-      command: "sh ./{{ AUTO_GET_STACK_SCRIPT }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ TENANT_LOG }} {{ F5_PATH }}"
+      command: "sh ./{{ AUTO_GET_TENANT_SCRIPT }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ TENANT_LOG }} {{ F5_PATH }}"
       args:
         chdir: "{{ F5_PATH }}/"
     #- name: "RUN SCRIPT - AUTO NAT"
