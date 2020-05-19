@@ -108,9 +108,10 @@ function keypair(){
 }
 
 function set_tenant_log(){
-    if [ -f ${TENANT_LOG} ]; then
-        sudo rm -rf ${TENANT_LOG}
-    fi
+    # Check Openstack Tenant have exist
+    openstack project list --my-projects | grep "${PROJECT_VLAN}" | awk -F "|" '{print $3}' | sed s/[[:space:]]//g
+    #openstack project create --description "${PROJECT_DESCRIPTION}" ${PROJECT_VLAN} --domain default
+
     echo "VLAN: ${PROJECT_EXT_SEGMENT_NUM}" >> ${TENANT_LOG}
     echo "EXT_IP_STR: ${PROJECT_EXT_IP_24BIT}.101"
     echo "MANAGE_IP_STR: ${PROJECT_MANAGE_IP_24BIT}.201"
