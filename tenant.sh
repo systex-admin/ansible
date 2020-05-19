@@ -26,6 +26,7 @@ DNS2="10.255.4.2"
 
 function create_openstack_tenant(){
     keystone
+    check_tenant
     project
     user
     role
@@ -107,14 +108,19 @@ function keypair(){
     echo "Please check key: ${DIR}/${KEY_NAME}.pem "
 }
 
-function set_tenant_log(){
-    # Check Openstack Tenant have exist
-    openstack project list --my-projects | grep "${PROJECT_VLAN}" | awk -F "|" '{print $3}' | sed s/[[:space:]]//g
-    #openstack project create --description "${PROJECT_DESCRIPTION}" ${PROJECT_VLAN} --domain default
+function check_tenant(){
+    # Check Openstack Tenant Exist
+    CH_TENANT=`openstack project list --my-projects | grep "${PROJECT_VLAN}" | awk -F "|" '{print $3}' | sed s/[[:space:]]//g`
+    if [ "${CH_TENANT}" == "${PROJECT_VLAN}" ];then
+        echo "[ERROR] Openstack Tenant ${PROJECT_VLAN} already exist."
+        exit 1
+    fi
+}
 
+function set_tenant_log(){
     echo "VLAN: ${PROJECT_EXT_SEGMENT_NUM}" >> ${TENANT_LOG}
-    echo "EXT_IP_STR: ${PROJECT_EXT_IP_24BIT}.101"
-    echo "MANAGE_IP_STR: ${PROJECT_MANAGE_IP_24BIT}.201"
+    echo "EXT_POOL: ${PROJECT_EXT_IP_24BIT}" >> ${TENANT_LOG}
+    echo "MANAGE_POOL: ${PROJECT_MANAGE_IP_24BIT}" >> ${TENANT_LOG}
 }
 
 create_openstack_tenant
