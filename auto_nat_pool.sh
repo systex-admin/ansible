@@ -4,7 +4,7 @@ DIR=`pwd`
 NAT_PYTHON=$1
 NAT_LIST_JSON_FILE=$2
 NAT_PYTHON_DIR="${DIR}/${NAT_PYTHON}"
-STACK_LOG=$3
+OSP_LOG=$3
 DNAT_STR_POOL=$4
 DNAT_END_POOL=$5
 SNAT_STR_POOL=$6
@@ -19,11 +19,11 @@ if [[ $# -lt 7 ]]; then
     exit 1
 fi
 
-LIMIT=`cat ${DIR}/${STACK_LOG} | grep "VLAN" | wc -l`
+LIMIT=`cat ${DIR}/${OSP_LOG} | grep "VLAN" | wc -l`
 
 function getVLAN(){
     NUM=$(( $COUNT + 1 ))
-    VLAN=`cat ${STACK_LOG} | grep "VLAN" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1 | sed s/[[:space:]]//g`
+    VLAN=`cat ${OSP_LOG} | grep "VLAN" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1 | sed s/[[:space:]]//g`
 
         i=0
         while true
@@ -48,7 +48,7 @@ function getVLAN(){
 
 function getPrivateIP(){
     NUM=$(( $COUNT + 1 ))
-    RRIVATE_IP=`cat ${STACK_LOG} | grep "IP" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
+    RRIVATE_IP=`cat ${OSP_LOG} | grep "IP" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
 }
 
 function checkNAT(){
