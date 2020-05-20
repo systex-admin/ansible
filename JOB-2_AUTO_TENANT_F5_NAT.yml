@@ -37,13 +37,13 @@
         mode: '0755'
         follow: yes
       with_items:
-        - "{{ AUTO_GET_STACK_SCRIPT }}"
+        - "{{ AUTO_GET_TENANT_SCRIPT }}"
         - "{{ CREATE_OSP_TENANT_SCRIPT  }}"
         - "{{ NAT_PYTHON }}"
 - name: "STEP 4 - UPDATE TO F5"
   hosts: "{{ F5_HOST }}"
   tasks:
-    - name: "RUN SCRIPT - GET STACK"
+    - name: "RUN SCRIPT - GET TENANT LOG"
       command: "sh ./{{ AUTO_GET_TENANT_SCRIPT }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ TENANT_LOG }} {{ F5_PATH }}"
       args:
         chdir: "{{ F5_PATH }}/"
