@@ -38,7 +38,7 @@
         follow: yes
       with_items:
         - "{{ AUTO_GET_TENANT_SCRIPT }}"
-        - "{{ CREATE_OSP_TENANT_SCRIPT }}"
+        - "{{ AUTO_NAT_SCRIPT }}"
         - "{{ NAT_PYTHON }}"
 - name: "STEP 4 - UPDATE TO F5"
   hosts: "{{ F5_HOST }}"
