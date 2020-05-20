@@ -47,11 +47,11 @@
       command: "sh ./{{ AUTO_GET_TENANT_SCRIPT }} {{ ANSIBLE_HOST }} {{ ANSIBLE_ROOT_PATH }} {{ TENANT_LOG }} {{ F5_PATH }}"
       args:
         chdir: "{{ F5_PATH }}/"
-    #- name: "RUN SCRIPT - AUTO NAT"
-    #  command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ NAT_PYTHON }} {{ NAT_LIST_JSON_FILE }} {{ DNAT_STR_POOL }} {{ DNAT_END_POOL }} {{ SNAT_STR_POOL }} {{ SNAT_END_POOL }}"
-    #  args:
-    #    chdir: "{{ F5_PATH }}/"
-    #  register: nat_script
-    #- name: "RESULT"
-    #  debug:
-    #    msg: "{{ nat_script.stdout_lines }}"
+    - name: "RUN SCRIPT - AUTO ADD NAT"
+      command: "sh ./{{ AUTO_NAT_SCRIPT }} {{ NAT_PYTHON }} {{ NAT_LIST_JSON_FILE }} {{ TENANT_LOG }} {{ DNAT_STR_POOL }} {{ DNAT_END_POOL }} {{ SNAT_STR_POOL }} {{ SNAT_END_POOL }}"
+      args:
+        chdir: "{{ F5_PATH }}/"
+      register: nat_script
+    - name: "RESULT"
+      debug:
+        msg: "{{ nat_script.stdout_lines }}"
