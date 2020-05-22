@@ -9,7 +9,6 @@ DNAT_STR_POOL=$4
 DNAT_END_POOL=$5
 SNAT_STR_POOL=$6
 SNAT_END_POOL=$7
-#STACK_RRIVATE_IP_POOL=""
 INDEX=0
 IS_DNAT="10.24"
 IS_SNAT="10.25"
@@ -25,7 +24,6 @@ function getEXTPOOL(){
     NUM=$(( $COUNT + 1 ))
     EXT_POOL=`cat ${OSP_LOG} | grep "EXT_POOL" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
     pool=`echo ${EXT_POOL} | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"`
-
     EXT_POOL_ARRAY[${INDEX}]="${pool}"
 
 }
