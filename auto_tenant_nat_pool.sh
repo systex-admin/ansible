@@ -23,18 +23,24 @@ LIMIT=`cat ${DIR}/${OSP_LOG} | grep "VLAN" | wc -l`
 function getEXTPOOL(){
     NUM=$(( $COUNT + 1 ))
     EXT_POOL=`cat ${OSP_LOG} | grep "EXT_POOL" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
-    pool=`echo ${EXT_POOL} | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"`
-    EXT_POOL_ARRAY[${INDEX}]="${pool}"
-
+    POOL_FORM=`echo ${EXT_POOL} | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"`
+    EXT_POOL_ARRAY[${INDEX}]="${POOL_FORM}"
 }
 
+function getMANAGEPOOL(){
+    NUM=$(( $COUNT + 1 ))
+    MANAGE_POOL=`cat ${OSP_LOG} | grep "MANAGE_POOL" | awk -F ": " '{print $2}' | head -n $NUM | tail -n 1`
+    POOL_FORM=`echo ${MANAGE_POOL} | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"`
+    MANAGE_POOL_ARRAY[${INDEX}]="${POOL_FORM}"
+}
+
+
 function checkNAT(){
-    check_nat=`echo ${EXT_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[4-5]{1}"`
+    check_dnat=`echo ${EXT_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[4]{1}"`
+    check_snat=`echo ${MANAGE_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[5]{1}"`
     retval=""
-    if [ "${check_nat}" == "${IS_DNAT}" ]; then
-        retval="DNAT"
-    elif [ "${check_nat}" == "${IS_SNAT}" ]; then
-        retval="SNAT"
+    if [ "${check_dnat}" == "${IS_DNAT}" ] && [ "${check_snat}" == "${IS_SNAT}" ]; then
+        retval="NAT"
     else
         retval="FAIL"
     fi
@@ -43,33 +49,60 @@ function checkNAT(){
 
 function getDNATPool(){
     PRIVATE_COUNT=""
-        count=$DNAT_STR_POOL
-        while true
-        do
-            if [ $count -gt ${DNAT_END_POOL} ]; then
-                break
-            fi
+    count=$DNAT_STR_POOL
+    while true
+    do
+        if [ $count -gt ${DNAT_END_POOL} ]; then
+            break
+        fi
 
-            if [ ${count} -le ${DNAT_END_POOL} ]; then
-                PRIVATE_COUNT="${EXT_POOL_ARRAY[${INDEX}]}.${count}"
-                NAT_LIST_MSG=`tmsh list ltm nat nat_${PRIVATE_COUNT} 2>&1`
-                NAT_HAVE_MSG="inherited-traffic-group true"
-                NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
-                echo "NAT_RESULT=${NAT_RESULT}"
-                if [[ "${NAT_RESULT}" == "" ]] ; then
-                    if [[ -f ${NAT_PYTHON_DIR} ]]; then
-                        python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
-                    fi
-                else
-                    echo "[INFO] VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\" ALREADY EXIST IN THE F5 NAT LIST."
+        if [ ${count} -le ${DNAT_END_POOL} ]; then
+            PRIVATE_COUNT="${EXT_POOL_ARRAY[${INDEX}]}.${count}"
+            NAT_LIST_MSG=`tmsh list ltm nat nat_${PRIVATE_COUNT} 2>&1`
+            NAT_HAVE_MSG="inherited-traffic-group true"
+            NAT_RESULT=$(echo $NAT_LIST_MSG | grep "${NAT_HAVE_MSG}")
+            #echo "DNAT_RESULT=${NAT_RESULT}"
+            if [[ "${NAT_RESULT}" == "" ]] ; then
+                if [[ -f ${NAT_PYTHON_DIR} ]]; then
+                    #python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
+                    echo "DNAT Run python : VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\""
                 fi
+            else
+                echo "[INFO] VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\" ALREADY EXIST IN THE F5 NAT LIST."
             fi
-            (( count++ ))
-        done
+        fi
+        (( count++ ))
+    done
 }
 
 function getSNATPool(){
-    echo "SNAT is disable."
+    #echo "SNAT is disable."
+    PRIVATE_COUNT=""
+    count=$SNAT_STR_POOL
+    while true
+    do
+        if [ $count -gt ${SNAT_END_POOL} ]; then
+            break
+        fi
+
+        if [ ${count} -le ${SNAT_END_POOL} ]; then
+            PRIVATE_COUNT="${MANAGE_POOL_ARRAY[${INDEX}]}.${count}"
+            SNAT_LIST_MSG=`tmsh list ltm snat snat_${PRIVATE_COUNT} 2>&1`
+            SNAT_HAVE_MSG="translation /Common/"
+            SNAT_RESULT=$(echo $SNAT_LIST_MSG | grep "${SNAT_HAVE_MSG}")
+            #echo "SNAT_RESULT=${SNAT_RESULT}"
+            if [[ "${SNAT_RESULT}" == "" ]] ; then
+                if [[ -f ${NAT_PYTHON_DIR} ]]; then
+                    #python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
+                    echo "SNAT Run python : VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\""
+                fi
+            else
+                echo "[INFO] VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\" ALREADY EXIST IN THE F5 NAT LIST."
+            fi
+        fi
+        (( count++ ))
+    done
+
 }
 
 function getVLAN(){
@@ -83,10 +116,10 @@ function getVLAN(){
             INDEX=${#VLAN_ARRAY[@]}
             VLAN_ARRAY[${INDEX}]="${VLAN}"
             getEXTPOOL
+            getMANAGEPOOL
             is_nat=$(checkNAT)
-            if [ "${is_nat}" == "DNAT" ]; then
+            if [ "${is_nat}" == "NAT" ]; then
                 getDNATPool
-            elif [ "${is_nat}" == "SNAT" ]; then
                 getSNATPool
             else
                 echo "[ERROR] CHECK ${EXT_POOL} SNAT OR DNAT FAIL."
