@@ -36,15 +36,26 @@ function getMANAGEPOOL(){
 
 
 function checkNAT(){
-    check_dnat=`echo ${EXT_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[4]{1}"`
-    check_snat=`echo ${MANAGE_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[5]{1}"`
-    retval=""
-    if [ "${check_dnat}" == "${IS_DNAT}" ] && [ "${check_snat}" == "${IS_SNAT}" ]; then
-        retval="NAT"
+    CHECK_DNAT=`echo ${EXT_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[4]{1}"`
+    CHECK_SNAT=`echo ${MANAGE_POOL_ARRAY[${INDEX}]} | egrep -o "[0-9]{2}\.2[5]{1}"`
+    VAL=""
+
+    #CHECK_EXT_FORM=`echo "${EXT_POOL_ARRAY[${INDEX}]}"`
+    #CHECK_EXT_RESULT=$(echo $CHECK_EXT_FORM | grep "10\.24\.")
+    #CHECK_MANAGE_FORM=`echo "${MANAGE_POOL_ARRAY[${INDEX}]}"`
+    #CHECK_MANAGE_RESULT=$(echo $CHECK_MANAGE_FORM | grep "10\.25\.")
+    #if [ "${CHECK_EXT_RESULT}" != "" ] || [ "${CHECK_MANAGE_RESULT}" != "" ]; then
+        #VAL="FAIL"
+        #echo ${VAL}
+        #break
+    #fi
+
+    if [ "${CHECK_DNAT}" == "${IS_DNAT}" ] && [ "${CHECK_SNAT}" == "${IS_SNAT}" ]; then
+        VAL="NAT"
     else
-        retval="FAIL"
+        VAL="FAIL"
     fi
-    echo ${retval}
+    echo ${VAL}
 }
 
 function getDNATPool(){
@@ -122,7 +133,7 @@ function getVLAN(){
                 getDNATPool
                 getSNATPool
             else
-                echo "[ERROR] CHECK ${EXT_POOL} SNAT OR DNAT FAIL."
+                echo "[ERROR] CHECK DNAT[${EXT_POOL}] OR SNAT[${MANAGE_POOL}] FAIL."
                 exit 1
             fi
             break
