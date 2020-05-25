@@ -75,8 +75,7 @@ function getDNATPool(){
             #echo "DNAT_RESULT=${NAT_RESULT}"
             if [[ "${NAT_RESULT}" == "" ]] ; then
                 if [[ -f ${NAT_PYTHON_DIR} ]]; then
-                    #python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
-                    echo "DNAT Run python : VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\""
+                    python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
                 fi
             else
                 echo "[INFO] VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\" ALREADY EXIST IN THE F5 NAT LIST."
@@ -104,8 +103,8 @@ function getSNATPool(){
             #echo "SNAT_RESULT=${SNAT_RESULT}"
             if [[ "${SNAT_RESULT}" == "" ]] ; then
                 if [[ -f ${NAT_PYTHON_DIR} ]]; then
-                    #python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
-                    echo "SNAT Run python : VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\""
+                    python ${NAT_PYTHON_DIR} ${VLAN} ${PRIVATE_COUNT} add ${NAT_LIST_JSON_FILE}
+                    #echo "SNAT Run python : VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\""
                 fi
             else
                 echo "[INFO] VLAN: \"${VLAN}\" ,PRIVATE IP: \"${PRIVATE_COUNT}\" ALREADY EXIST IN THE F5 NAT LIST."
@@ -131,7 +130,7 @@ function getVLAN(){
             is_nat=$(checkNAT)
             if [ "${is_nat}" == "NAT" ]; then
                 getDNATPool
-                getSNATPool
+                #getSNATPool
             else
                 echo "[ERROR] CHECK DNAT[${EXT_POOL}] OR SNAT[${MANAGE_POOL}] FAIL."
                 exit 1
