@@ -12,6 +12,41 @@ default_name="_admin"
 DNS1="10.255.4.1"
 DNS2="10.255.4.2"
 
+if [ -z "${TENANT_LOG}" ] || [ "${TENANT_LOG}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
+if [ -z "${PROJECT_VLAN}" ] || [ "${PROJECT_VLAN}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
+if [ -z "${PROJECT_DESCRIPTION}" ] || [ "${PROJECT_DESCRIPTION}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
+if [ -z "${PROJECT_EXT_SEGMENT_NUM}" ] || [ "${PROJECT_EXT_SEGMENT_NUM}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
+if [ -z "${PROJECT_EXT_IP_24BIT}" ] || [ "${PROJECT_EXT_IP_24BIT}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
+if [ -z "${PROJECT_MANAGE_IP_24BIT}" ] || [ "${PROJECT_MANAGE_IP_24BIT}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
+if [ -z "${PROJECT_MANAGE_IP_24BIT}" ] || [ "${PROJECT_MANAGE_IP_24BIT}" == "" ]; then
+    echo "[ERROR] PARAMETER IS EMPTY"
+    exit 1
+fi
+
 ############################################
 ###
 ###     TEST
